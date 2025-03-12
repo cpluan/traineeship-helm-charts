@@ -1,0 +1,29 @@
+apiVersion: builtin
+kind: HelmChartInflationGenerator
+metadata:
+  name: &appName argo-cd
+valuesInline:
+  server:
+    gateway:
+      enabled: true
+      name: argocd-gateway
+      namespace: argocd
+      hostname: deploy.svc.eurotux.pt 
+      tls:
+        enabled: true
+    ingress:
+      enabled: false
+      # ingressClassName: ingress-controller-prd
+      # annotations:
+      #   nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      #   nginx.ingress.kubernetes.io/rewrite-target: /
+      #   nginx.ingress.kubernetes.io/proxy-body-size: "50m"
+      #   nginx.ingress.kubernetes.io/proxy-buffer-size: "16k"
+      #   nginx.ingress.kubernetes.io/proxy-buffers: "4 16k"
+      #   # nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+      # hostname: &argoHostName deploy.svc.eurotux.pt
+      # tls: true
+  configs:
+    cm:
+      # Ingress
+      url: "https://deploy.svc.eurotux.pt"
