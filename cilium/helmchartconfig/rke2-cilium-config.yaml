@@ -1,0 +1,170 @@
+---
+# WARNING: This file is managed by ansible !
+#
+# According to the rke2 documentation, at:
+# https://docs.rke2.io/networking/basic_network_options
+#
+apiVersion: helm.cattle.io/v1
+kind: HelmChartConfig
+metadata:
+  name: rke2-cilium
+  namespace: kube-system
+spec:
+  valuesContent: |-
+    image:
+      tag: v1.17.1
+
+    # ===================================================
+    # Replacement of kube-proxy
+    # ===================================================
+    # Cilium can replace kube-proxy to improve performance and security.
+
+    kubeProxyReplacement: true  # Removes the need for the default Kubernetes kube-proxy
+
+    k8sServiceHost: "localhost"
+    k8sServicePort: 6443
+
+    # ===================================================
+    # Routing and Networking Configuration
+    # ===================================================
+    # These settings define how traffic is routed within the cluster
+    # and how Cilium interacts with the underlying network.
+
+    routingMode: native  # Uses native kernel routing
+    autoDirectNodeRoutes: true  # Enables direct node-to-node communication without NAT 
+    ipv4NativeRoutingCIDR: "10.0.0.0/8"  # Defines the IP range for native routing
+
+    # ===================================================
+    # IP Address Management (IPAM) Configuration
+    # ===================================================
+    # Defines how IP addresses are assigned to pods.
+
+    ipam:
+      mode: eni  # Options: kubernetes, cluster-pool, eni
+      # If using cluster-pool, kube-api is required for routing to work
+
+    # ===================================================
+    # Encryption Configuration
+    # ===================================================
+
+    # encryption:
+    #  enabled: true
+    #  type: wireguard
+    #  nodeEncryption: true --> Requires ipam.mode cluster-pool
+
+    externalIPs:
+        enabled: true  # Allows the use of external IPs in Kubernetes services
+
+    # enableIPv4Masquerade: false
+
+    # ===================================================
+    # Load Balancing and Network Advertisement
+    # ===================================================
+    # Configures how services are load-balanced and how nodes advertise IPs.
+
+    loadBalancer:
+      mode: hybrid  # Options: dsr, snat, annotation, and hybrid. The default mode is snat.
+      dsrDispatch: opt
+
+    l2announcements:
+      enabled: true  # Announces IP addresses on the network for efficient discovery
+      # interfaces: [eth1]  # Garante que a interface correta está sendo usada
+      # loadbalancer-ips:
+      #  - 10.0.2.210
+      #  - 10.0.2.220
+    
+    #loadBalancerIPs:
+    #  enabled: true
+
+    # ===================================================
+    # Monitoring and Observability with Hubble
+    # ===================================================
+    # Enables Hubble for monitoring and network traffic visibility.
+    # Includes Hubble Relay for log aggregation and UI for visualization.
+
+    hubble:
+      enabled: true
+      relay:
+        enabled: true
+      ui:
+        enabled: true
+
+    # ===================================================
+    # Gateway API Support
+    # ===================================================
+    # Enables Cilium compatibility with the Kubernetes Gateway API.
+
+    gatewayAPI:
+      enabled: true  # Enables Gateway API support
+      # service:
+      #   type: LoadBalancer
+      #   annotations:
+      #     service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
+      #     service.beta.kubernetes.io/aws-load-balancer-type: nlb 
+
+    # ===================================================
+    # Ingress Controller Configuration
+    # ===================================================
+    # Enables and configures the Ingress Controller for managing external traffic.
+
+    ingressController:
+      enabled: true
+
+    # ===================================================
+    # Egress Gateway
+    # ===================================================
+    # Permite controle sobre o tráfego de saída dos pods.
+
+    # egressGateway:
+    #   enabled: true  # Habilita o gateway de egressos
+
+    # externalTrafficPolicy: Local
+
+
+    # ===================================================
+    # Security and Permissions Configuration
+    # ===================================================
+    # Defines access control and security policies.
+
+    securityContext:
+      privileged: true  # Grants Cilium privileged access to the kernel
+
+    envoy:
+      enabled: true  # Habilita o uso do Envoy como proxy
+      debug:
+        admin:
+          enabled: true 
+      securityContext:
+        privileged: true
+        capabilities:
+          keepCapNetBindService: true
+          envoy: ["NET_BIND_SERVICE", "NET_ADMIN", "SYS_ADMIN"]  # Permissões adicionais para o Envoy
+
+
+
+    # ===================================================
+    # BPF Configuration
+    # ===================================================
+    # Defines how Cilium uses BPF for packet processing.
+
+    bpf:
+      masquerade: true  # Enables BPF-based packet masquerading
+
+    # ===================================================
+    # Enable Elastic Network Interface (ENI) integration.
+    # ===================================================
+
+    eni:
+      enabled: true
+      awsEnablePrefixDelegation: true
+      awsReleaseExcessIPs: true
+
+    # egressMasqueradeInterfaces: eth0
+
+    # ===================================================
+    # Debugging Configuration
+    # ===================================================
+    # Enables detailed logging for troubleshooting.
+
+    debug:
+      enabled: true  # Enables debug mode
