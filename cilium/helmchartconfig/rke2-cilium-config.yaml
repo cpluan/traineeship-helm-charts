@@ -53,7 +53,7 @@ spec:
     #  nodeEncryption: true --> Requires ipam.mode cluster-pool
 
     externalIPs:
-        enabled: true  # Allows the use of external IPs in Kubernetes services
+        enabled: true
 
     # enableIPv4Masquerade: false
 
