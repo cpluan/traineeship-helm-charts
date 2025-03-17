@@ -1,0 +1,8 @@
+**.cert
+**.pem
+**.crt
+**.key
+
+**/charts
+**/kustomize
+bin/helm
