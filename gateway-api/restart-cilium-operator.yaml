@@ -41,6 +41,7 @@ spec:
   template:
     spec:
       ttlSecondsAfterFinished: 60
+      serviceAccountName: argo-job-sa
       restartPolicy: Never
       containers:
       - name: kubectl
