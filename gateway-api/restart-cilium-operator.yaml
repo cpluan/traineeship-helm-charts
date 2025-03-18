@@ -6,28 +6,26 @@ metadata:
   namespace: default
 ---
 apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
+kind: ClusterRole
 metadata:
-  name: restart-cilium-role
-  namespace: kube-system
+  name: restart-cilium-clusterrole
 rules:
   - apiGroups: ["apps"]
     resources: ["deployments"]
-    resourceNames: ["cilium-operator"] 
+    resourceNames: ["cilium-operator"]
     verbs: ["patch"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
-kind: RoleBinding
+kind: ClusterRoleBinding
 metadata:
-  name: restart-cilium-binding
-  namespace: kube-system
+  name: restart-cilium-clusterrolebinding
 subjects:
   - kind: ServiceAccount
     name: argo-job-sa
     namespace: default
 roleRef:
-  kind: Role
-  name: restart-cilium-role
+  kind: ClusterRole
+  name: restart-cilium-clusterrole
   apiGroup: rbac.authorization.k8s.io
 ---
 apiVersion: batch/v1
