@@ -1,0 +1,19 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: restart-cilium-operator
+  annotations:
+    argocd.argoproj.io/hook: PostSync  # Executa após a sincronização
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: kubectl
+        image: bitnami/kubectl:latest
+        command:
+        - /bin/sh
+        - -c
+        - |
+          kubectl rollout restart deployment -n kube-system cilium-operator
