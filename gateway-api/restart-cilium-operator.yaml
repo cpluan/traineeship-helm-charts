@@ -1,13 +1,46 @@
+--- 
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: argo-job-sa
+  namespace: default
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: restart-cilium-role
+  namespace: kube-system
+rules:
+  - apiGroups: ["apps"]
+    resources: ["deployments"]
+    resourceNames: ["cilium-operator"] 
+    verbs: ["patch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: restart-cilium-binding
+  namespace: kube-system
+subjects:
+  - kind: ServiceAccount
+    name: argo-job-sa
+    namespace: default
+roleRef:
+  kind: Role
+  name: restart-cilium-role
+  apiGroup: rbac.authorization.k8s.io
+---
 apiVersion: batch/v1
 kind: Job
 metadata:
   name: restart-cilium-operator
   annotations:
-    argocd.argoproj.io/hook: PostSync  # Executa após a sincronização
+    argocd.argoproj.io/hook: PostSync 
     argocd.argoproj.io/hook-delete-policy: HookSucceeded
 spec:
   template:
     spec:
+      ttlSecondsAfterFinished: 60
       restartPolicy: Never
       containers:
       - name: kubectl
