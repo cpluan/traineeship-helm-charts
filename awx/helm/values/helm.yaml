@@ -2,6 +2,7 @@ apiVersion: builtin
 kind: HelmChartInflationGenerator
 metadata:
   name: &appName awx
+name: *appName
 valuesInline:
   crds:
     install: true
