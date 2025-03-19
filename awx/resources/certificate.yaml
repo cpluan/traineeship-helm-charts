@@ -6,8 +6,8 @@ metadata:
 spec:
   secretName: awx-tls-secret
   issuerRef:
-    name: letsencrypt-prod
-    kind: ClusterIssuer
-  commonName: awx.example.com
+    name: selfsigned-issuer
+    kind: Issuer
+  commonName: awx.local
   dnsNames:
-  - awx.example.com
+  - awx.local
