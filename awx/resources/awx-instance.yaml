@@ -9,3 +9,5 @@ spec:
     environment: testing
   service_labels: |
     environment: testing
+  postgres_storage_class: local-path
+  postgres_storage_size: 5Gi 
