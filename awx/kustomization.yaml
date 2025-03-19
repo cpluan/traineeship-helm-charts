@@ -4,7 +4,6 @@ resources:
   # Find the latest tag here: https://github.com/ansible/awx-operator/releases
   - github.com/ansible/awx-operator/config/default?ref=2.19.1
   - resources/awx-instance.yaml
-  - resources/certificate.yaml
   - resources/gateway.yaml
 
 # Set the image tags to match the git version from above
