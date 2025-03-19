@@ -7,8 +7,6 @@ spec:
   service_type: ClusterIP
   ingress_type: none
   hostname: awx.example.com
-  postgres_storage_class: standard
-  postgres_data_volume_size: 8Gi
   admin_user: admin
   admin_password_secret: awx-admin-password
   image_version: "latest"
