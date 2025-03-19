@@ -1,0 +1,24 @@
+apiVersion: builtin
+kind: HelmChartInflationGenerator
+metadata:
+  name: &appName awx
+valuesInline:
+  crds:
+    install: true
+    keep: true
+
+  global:
+    logging:
+      format: text
+      level: debug
+
+  configs:
+    cm: # awx ConfigMap contents:
+      create: true
+
+      # OPTIONS
+      exec.enabled: false
+      admin.enabled: true
+      server.rbac.logs.enforce.enable: true
+      kustomize.buildOptions: "--enable-helm"
+

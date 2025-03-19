@@ -1,0 +1,36 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: argocd-gateway
+  namespace: argocd
+spec:
+  gatewayClassName: cilium
+  listeners:
+  # - protocol: HTTP
+  #   port: 1080
+  #   name: web-gw
+  #   allowedRoutes:
+  #     namespaces:
+  #       from: All
+  - protocol: TLS
+    port: 1443
+    name: web-gw-tls
+    tls:
+      mode: Passthrough
+    allowedRoutes:
+      namespaces:
+        from: All
+---
+apiVersion: gateway.networking.k8s.io/v1alpha2
+kind: TLSRoute
+metadata:
+  name: argocd-route
+  namespace: argocd
+spec:
+  parentRefs:
+    - name: argocd-gateway
+  rules:
+  - backendRefs:
+      - name: argocd-prd-server  
+        port: 443
+
