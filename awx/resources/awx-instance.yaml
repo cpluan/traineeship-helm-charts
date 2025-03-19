@@ -4,4 +4,8 @@ kind: AWX
 metadata:
   name: awx-demo
 spec:
-  service_type: nodeport
+  service_type: ClusterIP
+  service_annotations: |
+    environment: testing
+  service_labels: |
+    environment: testing
