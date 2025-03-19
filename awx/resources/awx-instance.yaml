@@ -10,4 +10,4 @@ spec:
   service_labels: |
     environment: testing
   postgres_storage_class: local-path
-  postgres_storage_size: 5Gi 
+  postgres_storage_size: 1Gi 
