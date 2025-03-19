@@ -7,19 +7,22 @@ spec:
   gatewayClassName: cilium
   listeners:
   - protocol: HTTP
-    port: 1080
+    port: 2080
     name: awx-http-gw
     allowedRoutes:
       namespaces:
         from: All
-  # - protocol: TLS
-  #   port: 1443
-  #   name: web-gw-tls
-  #   tls:
-  #     mode: Passthrough
-  #   allowedRoutes:
-  #     namespaces:
-  #       from: All
+  - protocol: HTTPS
+    port: 2443
+    name: awx-https-gw
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - name: awx-tls-secret
+    allowedRoutes:
+      namespaces:
+        from: All
+
 ---
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
@@ -37,5 +40,6 @@ spec:
     backendRefs:
     - name: awx-demo-service
       port: 80
+
 
 
