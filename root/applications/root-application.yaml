@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: root
-  namespace: root-applications
+  namespace: argocd
 spec:
   project: system
   source:

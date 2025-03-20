@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: prometheus-stack-application
-  namespace: monitoring
+  namespace: argocd
 spec:
   project: system
   source:
