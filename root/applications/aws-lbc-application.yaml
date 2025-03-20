@@ -4,7 +4,7 @@ metadata:
   name: aws-lb-controller-application
   namespace: argocd
 spec:
-  project: system
+  project: default
   source:
     repoURL: 'https://github.com/cpluan/traineeship-helm-charts.git'
     targetRevision: root-applications 
