@@ -1,17 +1,17 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: argocd-prd-application
-  namespace: argocd
+  name: prometheus-stack-prd-chart
+  namespace: monitoring
 spec:
   project: default
   source:
     repoURL: 'https://github.com/cpluan/traineeship-helm-charts.git'
     targetRevision: HEAD
-    path: argocd/
+    path: kube-prometheus-stack/overlays/prd
   destination:
     server: https://kubernetes.default.svc
-    namespace: argocd
+    namespace: monitoring
   syncPolicy:
     automated:
       prune: true

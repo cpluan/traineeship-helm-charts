@@ -1,17 +1,17 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: argocd-prd-application
-  namespace: argocd
+  name: root
+  namespace: root-applications
 spec:
-  project: default
+  project: system
   source:
     repoURL: 'https://github.com/cpluan/traineeship-helm-charts.git'
     targetRevision: HEAD
-    path: argocd/
+    path: root/
   destination:
     server: https://kubernetes.default.svc
-    namespace: argocd
+    namespace: root-applications
   syncPolicy:
     automated:
       prune: true

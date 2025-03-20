@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: 'https://github.com/cpluan/traineeship-helm-charts.git'
     targetRevision: HEAD
-    path: aws-lb-controller/application
+    path: aws-lb-controller/
   destination:
     server: https://kubernetes.default.svc
     namespace: kube-system

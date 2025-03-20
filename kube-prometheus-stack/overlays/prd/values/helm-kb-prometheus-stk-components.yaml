@@ -1,0 +1,44 @@
+apiVersion: builtin
+kind: HelmChartInflationGenerator
+metadata:
+  name: &appName kube-prometheus-stack
+valuesInline:
+ # Configurações do Prometheus
+  prometheus:
+    enabled: true
+    prometheusSpec:
+      replicas: 2
+      retention: 15d
+    service:
+      type: LoadBalancer
+
+  # Configurações do Alertmanager
+  alertmanager:
+    enabled: true
+    alertmanagerSpec:
+      replicas: 2
+    service:
+      type: LoadBalancer
+
+  # Configurações do Grafana
+  grafana:
+    enabled: true
+    adminPassword: "senha-segura"
+    service:
+      type: LoadBalancer
+    grafana.ini:
+      security:
+        allow_embedding: true
+      auth.anonymous:
+        enabled: true
+        org_name: "Main Org."
+        org_role: "Editor"
+
+  # Configurações do Node Exporter
+  nodeExporter:
+    enabled: true
+
+  # Configurações do Kube State Metrics
+  kubeStateMetrics:
+    enabled: true
+
