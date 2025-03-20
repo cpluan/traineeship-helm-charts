@@ -1,0 +1,46 @@
+apiVersion: builtin
+kind: HelmChartInflationGenerator
+metadata:
+  name: &appName argo-cd
+valuesInline:
+  # This patch configures the ArgoCD components
+  # Enable/Disable and Amount of replicas
+
+  # Core ArgoCD components
+  controller:
+    replicas: 1
+
+  server:
+    replicas: 2
+
+  repoServer:
+    enabled: true
+    replicas: 2
+
+
+  notifications:
+    enabled: true
+
+  # Redis configuration
+  redis:
+    enabled: true
+    persistent: false
+
+  redis-ha:
+    enabled: false
+    persistent: false
+
+  # Authentication Service
+  # https://dexidp.io/
+  # ArgoCD uses dex as a component, to perform authentication
+  dex:
+    enabled: true
+
+
+
+  applicationSet:
+    # https://argo-cd.readthedocs.io/en/stable/operator-manual/applicationset/
+    enabled: true
+
+
+

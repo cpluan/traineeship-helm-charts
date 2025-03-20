@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aws-load-balancer-controller
+  namespace: kube-system
+spec:
+  template:
+    spec:
+      initContainers:
+        - name: init-vpc-region
+          image: amazonlinux
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              # Descobrir VPC ID
+              VPC_ID=$(curl -s http://169.254.169.254/latest/meta-data/network/interfaces/macs/$(curl -s http://169.254.169.254/latest/meta-data/mac)/vpc-id)
+
+              # Descobrir Região AWS
+              AWS_REGION=$(curl -s http://169.254.169.254/latest/meta-data/placement/region)
+
+              # Atualizar ConfigMap
+              kubectl patch configmap aws-lb-controller-config -n kube-system --type='merge' -p "{\"data\":{\"vpc-id\":\"$VPC_ID\", \"aws-region\":\"$AWS_REGION\"}}"
+
+          volumeMounts:
+            - name: vpc-region-config
+              mountPath: /etc
+
+      containers:
+        - name: aws-load-balancer-controller
+          args:
+            - --cluster-name=default
+            - --ingress-class=alb
+            - --aws-region=$(AWS_REGION)
+            - --vpc-id=$(VPC_ID)
+          env:
+            - name: VPC_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: aws-lb-controller-config
+                  key: vpc-id
+            - name: AWS_REGION
+              valueFrom:
+                configMapKeyRef:
+                  name: aws-lb-controller-config
+                  key: aws-region
+      volumes:
+        - name: vpc-region-config
+          emptyDir: {}
