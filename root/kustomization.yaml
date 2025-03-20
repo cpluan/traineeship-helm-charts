@@ -3,10 +3,11 @@ kind: Kustomization
 namespace: root-applications
 
 resources:
-  - ../../kube-prometheus-stack/application
-  - ../../argocd/application
-  - ../../aws-lb-controller/application
-  - ../../awx/application
+  - resources/namespace.yaml
+  - applications/kube-prometheus-stack-prd-application.yaml
+  - applications/argocd-prd-application.yaml
+  - applications/aws-lbc-application.yaml
+  - applications/awx-application.yaml
 
 
 

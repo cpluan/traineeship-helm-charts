@@ -1,17 +1,17 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: awx-application
-  namespace: awx
+  name: prometheus-stack-application
+  namespace: monitoring
 spec:
-  project: default
+  project: system
   source:
     repoURL: 'https://github.com/cpluan/traineeship-helm-charts.git'
-    targetRevision: HEAD
-    path: awx/
+    targetRevision: root-applications 
+    path: kube-prometheus-stack/
   destination:
     server: https://kubernetes.default.svc
-    namespace: awx
+    namespace: monitoring
   syncPolicy:
     automated:
       prune: true

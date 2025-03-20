@@ -3,7 +3,7 @@ kind: Kustomization
 namespace: argocd
 
 resources:
-  - ../overlays/prd/
+  - overlays/prd/
   - resources/gateway.yaml
   - resources/argocd-prd-chart.yaml
 
