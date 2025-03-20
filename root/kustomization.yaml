@@ -4,6 +4,7 @@ namespace: root-applications
 
 resources:
   - resources/namespace.yaml
+  - applications/root-application.yaml
   - applications/kube-prometheus-stack-prd-application.yaml
   - applications/argocd-prd-application.yaml
   - applications/aws-lbc-application.yaml
