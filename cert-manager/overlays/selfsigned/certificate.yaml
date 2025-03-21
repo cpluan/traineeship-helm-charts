@@ -1,15 +1,14 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: selfsigned-cert
+  name: cert-manager-webhook-ca
   namespace: cert-manager
 spec:
-  isCA: true
+  secretName: cert-manager-webhook-ca
   duration: 8760h
-  secretName: selfsigned-cert-secret
-  commonName: selfsigned.local
   issuerRef:
     name: selfsigned-issuer
     kind: Issuer
+  commonName: cert-manager-webhook.cert-manager.svc
   dnsNames:
-    - selfsigned.local
+    - cert-manager-webhook.cert-manager.svc
