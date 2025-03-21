@@ -2,5 +2,8 @@ installCRDs: true
 webhook:
   enabled: true
   timeoutSeconds: 10
+  # https://cert-manager.io/docs/troubleshooting/webhook/#cause-2-eks-on-a-custom-cni
+  hostNetwork: true
+  securePort: 10260
   certManager:
     enabled: true
