@@ -4,5 +4,3 @@ resources:
   - resources/awx-prd-chart.yaml
   - resources/awx-instance.yaml
   - resources/gateway.yaml
-
-namespace: awx
