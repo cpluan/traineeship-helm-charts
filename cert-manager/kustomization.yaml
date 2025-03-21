@@ -3,3 +3,6 @@ kind: Kustomization
 resources:
   - overlays/selfsigned/
 
+namespace: cert-manager
+
+
