@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cilium-gw-application
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/cpluan/traineeship-helm-charts.git'
+    targetRevision: root-applications 
+    path: gateway-api/
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kube-system
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

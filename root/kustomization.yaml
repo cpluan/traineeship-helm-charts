@@ -4,6 +4,7 @@ namespace: argocd
 
 resources:
   - resources/namespace.yaml
+  - applications/gateway/
   - applications/kb-prometheus/
   - applications/argocd/
   - applications/aws-lb/
