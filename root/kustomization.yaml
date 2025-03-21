@@ -1,14 +1,13 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: root-applications
+namespace: argocd
 
 resources:
   - resources/namespace.yaml
-  - applications/root-application.yaml
-  - applications/kube-prometheus-stack-prd-application.yaml
-  - applications/argocd-prd-application.yaml
-  - applications/aws-lbc-application.yaml
-  - applications/awx-application.yaml
+  - applications/kb-prometheus/
+  - applications/argocd/
+  - applications/aws-lb/
+  - applications/awx/
 
 
 
