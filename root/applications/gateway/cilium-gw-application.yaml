@@ -13,7 +13,7 @@ spec:
     path: gateway-api/
   destination:
     server: https://kubernetes.default.svc
-    namespace: kube-system
+    namespace: default
   syncPolicy:
     automated:
       prune: true
