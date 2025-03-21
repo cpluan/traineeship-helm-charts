@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: 'https://github.com/cpluan/traineeship-helm-charts.git'
     targetRevision: HEAD
-    path: argocd/overlays/prd
+    path: argocd/base/
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
