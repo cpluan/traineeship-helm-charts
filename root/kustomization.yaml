@@ -3,6 +3,7 @@ kind: Kustomization
 
 resources:
   - applications/gateway/
+  - applications/cert-manager/
   - applications/kb-prometheus/
   - applications/argocd/
   - applications/aws-lb/

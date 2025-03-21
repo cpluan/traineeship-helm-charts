@@ -1,0 +1,15 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: selfsigned-cert
+  namespace: cert-manager
+spec:
+  isCA: true
+  duration: 8760h
+  secretName: selfsigned-cert-secret
+  commonName: selfsigned.local
+  issuerRef:
+    name: selfsigned-issuer
+    kind: Issuer
+  dnsNames:
+    - selfsigned.local
