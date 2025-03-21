@@ -1,1 +1,6 @@
 installCRDs: true
+webhook:
+  enabled: true
+  timeoutSeconds: 10
+  certManager:
+    enabled: true
