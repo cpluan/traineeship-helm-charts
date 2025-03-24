@@ -6,7 +6,7 @@ metadata:
   annotations:
       argocd.argoproj.io/sync-wave: "2b"
 spec:
-  project: default
+  project: monitoring
   source:
     repoURL: 'https://github.com/cpluan/traineeship-helm-charts.git'
     targetRevision: root-applications
