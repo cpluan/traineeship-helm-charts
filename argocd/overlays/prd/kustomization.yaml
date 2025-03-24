@@ -2,26 +2,8 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 
-helmCharts:
-  - name: argo-cd
-    repo: https://argoproj.github.io/argo-helm
-    namespace: argocd
-    releaseName: argocd-prd
-    version: 7.4.3
-    includeCRDs: true
-    valuesFile: ../../base/values/helm.yaml
-
-    additionalValuesFiles:
-      - ../../base/values/helm-resources.yaml
-      - values/helm-argocd-components.yaml
-    
-    # Add external CRDs here:
-    apiVersions:
-      # Enable this to create servicemonitors
-      # https://github.com/argoproj/argo-helm/pull/2154/files
-      # https://github.com/argoproj/argo-helm/pull/2154#issuecomment-1731891289
-      - monitoring.coreos.com/v1
-
+generators:
+  - helm.yaml
 
 # https://stackoverflow.com/questions/78092144/trying-to-replace-values-yaml-file-for-helm-chart-in-kustomize-overlay
 # https://github.com/kubernetes-sigs/kustomize/issues/4658
