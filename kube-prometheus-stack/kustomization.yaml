@@ -3,7 +3,5 @@ kind: Kustomization
 namespace: argocd
 
 resources:
-  - overlays/prd/
-  - resources/gateway.yaml
   - resources/prometheus-stack-prd-chart.yaml
 

@@ -11,10 +11,10 @@ includeCRDs: true
 additionalArgs:
   - "--enable-helm"
 
-valuesFile: values/helm.yaml
+valuesFile: ../../base/values/helm.yaml
 
 additionalValuesFiles:
-  - values/helm-resources.yaml
+  - ../../base/values/helm-resources.yaml
   - values/helm-kb-prometheus-stk-components.yaml
 
 # Adicionando API versions para suportar CRDs personalizados do kube-prometheus-stack
