@@ -4,5 +4,15 @@ namespace: argocd
 resources:
   - namespace.yaml
 
-generators:
-  - helm.yaml
+helmCharts:
+  - name: argo-cd
+    repo: https://argoproj.github.io/argo-helm
+    namespace: argocd
+    releaseName: argocd-prd
+    version: 7.4.3
+    includeCRDs: true
+    valuesFile: values/helm.yaml
+
+    additionalValuesFiles:
+      - values/helm-resources.yaml
+      - values/helm-argocd-components.yaml
