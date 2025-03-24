@@ -2,6 +2,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
+  - projects/monitoring.yaml
   - applications/gateway/
   # - applications/cert-manager/
   - applications/kb-prometheus/

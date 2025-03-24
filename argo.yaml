@@ -1,0 +1,129 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: monitoring
+  namespace: argocd
+spec:
+  clusterResourceWhitelist:
+  - group: '*'
+    kind: '*'
+  description: Projeto ArgoCD para aplicações de observabilidade e monitoramento
+  destinations:
+  - namespace: monitoring
+    server: https://kubernetes.default.svc
+  namespaceResourceWhitelist:
+  - group: '*'
+    kind: '*'
+  orphanedResources:
+    warn: true
+  sourceRepos:
+  - https://github.com/cpluan/traineeship-helm-charts.git
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+  name: argocd-prd-application
+  namespace: argocd
+spec:
+  destination:
+    namespace: argocd
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: argocd/
+    repoURL: https://github.com/cpluan/traineeship-helm-charts.git
+    targetRevision: root-applications
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "5"
+  name: awx-application
+  namespace: argocd
+spec:
+  destination:
+    namespace: awx
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: awx/
+    repoURL: https://github.com/cpluan/traineeship-helm-charts.git
+    targetRevision: root-applications
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+  name: cilium-gw-application
+  namespace: argocd
+spec:
+  destination:
+    namespace: default
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: gateway-api/
+    repoURL: https://github.com/cpluan/traineeship-helm-charts.git
+    targetRevision: root-applications
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "4"
+  name: local-path-application
+  namespace: argocd
+spec:
+  destination:
+    namespace: local-path-storage
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: local-path/
+    repoURL: https://github.com/cpluan/traineeship-helm-charts.git
+    targetRevision: root-applications
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+  name: prometheus-stack-application
+  namespace: argocd
+spec:
+  destination:
+    namespace: monitoring
+    server: https://kubernetes.default.svc
+  project: monitoring
+  source:
+    path: kube-prometheus-stack/
+    repoURL: https://github.com/cpluan/traineeship-helm-charts.git
+    targetRevision: root-applications
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
