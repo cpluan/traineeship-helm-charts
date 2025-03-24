@@ -3,5 +3,6 @@ kind: Kustomization
 namespace: argocd
 
 resources:
+  - resources/namespace.yaml
   - resources/prometheus-stack-prd-chart.yaml
 
