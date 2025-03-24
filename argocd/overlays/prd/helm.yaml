@@ -11,7 +11,6 @@ namespace: argocd
 includeCRDs: true
 additionalArgs:
   - "--enable-helm"
-  - "--load-restrictor LoadRestrictionsNone"
 
 valuesFile: ../../base/values/helm.yaml
 
