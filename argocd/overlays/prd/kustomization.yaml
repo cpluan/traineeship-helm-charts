@@ -1,9 +1,9 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-resources:
-  - ../../base
-patches:
-  - path: values/helm-argocd-components.yaml
-    target:
-      kind: Deployment
-      name: argocd-prd
+
+
+generators:
+  - helm.yaml
+
+# https://stackoverflow.com/questions/78092144/trying-to-replace-values-yaml-file-for-helm-chart-in-kustomize-overlay
+# https://github.com/kubernetes-sigs/kustomize/issues/4658

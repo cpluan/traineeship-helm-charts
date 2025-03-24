@@ -3,5 +3,6 @@ kind: Kustomization
 namespace: argocd
 resources:
   - namespace.yaml
+
 generators:
-  - helm
+  - helm.yaml

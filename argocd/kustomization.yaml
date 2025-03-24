@@ -3,5 +3,6 @@ kind: Kustomization
 
 resources:
   - resources/gateway.yaml
+  - overlays/prd/
   - resources/argocd-prd-chart.yaml
 
