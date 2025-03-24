@@ -4,4 +4,6 @@ namespace: argocd
 
 resources:
   - resources/prometheus-stack-prd-chart.yaml
+  - resources/prometheus-stack-prd-crds.yaml
+
 

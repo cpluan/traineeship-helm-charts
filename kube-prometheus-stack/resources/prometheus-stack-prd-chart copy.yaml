@@ -3,6 +3,8 @@ kind: Application
 metadata:
   name: prometheus-stack-prd-chart
   namespace: monitoring
+  annotations:
+      argocd.argoproj.io/sync-wave: "2b"
 spec:
   project: default
   source:
