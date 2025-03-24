@@ -14,12 +14,11 @@ alertmanager:
   alertmanagerSpec:
     replicas: 2
   service:
-    type: LoadBalancerA
+    type: LoadBalancer
 
 # Configurações do Grafana
 grafana:
   enabled: true
-  adminPassword: "senha-segura"
   service:
     type: LoadBalancer
   grafana.ini:

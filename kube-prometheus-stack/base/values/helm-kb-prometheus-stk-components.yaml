@@ -15,7 +15,6 @@ alertmanager:
 # Configurações do Grafana
 grafana:
   enabled: true
-  adminPassword: "senha-segura"
 
 
 # Configurações do Node Exporter
