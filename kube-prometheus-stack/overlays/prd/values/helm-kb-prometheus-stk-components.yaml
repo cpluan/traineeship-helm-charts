@@ -6,7 +6,7 @@ prometheus:
     replicas: 2
     retention: 15d
   service:
-    type: LoadBalancer
+    type: ClusterIP
 
 # Configurações do Alertmanager
 alertmanager:
@@ -14,13 +14,13 @@ alertmanager:
   alertmanagerSpec:
     replicas: 2
   service:
-    type: LoadBalancer
+    type: ClusterIP
 
 # Configurações do Grafana
 grafana:
   enabled: true
   service:
-    type: LoadBalancer
+    type: ClusterIP
   grafana.ini:
     security:
       allow_embedding: true
