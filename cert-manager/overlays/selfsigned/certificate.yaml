@@ -3,6 +3,8 @@ kind: Certificate
 metadata:
   name: cert-manager-webhook-ca
   namespace: cert-manager
+  annotations:
+      argocd.argoproj.io/sync-wave: "1b"
 spec:
   secretName: cert-manager-webhook-ca
   duration: 8760h
