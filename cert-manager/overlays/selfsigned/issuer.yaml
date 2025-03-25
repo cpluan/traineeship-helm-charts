@@ -3,7 +3,5 @@ kind: Issuer
 metadata:
   name: selfsigned-issuer
   namespace: cert-manager
-  annotations:
-      argocd.argoproj.io/sync-wave: "1c"
 spec:
   selfSigned: {}
