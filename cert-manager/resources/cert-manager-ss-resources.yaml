@@ -14,7 +14,7 @@ spec:
     path: cert-manager/overlays/selfsigned
   destination:
     server: https://kubernetes.default.svc
-    namespace: cert-manager
+    namespace: kube-system
   syncPolicy:
     automated:
       prune: true

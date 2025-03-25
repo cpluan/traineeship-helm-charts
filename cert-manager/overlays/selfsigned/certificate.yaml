@@ -2,7 +2,7 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: cert-manager-webhook-ca
-  namespace: cert-manager
+  namespace: kube-system
 spec:
   isCA: true
   commonName: cert-manager-webhook-ca

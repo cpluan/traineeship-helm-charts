@@ -14,10 +14,8 @@ spec:
     path: cert-manager/base
   destination:
     server: https://kubernetes.default.svc
-    namespace: cert-manager
+    namespace: kube-system
   syncPolicy:
-    syncOptions:
-      - CreateNamespace=true
     automated:
       prune: true
       selfHeal: true
