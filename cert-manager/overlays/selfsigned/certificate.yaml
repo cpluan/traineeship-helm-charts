@@ -4,11 +4,9 @@ metadata:
   name: cert-manager-webhook-ca
   namespace: cert-manager
 spec:
+  isCA: true
+  commonName: cert-manager-webhook-ca
   secretName: cert-manager-webhook-ca
-  duration: 8760h
   issuerRef:
     name: selfsigned-issuer
     kind: Issuer
-  commonName: cert-manager-webhook.cert-manager.svc
-  dnsNames:
-    - cert-manager-webhook.cert-manager.svc
