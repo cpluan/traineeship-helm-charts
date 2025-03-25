@@ -4,15 +4,22 @@ metadata:
   name: &appName cert-manager
 releaseName: cert-manager
 name: *appName
-version: 1.16.2
+version: v1.16.2
 repo: https://charts.jetstack.io
 namespace: cert-manager
 includeCRDs: true
-additionalArgs:
-  - "--enable-helm"
 
-valuesFile: ../../base/values.yaml
+valuesInline:
+  crds:
+    enabled: true
 
+  rbac:
+    create: true
 
+  config:
+    apiVersion: controller.config.cert-manager.io/v1alpha1
+    kind: ControllerConfiguration
+    enableCertificateOwnerRef: true
 
-
+  leaderElection:
+    namespace: cert-manager
