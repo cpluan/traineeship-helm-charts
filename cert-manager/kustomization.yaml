@@ -4,6 +4,5 @@ resources:
   - resources/cert-manager-prd-chart.yaml
   - resources/cert-manager-prd-resources.yaml
 
-namespace: cert-manager
 
 
