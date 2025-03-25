@@ -4,7 +4,7 @@ metadata:
   name: prometheus-stack-prd-chart
   namespace: argocd
   annotations:
-      argocd.argoproj.io/sync-wave: "2b"
+    argocd.argoproj.io/depends-on: argocd/prometheus-stack-prd-crds
 spec:
   project: default
   source:
