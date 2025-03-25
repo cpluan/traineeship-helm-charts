@@ -7,11 +7,11 @@ name: *appName
 version: v1.16.2
 repo: https://charts.jetstack.io
 namespace: cert-manager
-includeCRDs: true
+includeCRDs: false
 
 valuesInline:
   crds:
-    enabled: true
+    enabled: false
 
   rbac:
     create: true

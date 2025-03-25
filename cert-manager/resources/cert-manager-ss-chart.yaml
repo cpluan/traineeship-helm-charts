@@ -4,7 +4,7 @@ metadata:
   name: cert-manager-chart
   namespace: argocd
   annotations:
-  #  argocd.argoproj.io/depends-on: argocd/cert-manager-crds
+    argocd.argoproj.io/depends-on: argocd/cert-manager-crds
     argocd.argoproj.io/sync-wave: "1b"
 spec:
   project: default
