@@ -4,12 +4,10 @@ metadata:
   name: &appName cert-manager
 releaseName: cert-manager
 name: *appName
-version: 1.14.4
+version: v1.16.2
 repo: https://charts.jetstack.io
 namespace: cert-manager
-includeCRDs: true
-additionalArgs:
-  - "--enable-helm"
+includeCRDs: false
 
 valuesFile: values.yaml
 

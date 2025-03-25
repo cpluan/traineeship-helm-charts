@@ -13,7 +13,7 @@ spec:
     path: cert-manager/overlays/selfsigned/crds
   destination:
     server: https://kubernetes.default.svc
-    namespace: kube-system
+    namespace: cert-manager
   syncPolicy:
     automated:
       prune: true
