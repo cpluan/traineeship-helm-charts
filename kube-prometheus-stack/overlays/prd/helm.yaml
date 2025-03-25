@@ -1,7 +1,7 @@
 apiVersion: builtin
 kind: HelmChartInflationGenerator
 metadata:
-  name: &appName kube-prometheus-stack-prd
+  name: &appName kube-prometheus-stack
 releaseName: prometheus-stack
 name: *appName
 version: 70.1.1
