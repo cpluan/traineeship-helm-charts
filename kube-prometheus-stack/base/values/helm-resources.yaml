@@ -1,4 +1,56 @@
 
+# Prometheus
+prometheus:
+  prometheusSpec:
+    resources:
+      requests: &prometheusRequests
+        cpu: 250m
+        memory: 512Mi
+      limits:
+        <<: *prometheusRequests
+        cpu: 500m
+
+# Alertmanager
+alertmanager:
+  alertmanagerSpec:
+    resources:
+      requests: &alertmanagerRequests
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        <<: *alertmanagerRequests
+        cpu: 300m
+
+# Grafana
+grafana:
+  resources:
+    requests: &grafanaRequests
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      <<: *grafanaRequests
+      cpu: 300m
+
+# Node Exporter
+nodeExporter:
+  resources:
+    requests: &nodeExporterRequests
+      cpu: 50m
+      memory: 100Mi
+    limits:
+      <<: *nodeExporterRequests
+      cpu: 150m
+
+# Kube State Metrics
+kubeStateMetrics:
+  resources:
+    requests: &kubeStateMetricsRequests
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      <<: *kubeStateMetricsRequests
+      cpu: 200m
+
 # Configurações adicionais
 additionalPrometheusRulesMap:
   custom.rules:
