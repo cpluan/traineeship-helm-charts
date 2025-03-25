@@ -5,7 +5,7 @@ metadata:
   namespace: argocd
   annotations:
     argocd.argoproj.io/depends-on: argocd/cert-manager-chart
-    argocd.argoproj.io/sync-wave: "1b"
+    argocd.argoproj.io/sync-wave: "1c"
 spec:
   project: default
   source:
