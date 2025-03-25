@@ -9,8 +9,9 @@ repo: https://charts.jetstack.io
 namespace: cert-manager
 includeCRDs: false
 
-valuesFile: values.yaml
-
-
-
-
+valuesInline:
+  crds:
+    enabled: false
+  extraArgs:
+    - --leader-election-namespace=cert-manager
+    - --enable-certificate-owner-ref=true
