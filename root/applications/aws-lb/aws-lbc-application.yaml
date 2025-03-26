@@ -13,7 +13,7 @@ spec:
     path: aws-lb-controller/
   destination:
     server: https://kubernetes.default.svc
-    namespace: kube-system
+    namespace: argocd
   syncPolicy:
     automated:
       selfHeal: true
