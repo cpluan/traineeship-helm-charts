@@ -1,0 +1,78 @@
+apiVersion: builtin
+kind: HelmChartInflationGenerator
+metadata:
+  name: &appName argo-cd
+valuesInline:
+  # This kustomize patch should be used to set all the resource requests and limits of argo-cd
+  # https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#requests-and-limits
+  #
+  # Values:
+  initImage:
+    # Argocd init container resources
+    resources:
+      requests: &initRequests
+        cpu: 10m
+        memory: 144Mi
+      limits:
+        <<: *initRequests
+        cpu: 20m
+  redis:
+    # Redis server resources
+    resources:
+      requests: &redisRequests
+        cpu: 25m
+        memory: 128Mi
+      limits:
+        <<: *redisRequests
+        cpu: 100m
+  applicationSet:
+    resources:
+      requests: &applicationSetRequests
+        cpu: 50m
+        memory: 128Mi
+      limits:
+        <<: *applicationSetRequests
+        cpu: 100m
+  repoServer:
+    # Argocd repo server resources
+    resources:
+      requests: &repoServerRequests
+        cpu: 300m
+        memory: 600Mi
+      limits:
+        <<: *repoServerRequests
+        cpu: 1500m
+  dex:
+    # Argocd dex resources
+    resources:
+      requests: &dexRequests
+        cpu: 15m
+        memory: 147Mi
+      limits:
+        <<: *dexRequests
+        cpu: 100m
+  controller:
+    # Argocd controller resources
+    resources:
+      requests: &controllerRequests
+        cpu: 684m
+        memory: 2434Mi
+      limits: 
+        <<: *controllerRequests
+        cpu: 1000m
+  server:
+    resources:
+      requests: &serverRequests
+        cpu: 14m
+        memory: 170Mi
+      limits:
+        <<: *serverRequests
+        cpu: 100m
+  notifications:
+    resources:
+      requests: &notificationRequests
+        cpu: 12m
+        memory: 100Mi
+      limits:
+        <<: *notificationRequests
+        cpu: 100m

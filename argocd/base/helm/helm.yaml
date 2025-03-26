@@ -4,20 +4,10 @@ metadata:
   name: &appName argo-cd
 releaseName: argocd-prd
 name: *appName
-behavior: replace
 version: 7.4.3
 repo: https://argoproj.github.io/argo-helm
 namespace: argocd
 includeCRDs: true
-additionalArgs:
-  - "--enable-helm"
-
-valuesFile: ../../base/values/helm.yaml
-
-additionalValuesFiles:
-  - ../../base/values/helm-resources.yaml
-  - values/helm-argocd-components.yaml
-
 
 # Add external CRDs here:
 apiVersions:

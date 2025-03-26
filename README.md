@@ -1,1 +1,0 @@
-# traineeship-helm-charts
