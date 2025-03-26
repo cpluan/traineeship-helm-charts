@@ -10,3 +10,5 @@ spec:
   issuerRef:
     name: selfsigned-issuer
     kind: Issuer
+  privateKey:
+    rotationPolicy: Always
