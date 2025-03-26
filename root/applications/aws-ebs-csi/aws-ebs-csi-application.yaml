@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: aws-lb-controller-application
+  namespace: argocd
+  annotations:
+      argocd.argoproj.io/sync-wave: "6"
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/kubernetes-sigs/aws-ebs-csi-driver.git'
+    targetRevision: HEAD
+    path: deploy/kubernetes/overlays/stable
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kube-system
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

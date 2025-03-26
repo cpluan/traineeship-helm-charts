@@ -4,7 +4,7 @@ resources:
   - resources/namespace.yaml
   - resources/cert-manager-ss-crds.yaml
   - resources/cert-manager-ss-chart.yaml
-  #- resources/cert-manager-ss-resources.yaml
+  - resources/cert-manager-ss-resources.yaml
 
 
 
