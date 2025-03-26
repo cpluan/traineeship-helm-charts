@@ -16,5 +16,4 @@ spec:
     namespace: local-path-storage
   syncPolicy:
     automated:
-      prune: true
       selfHeal: true
