@@ -7,11 +7,10 @@ name: *appName
 version: v1.16.2
 repo: https://charts.jetstack.io
 namespace: cert-manager
-includeCRDs: false
 
 valuesInline:
   crds:
-    enabled: false
+    enabled: true
   extraArgs:
     - --leader-election-namespace=cert-manager
     - --enable-certificate-owner-ref=true
