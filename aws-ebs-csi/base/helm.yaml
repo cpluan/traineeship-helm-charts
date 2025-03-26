@@ -11,6 +11,5 @@ valuesInline:
   controller:
     serviceAccount:
       create: true
-  storageClasses:
-    enabled: false
+  storageClasses: [] 
 
