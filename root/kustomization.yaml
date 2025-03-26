@@ -9,7 +9,7 @@ resources:
   - applications/kb-prometheus/
   - applications/argocd/
   # - applications/aws-lb/
-  - applications/local-path/
+  # - applications/local-path/
   - applications/awx/
 
 
