@@ -7,3 +7,4 @@ volumeBindingMode: WaitForFirstConsumer
 parameters:
   type: gp3
   fsType: ext4
+
