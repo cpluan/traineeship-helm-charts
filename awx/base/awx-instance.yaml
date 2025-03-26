@@ -10,6 +10,7 @@ spec:
   service_labels: |
     environment: testing
   postgres_storage_class: ebs-sc
+  postgres_data_volume_init: true
   postgres_init_container_commands: |
     chown 26:0 /var/lib/pgsql/data
     chmod 700 /var/lib/pgsql/data
