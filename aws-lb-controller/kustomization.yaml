@@ -4,6 +4,3 @@ kind: Kustomization
 resources:
   - resources/aws-lbc-chart.yaml
   - resources/aws-lb-controller-config.yaml
-
-patches:
-  - path: resources/patch-deployment.yaml
