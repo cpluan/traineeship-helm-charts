@@ -5,5 +5,4 @@ resources:
 patches:
   - path: values/helm.yaml
   - path: values/helm-resources.yaml
-  - path: values/helm-ingress.yaml
   - path: values/helm-argocd-components.yaml

@@ -3,4 +3,4 @@ kind: Kustomization
 namespace: monitoring
 
 generators:
-  - helm.yaml
+  - helm

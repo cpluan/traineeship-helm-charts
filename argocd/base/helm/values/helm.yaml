@@ -20,3 +20,5 @@ valuesInline:
       exec.enabled: false
       admin.enabled: true
       server.rbac.logs.enforce.enable: true
+      kustomize.buildOptions: "--enable-helm"
+
