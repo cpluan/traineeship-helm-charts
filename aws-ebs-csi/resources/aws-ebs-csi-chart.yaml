@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: aws-ebs-csi-application
+  name: aws-ebs-csi-chart
   namespace: argocd
   annotations:
       argocd.argoproj.io/sync-wave: "4a"
