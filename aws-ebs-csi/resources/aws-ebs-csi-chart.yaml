@@ -4,13 +4,13 @@ metadata:
   name: aws-ebs-csi-application
   namespace: argocd
   annotations:
-      argocd.argoproj.io/sync-wave: "10"
+      argocd.argoproj.io/sync-wave: "10a"
 spec:
   project: default
   source:
-    repoURL: 'https://github.com/cpluan/traineeship-helm-charts.git'
-    targetRevision: root-applications 
-    path: aws-ebs-csi/
+    repoURL: 'https://github.com/kubernetes-sigs/aws-ebs-csi-driver.git'
+    targetRevision: HEAD
+    path: deploy/kubernetes/overlays/stable
   destination:
     server: https://kubernetes.default.svc
     namespace: kube-system
