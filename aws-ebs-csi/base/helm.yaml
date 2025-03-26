@@ -9,8 +9,7 @@ releaseName: aws-ebs-csi-driver
 namespace: kube-system
 valuesInline:
   node:
-    driver:
-      hostNetwork: true
+    hostNetwork: true
   controller:
     serviceAccount:
       create: true
