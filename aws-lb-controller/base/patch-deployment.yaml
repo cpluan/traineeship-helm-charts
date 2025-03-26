@@ -27,6 +27,7 @@ spec:
 
       containers:
         - name: aws-load-balancer-controller
+          image: public.ecr.aws/eks/aws-load-balancer-controller:v2.6.1
           args:
             - --cluster-name=default
             - --ingress-class=alb
