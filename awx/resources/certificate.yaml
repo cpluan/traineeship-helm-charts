@@ -1,0 +1,27 @@
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: selfsigned-issuer
+  namespace: awx
+spec:
+  selfSigned: {}
+---
+
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: awx-cert
+  namespace: awx
+spec:
+  secretName: awx-tls-secret
+  issuerRef:
+    name: selfsigned-issuer
+    kind: Issuer
+  ipAddresses:
+  - 63.33.64.92
+  privateKey:
+    algorithm: RSA
+    size: 2048
+  duration: 8760h
+  renewBefore: 720h
+
