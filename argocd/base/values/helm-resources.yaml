@@ -1,4 +1,3 @@
-
 # This kustomize patch should be used to set all the resource requests and limits of argo-cd
 # https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#requests-and-limits
 #
@@ -53,7 +52,7 @@ controller:
     requests: &controllerRequests
       cpu: 684m
       memory: 2434Mi
-    limits: 
+    limits:
       <<: *controllerRequests
       cpu: 1000m
 server:
