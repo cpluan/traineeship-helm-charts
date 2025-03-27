@@ -3,5 +3,4 @@ kind: Kustomization
 
 resources:
   - resources/aws-lbc-chart.yaml
-  - resources/issuer.yaml
-  - resources/certificate.yaml
+
