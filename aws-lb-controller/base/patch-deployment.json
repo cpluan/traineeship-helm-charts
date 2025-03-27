@@ -1,0 +1,35 @@
+[
+  {
+    "op": "replace",
+    "path": "/spec/template/spec/containers/0/args",
+    "value": [
+      "--cluster-name=default",
+      "--aws-region=$(AWS_REGION)",
+      "--aws-vpc-id=$(VPC_ID)"
+    ]
+  },
+  {
+    "op": "replace",
+    "path": "/spec/template/spec/containers/0/env",
+    "value": [
+      {
+        "name": "VPC_ID",
+        "valueFrom": {
+          "configMapKeyRef": {
+            "name": "aws-data-config",
+            "key": "vpc-id"
+          }
+        }
+      },
+      {
+        "name": "AWS_REGION",
+        "valueFrom": {
+          "configMapKeyRef": {
+            "name": "aws-data-config",
+            "key": "aws-region"
+          }
+        }
+      }
+    ]
+  }
+]

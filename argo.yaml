@@ -861,24 +861,19 @@ spec:
       containers:
       - args:
         - --cluster-name=default
-        - --ingress-class=alb
         - --aws-region=$(AWS_REGION)
-        - --vpc-id=$(VPC_ID)
+        - --aws-vpc-id=$(VPC_ID)
         env:
         - name: VPC_ID
           valueFrom:
             configMapKeyRef:
               key: vpc-id
-              name: aws-lb-controller-config
+              name: aws-data-config
         - name: AWS_REGION
           valueFrom:
             configMapKeyRef:
               key: aws-region
-              name: aws-lb-controller-config
-        name: aws-load-balancer-controller
-      - args:
-        - --cluster-name=your-cluster-name
-        - --ingress-class=alb
+              name: aws-data-config
         image: public.ecr.aws/eks/aws-load-balancer-controller:v2.6.1
         livenessProbe:
           failureThreshold: 2
@@ -908,33 +903,12 @@ spec:
         - mountPath: /tmp/k8s-webhook-server/serving-certs
           name: cert
           readOnly: true
-      initContainers:
-      - args:
-        - |
-          # Descobrir VPC ID
-          VPC_ID=$(curl -s http://169.254.169.254/latest/meta-data/network/interfaces/macs/$(curl -s http://169.254.169.254/latest/meta-data/mac)/vpc-id)
-
-          # Descobrir Região AWS
-          AWS_REGION=$(curl -s http://169.254.169.254/latest/meta-data/placement/region)
-
-          # Atualizar ConfigMap
-          kubectl patch configmap aws-lb-controller-config -n kube-system --type='merge' -p "{\"data\":{\"vpc-id\":\"$VPC_ID\", \"aws-region\":\"$AWS_REGION\"}}"
-        command:
-        - /bin/sh
-        - -c
-        image: amazonlinux
-        name: init-vpc-region
-        volumeMounts:
-        - mountPath: /etc
-          name: vpc-region-config
       priorityClassName: system-cluster-critical
       securityContext:
         fsGroup: 1337
       serviceAccountName: aws-load-balancer-controller
       terminationGracePeriodSeconds: 10
       volumes:
-      - emptyDir: {}
-        name: vpc-region-config
       - name: cert
         secret:
           defaultMode: 420
