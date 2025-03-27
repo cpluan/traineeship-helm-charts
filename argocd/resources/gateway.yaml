@@ -57,4 +57,4 @@ spec:
           service:
             name: argocd-prd-server
             port:
-              number: 30080 
+              number: 80 
