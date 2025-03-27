@@ -13,6 +13,7 @@ spec:
             - --cluster-name=default
             - --aws-region=$(AWS_REGION)
             - --aws-vpc-id=$(VPC_ID)
+            - --webhook-cert-dir=/tmp/k8s-webhook-server/serving-certs
           env:
             - name: VPC_ID
               valueFrom:
@@ -24,6 +25,13 @@ spec:
                 configMapKeyRef:
                   name: aws-data-config
                   key: aws-region
+          volumeMounts:
+            - name: webhook-cert
+              mountPath: /tmp/k8s-webhook-server/serving-certs
+              readOnly: true
       volumes:
+        - name: webhook-cert
+          secret:
+            secretName: aws-load-balancer-webhook-tls
         - name: vpc-region-config
           emptyDir: {}
