@@ -3,4 +3,3 @@ kind: Kustomization
 
 resources:
   - resources/aws-lbc-chart.yaml
-  - resources/aws-lb-controller-config.yaml
