@@ -13,7 +13,7 @@ spec:
             - --cluster-name=default
             - --ingress-class=alb
             - --aws-region=$(AWS_REGION)
-            - --vpc-id=$(VPC_ID)
+            - --aws-vpc-id=$(VPC_ID)
           env:
             - name: VPC_ID
               valueFrom:
