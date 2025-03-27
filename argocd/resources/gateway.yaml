@@ -32,33 +32,21 @@ spec:
   rules:
   - backendRefs:
       - name: argocd-prd-server  
-        port: 443
+        port: 30443
 
 ---
-apiVersion: v1
-kind: Service
-metadata:
-  name: argocd-gw-svc
-  namespace: argocd
-spec:
-  selector:
-    gateway.networking.k8s.io/gateway-name: argocd-gateway
-  ports:
-  - name: tls
-    port: 1443
-    targetPort: 1443
----
+
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: argocd-gw-ingress
+  name: argocd-nodeport-ingress
   namespace: argocd
   annotations:
-    alb.ingress.kubernetes.io/scheme: internet-facing
-    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
-    alb.ingress.kubernetes.io/backend-protocol: HTTP
-    alb.ingress.kubernetes.io/target-type: ip
     kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: instance
+    alb.ingress.kubernetes.io/backend-protocol: HTTP
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
 spec:
   rules:
   - http:
@@ -69,4 +57,4 @@ spec:
           service:
             name: argocd-prd-server
             port:
-              number: 80
+              number: 30080 
