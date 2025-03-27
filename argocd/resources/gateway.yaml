@@ -67,6 +67,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: cilium-gateway-argocd-gateway
+            name: argocd-prd-server
             port:
-              number: 1443
+              number: 80
