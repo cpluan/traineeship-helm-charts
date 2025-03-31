@@ -35,7 +35,21 @@ spec:
         port: 30443
 
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cilium-gateway-argocd-gateway
+  namespace: argocd
+spec:
+  type: ClusterIP
+  selector:
+    gateway.networking.k8s.io/gateway-name: argocd-gateway
+  ports:
+  - port: 1443
+    targetPort: 1443
+    protocol: TCP
 
+---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -63,7 +77,7 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: argocd-ingress-gw
+  name: alb-to-cilium-gateway
   namespace: argocd
   annotations:
     kubernetes.io/ingress.class: alb
@@ -82,3 +96,4 @@ spec:
             name: cilium-gateway-argocd-gateway
             port:
               number: 1443
+
