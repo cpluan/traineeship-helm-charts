@@ -6,7 +6,6 @@ valuesInline:
     
   crds:
     install: true
-    keep: true
 
   global:
     logging:
