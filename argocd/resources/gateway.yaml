@@ -48,11 +48,20 @@ spec:
   type: LoadBalancer
   externalTrafficPolicy: Local
   ports:
-    - port: 443
-      targetPort: 1443
-      protocol: TCP
-  ipFamilies:
-    - IPv4
-  ipFamilyPolicy: SingleStack
-  sessionAffinity: None
-  # Sem selector aqui
+  - port: 443
+    protocol: TCP
+    targetPort: 1443
+  selector: {} 
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: argocd-gateway-lb
+  namespace: argocd
+subsets:
+  - addresses:
+      - ip: 10.0.1.103  
+      - ip: 10.0.2.104  
+    ports:
+      - port: 1443
+        protocol: TCP
