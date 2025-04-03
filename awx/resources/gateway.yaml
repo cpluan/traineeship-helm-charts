@@ -57,6 +57,9 @@ spec:
   - port: 80
     protocol: TCP
     targetPort: 2080
+  - port: 443
+    protocol: TCP
+    targetPort: 2443
   selector: {} 
 ---
 apiVersion: v1
@@ -70,6 +73,8 @@ subsets:
       - ip: 10.0.2.104  
     ports:
       - port: 2080
+        protocol: TCP
+      - port: 2443
         protocol: TCP
 
 
