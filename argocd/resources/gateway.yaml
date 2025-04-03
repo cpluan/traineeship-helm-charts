@@ -35,26 +35,21 @@ spec:
         port: 30443
 
 ---
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+apiVersion: v1
+kind: Service
 metadata:
-  name: argocd-ingress
+  name: argocd-gateway-lb
   namespace: argocd
   annotations:
-    kubernetes.io/ingress.class: alb
-    alb.ingress.kubernetes.io/scheme: internet-facing
-    alb.ingress.kubernetes.io/target-type: ip
-    alb.ingress.kubernetes.io/backend-protocol: HTTPS
-    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS": 443}]'
-    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:eu-west-1:290115371037:certificate/0e8593d0-6f91-487e-8278-97bbe66df6b0
+    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+    service.beta.kubernetes.io/aws-load-balancer-target-type: "ip"
 spec:
-  rules:
-  - http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: argocd-prd-server
-            port:
-              number: 443
+  type: LoadBalancer
+  externalTrafficPolicy: Local
+  ports:
+  - port: 443
+    targetPort: 1443
+    protocol: TCP
+  selector:
+    gateway.networking.k8s.io/gateway-name: argocd-gateway
+
