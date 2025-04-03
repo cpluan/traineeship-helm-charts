@@ -71,8 +71,8 @@ metadata:
   namespace: awx
 subsets:
   - addresses:
-      - ip: 10.0.1.103  
-      - ip: 10.0.2.104  
+      - ip: 10.0.4.101  
+      - ip: 10.0.4.102  
     ports:
       - name: http
         port: 2080
@@ -80,4 +80,23 @@ subsets:
       - name: https
         port: 2443
         protocol: TCP
-
+---
+apiVersion: cilium.io/v2
+kind: CiliumEgressGatewayPolicy
+metadata:
+  name: egress-via-worker-pub-1
+spec:
+  selectors:
+    - podSelector:
+        matchLabels:
+          app: awx-demo-web  
+  destinationCIDRs:
+    - 0.0.0.0/0
+  egressGateway:
+    nodeSelector:
+      matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+            - worker-pub-1
+    interface: eth1  
