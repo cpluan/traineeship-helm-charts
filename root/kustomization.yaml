@@ -4,11 +4,11 @@ kind: Kustomization
 resources:
   - projects/monitoring.yaml
   - applications/gateway/
+  - applications/kb-prometheus/
   - applications/cert-manager/
   - applications/aws-ebs-csi/
-  - applications/kb-prometheus/
-  - applications/argocd/
   - applications/aws-lb/
+  - applications/argocd/
   # - applications/local-path/
   - applications/awx/
 
