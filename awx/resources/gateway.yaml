@@ -99,4 +99,4 @@ spec:
           operator: In
           values:
             - worker-pub-1
-    interface: eth1  
+    egressIP: 10.0.1.100
