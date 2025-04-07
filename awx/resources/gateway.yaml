@@ -89,9 +89,9 @@ spec:
   selectors:
     - podSelector:
         matchLabels:
-          app: awx-demo-web  
+          app.kubernetes.io/name: awx-demo-web
   destinationCIDRs:
-    - 0.0.0.0/0
+    - 10.0.0.0/8
   egressGateway:
     nodeSelector:
       matchExpressions:
