@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: generic-prd-chart
+  name: rancher-prd-chart
   namespace: argocd
   annotations:
       argocd.argoproj.io/sync-wave: "6a"
