@@ -1,0 +1,11 @@
+apiVersion: builtin
+kind: HelmChartInflationGenerator
+metadata:
+  name: &appName rancher
+releaseName: rancher
+name: *appName
+version: 2.11.0
+repo: https://releases.rancher.com/server-charts/latest
+namespace: cattle-system
+includeCRDs: true
+

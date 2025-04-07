@@ -1,0 +1,14 @@
+apiVersion: builtin
+kind: HelmChartInflationGenerator
+metadata:
+  name: &appName generic
+releaseName: generic-prd
+name: *appName
+version: 1.1.1
+repo: https://generic.github.io/generic
+namespace: generic
+includeCRDs: true
+
+# Add external CRDs here:
+apiVersions:
+  - generic.generic.com/v1

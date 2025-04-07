@@ -1,0 +1,17 @@
+apiVersion: builtin
+kind: HelmChartInflationGenerator
+metadata:
+  name: &appName generic
+valuesInline:
+  
+  controller:
+    replicas: 1
+
+  server:
+    replicas: 2
+
+
+
+
+
+

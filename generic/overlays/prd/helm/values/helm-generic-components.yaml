@@ -1,0 +1,23 @@
+apiVersion: builtin
+kind: HelmChartInflationGenerator
+metadata:
+  name: &appName generic
+valuesInline:
+  
+  controller:
+    replicas: 1
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
+
+  server:
+    replicas: 2
+    service:
+      type: NodePort
+      nodePortHttp: 30080 
+      nodePortHttps: 30443
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true

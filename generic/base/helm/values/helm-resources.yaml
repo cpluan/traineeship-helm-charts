@@ -1,0 +1,26 @@
+apiVersion: builtin
+kind: HelmChartInflationGenerator
+metadata:
+  name: &appName generic
+valuesInline:
+  # This kustomize patch should be used to set all the resource requests and limits of argo-cd
+  # https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#requests-and-limits
+  #
+  # Values:
+
+  controller:
+    resources:
+      requests: &controllerRequests
+        cpu: 684m
+        memory: 2434Mi
+      limits: 
+        <<: *controllerRequests
+        cpu: 1000m
+  server:
+    resources:
+      requests: &serverRequests
+        cpu: 14m
+        memory: 170Mi
+      limits:
+        <<: *serverRequests
+        cpu: 100m
