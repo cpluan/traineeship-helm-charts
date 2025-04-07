@@ -61,8 +61,8 @@ metadata:
   namespace: argocd
 subsets:
   - addresses:
-      - ip: 10.0.1.103  
-      - ip: 10.0.2.104  
+      - ip: 10.0.1.100  
+      - ip: 10.0.2.100  
     ports:
       - port: 1443
         protocol: TCP
