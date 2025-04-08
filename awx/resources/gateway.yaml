@@ -62,8 +62,28 @@ spec:
     port: 443
     protocol: TCP
     targetPort: 2443
+  selector: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: awx-nodeport-gw
+  namespace: awx
+spec:
+  type: NodePort
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 2080
+    nodePort: 32080  # você escolhe a porta
+  - name: https
+    port: 443
+    protocol: TCP
+    targetPort: 2443
+    nodePort: 32443
   selector:
-    gateway.networking.k8s.io/gateway-name: awx-gateway
+    kubernetes.io/hostname: dummy-node-selector # qualquer coisa que retorne pods vazios
 ---
 apiVersion: cilium.io/v2
 kind: CiliumEgressGatewayPolicy
