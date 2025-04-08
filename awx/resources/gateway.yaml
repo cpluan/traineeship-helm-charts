@@ -82,8 +82,7 @@ spec:
     protocol: TCP
     targetPort: 2443
     nodePort: 32443
-  selector:
-    kubernetes.io/hostname: dummy-node-selector # qualquer coisa que retorne pods vazios
+  selector: {}
 ---
 apiVersion: cilium.io/v2
 kind: CiliumEgressGatewayPolicy
