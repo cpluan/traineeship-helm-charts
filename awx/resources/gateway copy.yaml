@@ -42,30 +42,13 @@ spec:
       port: 80
 ---
 apiVersion: v1
-kind: Endpoints
-metadata:
-  name: awx-gateway-lb
-  namespace: awx
-subsets:
-  - addresses:
-      - ip: 10.0.4.101  
-      - ip: 10.0.4.102  
-    ports:
-      - name: http
-        port: 2080
-        protocol: TCP
-      - name: https
-        port: 2443
-        protocol: TCP
----
-apiVersion: v1
 kind: Service
 metadata:
   name: awx-gateway-lb
   namespace: awx
   annotations:
     service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
-    service.beta.kubernetes.io/aws-load-balancer-target-type: "ip"
+    service.beta.kubernetes.io/aws-load-balancer-target-type: "instance"
     service.beta.kubernetes.io/aws-load-balancer-scheme: "internet-facing"
 spec:
   type: LoadBalancer
@@ -79,7 +62,27 @@ spec:
     port: 443
     protocol: TCP
     targetPort: 2443
-  selector: {} 
+  selector: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: awx-nodeport-gw
+  namespace: awx
+spec:
+  type: NodePort
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 2080
+    nodePort: 32080  # você escolhe a porta
+  - name: https
+    port: 443
+    protocol: TCP
+    targetPort: 2443
+    nodePort: 32443
+  selector: {}
 ---
 apiVersion: cilium.io/v2
 kind: CiliumEgressGatewayPolicy
