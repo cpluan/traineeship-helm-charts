@@ -3,4 +3,4 @@ kind: HelmChartInflationGenerator
 metadata:
   name: &appName rancher
 valuesInline:
-  
+  hostname: rancher.my.org
