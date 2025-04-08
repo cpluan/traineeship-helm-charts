@@ -37,6 +37,19 @@ spec:
 
 ---
 apiVersion: v1
+kind: Endpoints
+metadata:
+  name: argocd-gateway-lb
+  namespace: argocd
+subsets:
+  - addresses:
+      - ip: 10.0.1.100  
+      - ip: 10.0.2.100  
+    ports:
+      - port: 1443
+        protocol: TCP
+---
+apiVersion: v1
 kind: Service
 metadata:
   name: argocd-gateway-lb
@@ -53,16 +66,3 @@ spec:
     protocol: TCP
     targetPort: 1443
   selector: {} 
----
-apiVersion: v1
-kind: Endpoints
-metadata:
-  name: argocd-gateway-lb
-  namespace: argocd
-subsets:
-  - addresses:
-      - ip: 10.0.1.100  
-      - ip: 10.0.2.100  
-    ports:
-      - port: 1443
-        protocol: TCP
