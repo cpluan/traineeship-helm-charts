@@ -496,7 +496,7 @@ metadata:
   name: rancher
 spec:
   rules:
-  - host: null
+  - host: rancher.my.org
     http:
       paths:
       - backend:
@@ -508,5 +508,5 @@ spec:
         pathType: ImplementationSpecific
   tls:
   - hosts:
-    - null
+    - rancher.my.org
     secretName: tls-rancher-ingress

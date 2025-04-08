@@ -4,3 +4,6 @@ metadata:
   name: &appName rancher
 valuesInline:
   hostname: rancher.my.org
+  # ingress:
+  #   tls: 
+  #     source: rancher
