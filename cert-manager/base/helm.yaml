@@ -17,3 +17,24 @@ valuesInline:
   global:
     leaderElection:
       namespace: cert-manager
+
+---
+apiVersion: builtin
+kind: HelmChartInflationGenerator
+metadata:
+  name: &appName duckdns-webhook
+releaseName: duckdns-webhook
+name: *appName
+version: 1.2.4
+repo: https://ebrianne.github.io/helm-charts
+namespace: cert-manager
+
+valuesInline:
+  crds:
+    enabled: true
+  extraArgs:
+    - --leader-election-namespace=cert-manager
+    - --enable-certificate-owner-ref=true
+  global:
+    leaderElection:
+      namespace: cert-manager

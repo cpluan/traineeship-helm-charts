@@ -1,23 +1,99 @@
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
 metadata:
-  name: awx-ingress
+  name: awx-gateway
+  namespace: awx
+spec:
+  gatewayClassName: cilium
+  listeners:
+  - protocol: HTTP
+    port: 2080
+    name: awx-http-gw
+    allowedRoutes:
+      namespaces:
+        from: All
+  - protocol: HTTPS
+    port: 2443
+    name: awx-https-gw
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - name: awx-tls-secret
+    allowedRoutes:
+      namespaces:
+        from: All
+
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: awx-http-route
+  namespace: awx
+spec:
+  parentRefs:
+  - name: awx-gateway
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
+    - name: awx-demo-service
+      port: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: awx-gateway-lb
   namespace: awx
   annotations:
-    kubernetes.io/ingress.class: alb
-    alb.ingress.kubernetes.io/scheme: internet-facing
-    alb.ingress.kubernetes.io/target-type: ip
-    alb.ingress.kubernetes.io/backend-protocol: HTTPS
-    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS": 443}]'
-    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:eu-west-1:290115371037:certificate/0e8593d0-6f91-487e-8278-97bbe66df6b0
+    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+    service.beta.kubernetes.io/aws-load-balancer-target-type: "ip"
+    service.beta.kubernetes.io/aws-load-balancer-scheme: "internet-facing"
 spec:
-  rules:
-  - http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: awx-demo-service
-            port:
-              number: 80
+  type: LoadBalancer
+  externalTrafficPolicy: Local
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 2080
+  - name: https
+    port: 443
+    protocol: TCP
+    targetPort: 2443
+  selector: {} 
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: awx-gateway-lb
+  namespace: awx
+subsets:
+  - addresses:
+      - ip: 10.0.4.101  
+      - ip: 10.0.4.102  
+    ports:
+      - name: http
+        port: 2080
+        protocol: TCP
+      - name: https
+        port: 2443
+        protocol: TCP
+---
+apiVersion: cilium.io/v2
+kind: CiliumEgressGatewayPolicy
+metadata:
+  name: egress-via-worker-pub-1
+spec:
+  selectors:
+    - podSelector:
+        matchLabels:
+          app.kubernetes.io/name: awx-demo-web
+  destinationCIDRs:
+    - 0.0.0.0/0
+  egressGateway:
+    nodeSelector:
+      matchLabels:
+        kubernetes.io/hostname: worker-pub-1
+    egressIP: 10.0.1.100
