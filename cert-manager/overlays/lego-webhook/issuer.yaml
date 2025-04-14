@@ -16,8 +16,9 @@ spec:
             config:
               # available provider refer to https://go-acme.github.io/lego/dns/#dns-providers
               provider: duckdns
-              envFrom: # use env from secret
-                secret:
-                  name: duckdns-secret
-                  namespace: 'cert-manager'
-              envs: { } 
+              # envFrom: # use env from secret
+              #   secret:
+              #     name: duckdns-secret
+              #     namespace: 'cert-manager'
+              envs: 
+                DUCKDNS_TOKEN: '431e374c-2cc3-4705-9e4b-82f75857ef7e'
