@@ -38,8 +38,10 @@ subsets:
     ports:
       - port: 1443
         protocol: TCP
+        name: ep-ls-tls
       - port: 1080
         protocol: TCP
+        name: ep-ls
 ---
 apiVersion: v1
 kind: Service
@@ -57,7 +59,9 @@ spec:
   - port: 443
     protocol: TCP
     targetPort: 1443
+    name: nlb-ls-tls
   - port: 80
     protocol: TCP
     targetPort: 1080
+    name: nlb-ls
   selector: {} 
