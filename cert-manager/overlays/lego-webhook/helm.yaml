@@ -4,7 +4,7 @@ metadata:
   name: &appName cert-manager-lego-webhook
 releaseName: cert-manager-lego-webhook
 name: *appName
-version: v1.16.2
+version: 1.2.0
 repo: https://yxwuxuanl.github.io/cert-manager-lego-webhook/
 namespace: cert-manager
 
