@@ -6,7 +6,7 @@ spec:
   acme:
     privateKeySecretRef:
       name: duckdns-duckdns-issuer
-    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    server: https://acme-v02.api.letsencrypt.org/directory
     email: 'luanpcrisostomo@gmail.com' 
     solvers:
       - dns01:
