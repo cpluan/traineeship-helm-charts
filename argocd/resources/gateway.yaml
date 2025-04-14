@@ -1,27 +1,3 @@
-apiVersion: gateway.networking.k8s.io/v1
-kind: Gateway
-metadata:
-  name: argocd-gateway
-  namespace: argocd
-spec:
-  gatewayClassName: cilium
-  listeners:
-  # - protocol: HTTP
-  #   port: 1080
-  #   name: web-gw
-  #   allowedRoutes:
-  #     namespaces:
-  #       from: All
-  - protocol: TLS
-    port: 1443
-    name: web-gw-tls
-    tls:
-      mode: Passthrough
-    allowedRoutes:
-      namespaces:
-        from: All
-        
----
 apiVersion: gateway.networking.k8s.io/v1alpha2
 kind: TLSRoute
 metadata:
@@ -29,40 +5,13 @@ metadata:
   namespace: argocd
 spec:
   parentRefs:
-    - name: argocd-gateway
+    - name: cluster-gw
   rules:
-  - backendRefs:
+  - matches:
+      - path:
+          type: PathPrefix
+          value: /argocd
+    backendRefs:
       - name: argocd-prd-server  
         port: 30443
 
----
-apiVersion: v1
-kind: Endpoints
-metadata:
-  name: argocd-gateway-lb
-  namespace: argocd
-subsets:
-  - addresses:
-      - ip: 10.0.1.100  
-      - ip: 10.0.2.100  
-    ports:
-      - port: 1443
-        protocol: TCP
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: argocd-gateway-lb
-  namespace: argocd
-  annotations:
-    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
-    service.beta.kubernetes.io/aws-load-balancer-target-type: "ip"
-    service.beta.kubernetes.io/aws-load-balancer-scheme: "internet-facing"
-spec:
-  type: LoadBalancer
-  externalTrafficPolicy: Local
-  ports:
-  - port: 443
-    protocol: TCP
-    targetPort: 1443
-  selector: {} 
