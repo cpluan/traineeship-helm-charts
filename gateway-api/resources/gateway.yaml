@@ -8,15 +8,20 @@ spec:
   listeners:
   - protocol: HTTP
     port: 1080
+    hostname: "*.cluster-hybrid.duckdns.org"
     name: web-ls
     allowedRoutes:
       namespaces:
         from: All
   - protocol: TLS
     port: 1443
+    hostname: "*.cluster-hybrid.duckdns.org"
     name: web-ls-tls
     tls:
-      mode: Passthrough
+      mode: Terminate
+      certificateRefs:
+        - kind: Secret
+          name: cluster-hybrid.duckdns.org-tls
     allowedRoutes:
       namespaces:
         from: All

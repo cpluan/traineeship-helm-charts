@@ -1,0 +1,23 @@
+kind: ClusterIssuer
+apiVersion: cert-manager.io/v1
+metadata:
+  name: duckdns
+spec:
+  acme:
+    privateKeySecretRef:
+      name: duckdns-duckdns-issuer
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: 'luanpcrisostomo@gmail.com' 
+    solvers:
+      - dns01:
+          webhook:
+            groupName: lego.dns-solver
+            solverName: lego-solver
+            config:
+              # available provider refer to https://go-acme.github.io/lego/dns/#dns-providers
+              provider: duckdns
+              envFrom: # use env from secret
+                secret:
+                  name: duckdns-secret
+                  namespace: 'cert-manager'
+              envs: { } 

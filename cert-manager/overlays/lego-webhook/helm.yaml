@@ -1,0 +1,17 @@
+apiVersion: builtin
+kind: HelmChartInflationGenerator
+metadata:
+  name: &appName cert-manager-lego-webhook
+releaseName: cert-manager-lego-webhook
+name: *appName
+version: v1.16.2
+repo: https://yxwuxuanl.github.io/cert-manager-lego-webhook/
+namespace: cert-manager
+
+valuesInline:
+  crds:
+    enabled: true
+  certManager:
+    namespace: 'cert-manager'
+    serviceAccountName: cert-manager
+
