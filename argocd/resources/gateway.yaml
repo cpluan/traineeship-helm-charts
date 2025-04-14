@@ -6,6 +6,7 @@ metadata:
 spec:
   parentRefs:
     - name: cluster-gw
+      namespace: gateways
   rules:
   - matches:
       - path:
