@@ -11,17 +11,25 @@ valuesInline:
     limits:
       cpu: 1
       memory: 2Gi
-      
-
-  global:
+  
+  controller:
     resources:
-      requests: &globalRequests
-        cpu: 500m
-        memory: 1Gi
+      requests:
+        cpu: 100m
+        memory: 256Mi
       limits:
-        <<: *globalRequests
-        cpu: 1
-        memory: 2Gi
+        cpu: 500m
+        memory: 512Mi
+
+  agent:
+    resources:
+      requests:
+        cpu: 50m
+        memory: 128Mi
+      limits:
+        cpu: 200m
+        memory: 256Mi
+
 
   rancherWebhook:
     resources:
