@@ -1,0 +1,96 @@
+apiVersion: builtin
+kind: HelmChartInflationGenerator
+metadata:
+  name: &appName rancher
+valuesInline:
+
+  global:
+    resources:
+      requests: &globalRequests
+        cpu: 500m
+        memory: 1Gi
+      limits:
+        <<: *globalRequests
+        cpu: 1
+        memory: 2Gi
+
+  rancherWebhook:
+    resources:
+      requests: &webhookRequests
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        <<: *webhookRequests
+        cpu: 200m
+
+  fleet:
+    controller:
+      resources:
+        requests: &fleetControllerRequests
+          cpu: 200m
+          memory: 256Mi
+        limits:
+          <<: *fleetControllerRequests
+          cpu: 500m
+
+    agent:
+      resources:
+        requests: &fleetAgentRequests
+          cpu: 100m
+          memory: 128Mi
+        limits:
+          <<: *fleetAgentRequests
+          cpu: 200m
+
+    gitjob:
+      resources:
+        requests: &fleetGitJobRequests
+          cpu: 100m
+          memory: 128Mi
+        limits:
+          <<: *fleetGitJobRequests
+          cpu: 200m
+
+  # Cluster API (CAPI) Controller Manager
+  clusterProvisioner:
+    resources:
+      requests: &capiRequests
+        cpu: 500m
+        memory: 600Mi
+      limits:
+        <<: *capiRequests
+        cpu: 1
+        memory: 1200Mi
+
+  certmanager:
+    cainjector:
+      resources:
+        requests: &cainjectorRequests
+          cpu: 50m
+          memory: 64Mi
+        limits:
+          <<: *cainjectorRequests
+          cpu: 100m
+          memory: 128Mi
+
+    webhook:
+      resources:
+        requests: &certWebhookRequests
+          cpu: 50m
+          memory: 64Mi
+        limits:
+          <<: *certWebhookRequests
+          cpu: 100m
+          memory: 128Mi
+
+    manager:
+      resources:
+        requests: &certManagerRequests
+          cpu: 100m
+          memory: 128Mi
+        limits:
+          <<: *certManagerRequests
+          cpu: 200m
+          memory: 256Mi
+
+

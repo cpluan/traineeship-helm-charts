@@ -5,3 +5,4 @@ resources:
 patches:
   - path: values/helm.yaml
   - path: values/helm-components.yaml
+  - path: values/helm-resources.yaml
