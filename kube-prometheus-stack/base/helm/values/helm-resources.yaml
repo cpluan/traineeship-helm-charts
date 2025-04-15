@@ -93,10 +93,10 @@ valuesInline:
       resources:
         requests:
           cpu: 50m
-          memory: 256Mi
+          memory: 512Mi
         limits:
           cpu: 200m
-          memory: 256Mi
+          memory: 512Mi
     agent:
       resources:
         requests:
