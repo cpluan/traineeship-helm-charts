@@ -36,7 +36,7 @@ valuesInline:
         cpu: 300m
 
   # Node Exporter
-  nodeExporter:
+  prometheus-node-exporter:
     resources:
       requests: &nodeExporterRequests
         cpu: 50m
@@ -46,7 +46,7 @@ valuesInline:
         cpu: 150m
 
   # Kube State Metrics
-  kubeStateMetrics:
+  kube-state-metrics:
     resources:
       requests: &kubeStateMetricsRequests
         cpu: 50m
@@ -55,7 +55,7 @@ valuesInline:
         <<: *kubeStateMetricsRequests
         cpu: 200m
 
-  # Configurações adicionais
+  # Regras de alerta personalizadas
   additionalPrometheusRulesMap:
     custom.rules:
       groups:

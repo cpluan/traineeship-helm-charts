@@ -1,0 +1,41 @@
+apiVersion: builtin
+kind: HelmChartInflationGenerator
+metadata:
+  name: &appName aws-ebs-csi-driver
+name: *appName
+repo: https://kubernetes-sigs.github.io/aws-ebs-csi-driver
+version: 2.41.0
+releaseName: aws-ebs-csi-driver
+namespace: kube-system
+valuesInline:
+  node:
+    resources:
+      requests: &nodeRequests
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        <<: *nodeRequests
+        cpu: 200m
+        memory: 256Mi
+
+  controller:
+    resources:
+      requests: &controllerRequests
+        cpu: 200m
+        memory: 256Mi
+      limits:
+        <<: *controllerRequests
+        cpu: 500m
+        memory: 512Mi
+
+  snapshotController:
+    resources:
+      requests: &snapshotRequests
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        <<: *snapshotRequests
+        cpu: 200m
+        memory: 256Mi
+
+  storageClasses: []
