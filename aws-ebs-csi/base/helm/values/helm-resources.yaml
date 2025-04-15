@@ -11,8 +11,8 @@ valuesInline:
   node:
     resources:
       requests: &nodeRequests
-        cpu: 100m
-        memory: 128Mi
+        cpu: 50m
+        memory: 256Mi
       limits:
         <<: *nodeRequests
         cpu: 200m
@@ -21,12 +21,12 @@ valuesInline:
   controller:
     resources:
       requests: &controllerRequests
-        cpu: 100m
-        memory: 128Mi
+        cpu: 50m
+        memory: 256Mi
       limits:
         <<: *controllerRequests
-        cpu: 500m
-        memory: 512Mi
+        cpu: 200m
+        memory: 256Mi
 
 
   storageClasses: []
