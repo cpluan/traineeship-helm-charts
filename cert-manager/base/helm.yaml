@@ -43,11 +43,5 @@ valuesInline:
         cpu: 200m
         memory: 256Mi
 
-  certManager:
-    resources:
-      requests: *certManagerRequests
-      limits:
-        <<: *certManagerRequests
-        cpu: 200m
-        memory: 256Mi
+
 
