@@ -8,11 +8,11 @@ valuesInline:
     prometheusSpec:
       resources:
         requests:
-          cpu: 100m
-          memory: 256Mi
+          cpu: 50m
+          memory: 200Mi
         limits:
-          cpu: 500m
-          memory: 1Gi
+          cpu: 150m
+          memory: 200Mi
 
 
   # Alertmanager
@@ -20,22 +20,22 @@ valuesInline:
     alertmanagerSpec:
       resources:
         requests:
-          cpu: 100m
-          memory: 256Mi
+          cpu: 50m
+          memory: 200Mi
         limits:
-          cpu: 300m
-          memory: 512Mi
+          cpu: 150m
+          memory: 200Mi
 
 
   # Grafana
   grafana:
     resources:
       requests:
-        cpu: 100m
-        memory: 256Mi
+        cpu: 50m
+        memory: 200Mi
       limits:
-        cpu: 300m
-        memory: 512Mi
+        cpu: 150m
+        memory: 200Mi
 
 
   # Node Exporter
@@ -43,7 +43,7 @@ valuesInline:
     resources:
       requests:
         cpu: 50m
-        memory: 100Mi
+        memory: 200Mi
       limits:
         cpu: 150m
         memory: 200Mi
@@ -54,30 +54,65 @@ valuesInline:
     resources:
       requests:
         cpu: 50m
-        memory: 128Mi
+        memory: 200Mi
       limits:
-        cpu: 200m
-        memory: 256Mi
+        cpu: 150m
+        memory: 200Mi
 
   prometheusOperator:
     resources:
       requests:
-        cpu: 100m
+        cpu: 50m
         memory: 200Mi
       limits:
-        cpu: 200m
-        memory: 400Mi
+        cpu: 150m
+        memory: 200Mi
 
   prometheusConfigReloader:
     resources:
       requests:
         cpu: 50m
-        memory: 50Mi
+        memory: 100Mi
       limits:
-        cpu: 100m
+        cpu: 150m
         memory: 100Mi
 
+  # Recursos do webhook
+  webhook:
+    resources:
+      requests:
+        cpu: 50m
+        memory: 256Mi
+      limits:
+        cpu: 200m
+        memory: 256Mi
 
+   # Recursos do fleet (controller, agent, gitjob)
+  fleet:
+    controller:
+      resources:
+        requests:
+          cpu: 50m
+          memory: 256Mi
+        limits:
+          cpu: 200m
+          memory: 256Mi
+    agent:
+      resources:
+        requests:
+          cpu: 50m
+          memory: 256Mi
+        limits:
+          cpu: 200m
+          memory: 256Mi
+    gitjob:
+      resources:
+        requests:
+          cpu: 50m
+          memory: 256Mi
+        limits:
+          cpu: 200m
+          memory: 256Mi
 
   # Regras de alerta personalizadas
   additionalPrometheusRulesMap:

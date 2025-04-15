@@ -6,81 +6,81 @@ valuesInline:
   
   resources:
     requests:
-      cpu: 100m
-      memory: 512Mi
+      cpu: 50m
+      memory: 1Gi
     limits:
-      cpu: 200m
+      cpu: 150m
       memory: 1Gi
   
   controller:
     resources:
       requests:
-        cpu: 100m
-        memory: 256Mi
+        cpu: 50m
+        memory: 512Mi
       limits:
-        cpu: 500m
+        cpu: 150m
         memory: 512Mi
 
   agent:
     resources:
       requests:
         cpu: 50m
-        memory: 128Mi
+        memory: 256Mi
       limits:
-        cpu: 200m
+        cpu: 150m
         memory: 256Mi
 
 
   rancherWebhook:
     resources:
       requests: &webhookRequests
-        cpu: 100m
+        cpu: 50m
         memory: 256Mi
       limits:
         <<: *webhookRequests
-        cpu: 200m
+        cpu: 150m
 
 
   # Cluster API (CAPI) Controller Manager
   clusterProvisioner:
     resources:
       requests: &capiRequests
-        cpu: 100m
+        cpu: 50m
         memory: 200Mi
       limits:
         <<: *capiRequests
-        cpu: 1
-        memory: 1200Mi
+        cpu: 150m
+        memory: 200Mi
 
   certmanager:
     cainjector:
       resources:
         requests: &cainjectorRequests
           cpu: 50m
-          memory: 64Mi
+          memory: 128Mi
         limits:
           <<: *cainjectorRequests
-          cpu: 100m
+          cpu: 150m
           memory: 128Mi
 
     webhook:
       resources:
         requests: &certWebhookRequests
           cpu: 50m
-          memory: 64Mi
+          memory: 128Mi
         limits:
           <<: *certWebhookRequests
-          cpu: 100m
+          cpu: 150m
           memory: 128Mi
 
     manager:
       resources:
         requests: &certManagerRequests
-          cpu: 100m
-          memory: 128Mi
+          cpu: 50m
+          memory: 256Mi
         limits:
           <<: *certManagerRequests
-          cpu: 200m
+          cpu: 150m
           memory: 256Mi
 
 
