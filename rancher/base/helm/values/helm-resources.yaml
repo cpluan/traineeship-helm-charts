@@ -6,11 +6,11 @@ valuesInline:
   
   resources:
     requests:
-      cpu: 500m
-      memory: 1Gi
+      cpu: 100m
+      memory: 512Mi
     limits:
-      cpu: 1
-      memory: 2Gi
+      cpu: 200m
+      memory: 1Gi
   
   controller:
     resources:
@@ -45,8 +45,8 @@ valuesInline:
   clusterProvisioner:
     resources:
       requests: &capiRequests
-        cpu: 500m
-        memory: 600Mi
+        cpu: 100m
+        memory: 200Mi
       limits:
         <<: *capiRequests
         cpu: 1
