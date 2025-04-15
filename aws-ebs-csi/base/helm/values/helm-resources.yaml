@@ -15,7 +15,7 @@ valuesInline:
         memory: 256Mi
       limits:
         <<: *nodeRequests
-        cpu: 300m
+        cpu: 500m
         memory: 256Mi
 
   controller:
@@ -25,7 +25,7 @@ valuesInline:
         memory: 256Mi
       limits:
         <<: *controllerRequests
-        cpu: 300m
+        cpu: 500m
         memory: 256Mi
 
 
