@@ -28,14 +28,5 @@ valuesInline:
         cpu: 500m
         memory: 512Mi
 
-  snapshotController:
-    resources:
-      requests: &snapshotRequests
-        cpu: 100m
-        memory: 128Mi
-      limits:
-        <<: *snapshotRequests
-        cpu: 200m
-        memory: 256Mi
 
   storageClasses: []
