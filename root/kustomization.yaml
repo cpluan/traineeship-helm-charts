@@ -12,6 +12,6 @@ resources:
   # - applications/local-path/
   - applications/awx/             #7
   - applications/rancher          #8
-
+  - applications/gateway-elb/     #9
 
 
