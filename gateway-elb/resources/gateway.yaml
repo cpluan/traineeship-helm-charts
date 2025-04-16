@@ -22,6 +22,7 @@ spec:
       certificateRefs:
         - kind: Secret
           name: cluster-hybrid.ddnsfree.com-tls
+          namespace: cert-manager
     allowedRoutes:
       namespaces:
         from: All
