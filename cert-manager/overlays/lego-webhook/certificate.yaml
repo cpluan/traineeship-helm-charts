@@ -1,13 +1,13 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: cluster-hybrid.duckdns.org
+  name: cluster-hybrid.ddnsfree.com
 spec:
   issuerRef:
-    name: duckdns
+    name: dynu
     kind: ClusterIssuer
-  secretName: cluster-hybrid.duckdns.org-tls
-  commonName: cluster-hybrid.duckdns.org
+  secretName: cluster-hybrid.ddnsfree.com-tls
+  commonName: cluster-hybrid.ddnsfree.com
   dnsNames:
-    - cluster-hybrid.duckdns.org
-    - '*.cluster-hybrid.duckdns.org'
+    - cluster-hybrid.ddnsfree.com
+    - '*.cluster-hybrid.ddnsfree.com'

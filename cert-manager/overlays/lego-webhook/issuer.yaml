@@ -1,11 +1,11 @@
 kind: ClusterIssuer
 apiVersion: cert-manager.io/v1
 metadata:
-  name: duckdns
+  name: dynu
 spec:
   acme:
     privateKeySecretRef:
-      name: duckdns-duckdns-issuer
+      name: dynu-dynu-issuer
     server: https://acme-staging-v02.api.letsencrypt.org/directory
     email: 'luanpcrisostomo@gmail.com' 
     solvers:
@@ -15,11 +15,11 @@ spec:
             solverName: lego-solver
             config:
               # available provider refer to https://go-acme.github.io/lego/dns/#dns-providers
-              provider: duckdns
+              provider: dynu
               disablePropagationCheck: true
               envFrom: # use env from secret
                 secret:
-                  name: duckdns-secret
+                  name: dynu-secret
                   namespace: 'cert-manager'
               # envs: 
               #   DUCKDNS_TOKEN: '431e374c-2cc3-4705-9e4b-82f75857ef7e'

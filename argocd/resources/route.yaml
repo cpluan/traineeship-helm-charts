@@ -8,7 +8,7 @@ spec:
   - name: cluster-gw
     namespace: gateways
   hostnames:
-    - argocd.cluster-hybrid.duckdns.org
+    - argocd.cluster-hybrid.ddnsfree.com
   rules:
   - matches:
     - path:
