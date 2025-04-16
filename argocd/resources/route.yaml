@@ -45,7 +45,7 @@ spec:
         value: /
     backendRefs:
     - name: argocd-prd-server 
-      port: 30080
+      port: 3443
 
 ---
 apiVersion: v1
