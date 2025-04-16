@@ -19,7 +19,7 @@ valuesInline:
     service:
       type: NodePort
       nodePortHttp: 30080 
-      nodePortHttps: 30443
+#      nodePortHttps: 30443
     metrics:
       enabled: true
       serviceMonitor:

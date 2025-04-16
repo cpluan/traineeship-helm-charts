@@ -46,26 +46,6 @@ spec:
     backendRefs:
     - name: argocd-prd-server 
       port: 30080
----
-apiVersion: gateway.networking.k8s.io/v1alpha2
-kind: TLSRoute
-metadata:
-  name: argocd-route-tls
-  namespace: argocd
-spec:
-  parentRefs:
-    - name: argocd-gateway
-      namespace: argocd
-  hostnames:
-    - argocd.cluster-hybrid.ddnsfree.com
-  rules:
-  - matches:
-      - path:
-          type: PathPrefix
-          value: /
-    backendRefs:
-      - name: argocd-prd-server  
-        port: 30443
 
 ---
 apiVersion: v1
