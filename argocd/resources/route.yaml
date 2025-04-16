@@ -15,7 +15,7 @@ spec:
   #       from: All
   - protocol: TLS
     port: 1443
-    # hostname: "argocd.cluster-hybrid.ddnsfree.com"
+    hostname: "*.cluster-hybrid.ddnsfree.com"
     name: web-gw-tls
     tls:
       mode: Terminate
@@ -36,8 +36,8 @@ spec:
   parentRefs:
   - name: argocd-gateway
     namespace: argocd
-  # hostnames:
-  #   - argocd.cluster-hybrid.ddnsfree.com
+  hostnames:
+    - argocd.cluster-hybrid.ddnsfree.com
   rules:
   - matches:
     - path:

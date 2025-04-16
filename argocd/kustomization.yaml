@@ -3,5 +3,6 @@ kind: Kustomization
 
 resources:
   - resources/argocd-prd-chart.yaml
+  - resources/certificate.yaml
   - resources/route.yaml
 
