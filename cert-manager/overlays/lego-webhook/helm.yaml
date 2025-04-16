@@ -9,6 +9,8 @@ repo: https://yxwuxuanl.github.io/cert-manager-lego-webhook/
 namespace: cert-manager
 
 valuesInline:
+  webhook:
+    extraArgs: ["--dns.propagation-disable-ans"]
   crds:
     enabled: true
   certManager:
