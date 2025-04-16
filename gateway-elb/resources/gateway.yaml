@@ -13,18 +13,18 @@ spec:
     allowedRoutes:
       namespaces:
         from: All
-  - protocol: TLS
-    port: 1443
-    hostname: "*.cluster-hybrid.duckdns.org"
-    name: web-ls-tls
-    tls:
-      mode: Terminate
-      certificateRefs:
-        - kind: Secret
-          name: cluster-hybrid.duckdns.org-tls
-    allowedRoutes:
-      namespaces:
-        from: All
+  # - protocol: TLS
+  #   port: 1443
+  #   hostname: "*.cluster-hybrid.duckdns.org"
+  #   name: web-ls-tls
+  #   tls:
+  #     mode: Terminate
+  #     certificateRefs:
+  #       - kind: Secret
+  #         name: cluster-hybrid.duckdns.org-tls
+  #   allowedRoutes:
+  #     namespaces:
+  #       from: All
 ---
 apiVersion: v1
 kind: Endpoints
