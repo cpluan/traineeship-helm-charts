@@ -6,6 +6,7 @@ metadata:
 spec:
   parentRefs:
   - name: cluster-gw
+    namespace: gateways
   hostnames:
     - awx.cluster-hybrid.duckdns.org
   rules:
