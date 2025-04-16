@@ -16,6 +16,7 @@ spec:
             config:
               # available provider refer to https://go-acme.github.io/lego/dns/#dns-providers
               provider: duckdns
+              disablePropagationCheck: true
               envFrom: # use env from secret
                 secret:
                   name: duckdns-secret
