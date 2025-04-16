@@ -11,6 +11,10 @@ valuesInline:
     logging:
       format: text
       level: debug
+  
+  server:
+    extraArgs:
+      - --insecure
 
   configs:
     cm: # ArgoCD ConfigMap contents:
