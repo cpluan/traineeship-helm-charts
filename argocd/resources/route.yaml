@@ -2,7 +2,7 @@ apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: argocd-route
-  namespace: argocd
+  namespace: gateways
 spec:
   parentRefs:
   - name: cluster-gw
@@ -15,7 +15,8 @@ spec:
         type: PathPrefix
         value: /
     backendRefs:
-    - name: argocd-prd-server 
+    - name: argocd-prd-server
+      namespace: argocd
       port: 30080
 
 
