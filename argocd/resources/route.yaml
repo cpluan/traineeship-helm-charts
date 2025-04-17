@@ -8,12 +8,6 @@ spec:
   
   listeners:
   - protocol: HTTP
-    name: healthz-ls
-    port: 30033
-    allowedRoutes:
-      namespaces:
-        from: Same
-  - protocol: HTTP
     port: 1080
     name: web-gw
     allowedRoutes:
@@ -31,6 +25,12 @@ spec:
     allowedRoutes:
       namespaces:
         from: All
+  - protocol: HTTP
+    name: healthz-ls
+    port: 30033
+    allowedRoutes:
+      namespaces:
+        from: Same
         
 ---
 apiVersion: gateway.networking.k8s.io/v1
