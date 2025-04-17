@@ -13,13 +13,13 @@ spec:
     allowedRoutes:
       namespaces:
         from: Same
-  - protocol: HTTP
-    name: web-ls
-    port: 1080
-    hostname: "*.cluster-hybrid.ddnsfree.com"
-    allowedRoutes:
-      namespaces:
-        from: All
+  # - protocol: HTTP
+  #   name: web-ls
+  #   port: 1080
+  #   hostname: "*.cluster-hybrid.ddnsfree.com"
+  #   allowedRoutes:
+  #     namespaces:
+  #       from: All
   - protocol: TLS
     name: web-ls-tls
     port: 1443
@@ -34,29 +34,29 @@ spec:
         from: All
         
 ---
-apiVersion: gateway.networking.k8s.io/v1
-kind: HTTPRoute
-metadata:
-  name: redirect-http-to-https
-  namespace: argocd
-spec:
-  parentRefs:
-    - name: argocd-gateway
-      namespace: argocd
-      sectionName: web-ls
-  hostnames:
-    - "argocd.cluster-hybrid.ddnsfree.com"
-  rules:
-    - matches:
-        - path:
-            type: PathPrefix
-            value: /
-      filters:
-        - type: RequestRedirect
-          requestRedirect:
-            scheme: https
-            port: 443
-            statusCode: 301
+# apiVersion: gateway.networking.k8s.io/v1
+# kind: HTTPRoute
+# metadata:
+#   name: redirect-http-to-https
+#   namespace: argocd
+# spec:
+#   parentRefs:
+#     - name: argocd-gateway
+#       namespace: argocd
+#       sectionName: web-ls
+#   hostnames:
+#     - "argocd.cluster-hybrid.ddnsfree.com"
+#   rules:
+#     - matches:
+#         - path:
+#             type: PathPrefix
+#             value: /
+#       filters:
+#         - type: RequestRedirect
+#           requestRedirect:
+#             scheme: https
+#             port: 443
+#             statusCode: 301
 ---
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
@@ -121,9 +121,9 @@ subsets:
       - port: 1443
         protocol: TCP
         name: ep-ls-tls
-      - port: 1080
-        protocol: TCP
-        name: ep-ls
+      # - port: 1080
+      #   protocol: TCP
+      #   name: ep-ls
       - port: 30033
         protocol: TCP
         name: ep-healthz
@@ -148,8 +148,8 @@ spec:
     protocol: TCP
     targetPort: 1443
     name: nlb-ls-tls
-  - port: 80
-    protocol: TCP
-    targetPort: 1080
-    name: nlb-ls
+  # - port: 80
+  #   protocol: TCP
+  #   targetPort: 1080
+  #   name: nlb-ls
   selector: {} 
