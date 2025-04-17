@@ -36,6 +36,7 @@ spec:
   parentRefs:
   - name: argocd-gateway
     namespace: argocd
+    # sectionName: web-gw-tls
   hostnames:
     - argocd.cluster-hybrid.ddnsfree.com
   rules:
@@ -60,6 +61,7 @@ subsets:
     ports:
       - port: 1443
         protocol: TCP
+        name: ep-ls-tls
 ---
 apiVersion: v1
 kind: Service
@@ -68,13 +70,60 @@ metadata:
   namespace: argocd
   annotations:
     service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
-    service.beta.kubernetes.io/aws-load-balancer-target-type: "ip"
+    service.beta.kubernetes.io/aws-load-balancer-target-type: "instance"
     service.beta.kubernetes.io/aws-load-balancer-scheme: "internet-facing"
+    # service.beta.kubernetes.io/aws-load-balancer-healthcheck-port: "30033"
+    # service.beta.kubernetes.io/aws-load-balancer-healthcheck-path: /healthz
 spec:
   type: LoadBalancer
-  externalTrafficPolicy: Local
+  externalTrafficPolicy: Cluster
   ports:
   - port: 443
     protocol: TCP
     targetPort: 1443
+    name: https
+  # - port: 80
+  #   protocol: TCP
+  #   targetPort: 1080
+  #   name: http
   selector: {} 
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: healthz-responder
+  namespace: argocd
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: healthz-responder
+  template:
+    metadata:
+      labels:
+        app: healthz-responder
+    spec:
+      containers:
+        - name: echo
+          image: hashicorp/http-echo
+          args:
+            - "-listen=:80"
+            - "-text=ok"
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: healthz-svc
+  namespace: argocd
+spec:
+  type: NodePort
+  selector:
+    app: healthz-responder
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+      nodePort: 30033
+
