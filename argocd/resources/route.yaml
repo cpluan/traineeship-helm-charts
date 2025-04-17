@@ -77,7 +77,8 @@ spec:
   type: LoadBalancer
   externalTrafficPolicy: Local
   ports:
-  - port: 443
+  - name: https
+    port: 443
     protocol: TCP
     targetPort: 1443
   selector: {} 
