@@ -37,7 +37,6 @@ spec:
   parentRefs:
     - name: argocd-gateway
       namespace: argocd
-      sectionName: web-ls
   hostnames:
     - "argocd.cluster-hybrid.ddnsfree.com"
   rules:
@@ -57,7 +56,6 @@ kind: HTTPRoute
 metadata:
   name: argocd-route
   namespace: argocd
-  sectionName: web-ls-tls
 spec:
   parentRefs:
   - name: argocd-gateway
