@@ -8,16 +8,22 @@ spec:
   
   listeners:
   - protocol: HTTP
+    name: healthz-ls
+    port: 10080
+    allowedRoutes:
+      namespaces:
+        from: Same
+  - protocol: HTTP
+    name: web-ls
     port: 1080
     hostname: "*.cluster-hybrid.ddnsfree.com"
-    name: web-ls
     allowedRoutes:
       namespaces:
         from: All
   - protocol: TLS
+    name: web-ls-tls
     port: 1443
     hostname: "*.cluster-hybrid.ddnsfree.com"
-    name: web-ls-tls
     tls:
       mode: Terminate
       certificateRefs:
@@ -37,6 +43,7 @@ spec:
   parentRefs:
     - name: argocd-gateway
       namespace: argocd
+      sectionName: web-ls
   hostnames:
     - "argocd.cluster-hybrid.ddnsfree.com"
   rules:
@@ -60,9 +67,7 @@ spec:
   parentRefs:
     - name: argocd-gateway
       namespace: argocd
-      sectionName: web-ls
-  hostnames:
-    - "cluster-hybrid.ddnsfree.com"
+      sectionName: healthz-ls
   rules:
     - matches:
         - path:
@@ -86,6 +91,7 @@ spec:
   parentRefs:
   - name: argocd-gateway
     namespace: argocd
+    sectionName: web-ls-tls
   hostnames:
     - argocd.cluster-hybrid.ddnsfree.com
   rules:
