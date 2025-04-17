@@ -113,7 +113,9 @@ spec:
   - port: 443
     protocol: TCP
     targetPort: 1443
+    name: https
   - port: 30033
     protocol: TCP
     targetPort: 30033
+    name: health
   selector: {} 
