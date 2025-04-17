@@ -11,7 +11,7 @@ spec:
   source:
     repoURL: 'https://github.com/cpluan/traineeship-helm-charts.git'
     targetRevision: root-applications
-    path: cert-manager/overlays/lego-webhook
+    path: cert-manager/overlays/lego-webhook-prd
   destination:
     server: https://kubernetes.default.svc
     namespace: cert-manager
