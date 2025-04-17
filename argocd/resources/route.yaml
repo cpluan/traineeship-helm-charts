@@ -10,6 +10,7 @@ spec:
   - protocol: HTTP
     port: 1080
     name: web-ls
+    hostname: "*.cluster-hybrid.ddnsfree.com"
     allowedRoutes:
       namespaces:
         from: All
