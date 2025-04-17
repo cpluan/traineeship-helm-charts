@@ -113,4 +113,7 @@ spec:
   - port: 443
     protocol: TCP
     targetPort: 1443
+  - port: 30033
+    protocol: TCP
+    targetPort: 30033
   selector: {} 
