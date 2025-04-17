@@ -95,7 +95,6 @@ spec:
   parentRefs:
   - name: argocd-gateway
     namespace: argocd
-    sectionName: web-ls-tls
   hostnames:
     - argocd.cluster-hybrid.ddnsfree.com
   rules:
