@@ -80,7 +80,6 @@ spec:
   - port: 443
     protocol: TCP
     targetPort: 1443
-    name: "https"
   selector: {} 
 
 ---
