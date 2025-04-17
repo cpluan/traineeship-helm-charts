@@ -12,11 +12,10 @@ valuesInline:
       format: text
       level: debug
   
-  server:
-    extraArgs:
-      - --insecure
-
   configs:
+    params:
+      server.insecure: true
+      
     cm: # ArgoCD ConfigMap contents:
       create: true
 
