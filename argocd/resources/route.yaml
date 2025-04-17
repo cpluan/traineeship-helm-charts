@@ -9,7 +9,7 @@ spec:
   listeners:
   - protocol: HTTP
     name: healthz-ls
-    port: 1888
+    port: 1833
     allowedRoutes:
       namespaces:
         from: Same
@@ -125,7 +125,7 @@ subsets:
       - port: 1080
         protocol: TCP
         name: ep-ls
-      - port: 1888
+      - port: 1833
         protocol: TCP
         name: ep-healthz
 ---
@@ -139,7 +139,7 @@ metadata:
     service.beta.kubernetes.io/aws-load-balancer-target-type: "ip"
     service.beta.kubernetes.io/aws-load-balancer-scheme: "internet-facing"
     service.beta.kubernetes.io/aws-load-balancer-healthcheck-protocol: http
-    service.beta.kubernetes.io/aws-load-balancer-healthcheck-port: "1888"
+    service.beta.kubernetes.io/aws-load-balancer-healthcheck-port: "1833"
     service.beta.kubernetes.io/aws-load-balancer-healthcheck-path: /healthz
 spec:
   type: LoadBalancer
