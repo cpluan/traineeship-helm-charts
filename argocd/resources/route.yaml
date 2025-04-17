@@ -76,6 +76,7 @@ spec:
             scheme: https
             hostname: argocd.cluster-hybrid.ddnsfree.com
             path:
+              type: ReplaceFullPath
               replaceFullPath: /
 
 ---
