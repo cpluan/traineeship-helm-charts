@@ -54,7 +54,7 @@ metadata:
     service.beta.kubernetes.io/aws-load-balancer-scheme: "internet-facing"
 spec:
   type: LoadBalancer
-  externalTrafficPolicy: Local
+  externalTrafficPolicy: Cluster
   ports:
   - port: 443
     protocol: TCP
@@ -65,4 +65,3 @@ spec:
     targetPort: 1080
     name: nlb-ls
   selector: {}  
-  
