@@ -64,4 +64,5 @@ spec:
     protocol: TCP
     targetPort: 1080
     name: nlb-ls
-  selector: {} 
+  selector: {}  
+  
