@@ -60,6 +60,7 @@ subsets:
     ports:
       - port: 1443
         protocol: TCP
+        name: https
 ---
 apiVersion: v1
 kind: Service
@@ -80,6 +81,7 @@ spec:
   - port: 443
     protocol: TCP
     targetPort: 1443
+    name: https
   selector: {} 
 
 ---
