@@ -42,6 +42,7 @@ spec:
   parentRefs:
   - name: argocd-gateway
     namespace: argocd
+    sectionName: web-gw-tls
   hostnames:
     - argocd.cluster-hybrid.ddnsfree.com
   rules:
