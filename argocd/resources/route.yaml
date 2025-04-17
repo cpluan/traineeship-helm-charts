@@ -73,7 +73,7 @@ spec:
     - matches:
         - path:
             type: PathPrefix
-            value: /health
+            value: /healthz
       filters:
         - type: RequestRedirect
           requestRedirect:
@@ -125,6 +125,9 @@ subsets:
       - port: 1080
         protocol: TCP
         name: ep-ls
+      - port: 1888
+        protocol: TCP
+        name: ep-healthz
 ---
 apiVersion: v1
 kind: Service
@@ -137,7 +140,7 @@ metadata:
     service.beta.kubernetes.io/aws-load-balancer-scheme: "internet-facing"
     service.beta.kubernetes.io/aws-load-balancer-healthcheck-protocol: http
     service.beta.kubernetes.io/aws-load-balancer-healthcheck-port: "1888"
-    service.beta.kubernetes.io/aws-load-balancer-healthcheck-path: /health
+    service.beta.kubernetes.io/aws-load-balancer-healthcheck-path: /healthz
 spec:
   type: LoadBalancer
   externalTrafficPolicy: Cluster
