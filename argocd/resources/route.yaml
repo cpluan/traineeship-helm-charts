@@ -13,12 +13,12 @@ spec:
     allowedRoutes:
       namespaces:
         from: Same
-  # - protocol: HTTP
-  #   port: 1080
-  #   name: web-gw
-  #   allowedRoutes:
-  #     namespaces:
-  #       from: All
+  - protocol: HTTP
+    port: 1080
+    name: web-gw
+    allowedRoutes:
+      namespaces:
+        from: All
   - protocol: TLS
     port: 1443
     hostname: "*.cluster-hybrid.ddnsfree.com"
@@ -105,7 +105,7 @@ metadata:
     service.beta.kubernetes.io/aws-load-balancer-healthcheck-path: /healthz
 spec:
   type: LoadBalancer
-  externalTrafficPolicy: Local
+  externalTrafficPolicy: Cluster
   ports:
   - port: 443
     protocol: TCP
