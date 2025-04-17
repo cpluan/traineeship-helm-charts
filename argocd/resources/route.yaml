@@ -74,7 +74,9 @@ spec:
           requestRedirect:
             statusCode: 301
             scheme: https
-            port: 443
+            hostname: argocd.cluster-hybrid.ddnsfree.com
+            path:
+              replaceFullPath: /
 
 ---
 apiVersion: v1
