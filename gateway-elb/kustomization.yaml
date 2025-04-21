@@ -6,5 +6,6 @@ resources:
   - resources/namespace.yaml
   - resources/gateway.yaml
   - resources/certificate.yaml
+  - resources/network-policy.yaml
 
 
