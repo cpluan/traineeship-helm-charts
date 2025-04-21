@@ -11,7 +11,7 @@ spec:
     - fromCIDR:
         - "185.98.249.5/32"   # VPN Eurotux
         - "62.28.213.98/32"   # Office Bragança
-        - "87.196.83.38/32"   # Dev
+ #       - "87.196.83.38/32"   # Dev
       toPorts:
         - ports:
             - port: "1080"
