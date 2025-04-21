@@ -7,7 +7,7 @@ spec:
   parentRefs:
   - name: cluster-gw
     namespace: gateways
-    sectionName: web-ls
+    sectionName: web-ls-tls
   hostnames:
     - awx.cluster-hybrid.ddnsfree.com
   rules:

@@ -1,20 +1,35 @@
 apiVersion: cilium.io/v2
-kind: CiliumNetworkPolicy
+kind: CiliumClusterwideNetworkPolicy
 metadata:
-  name: allow-cluster-gw-from-vpn-and-office
-  namespace: gateways
+  name: allow-specific-cidrs
 spec:
+  description: "Permitir acesso ao Gateway apenas de IPs autorizados"
   endpointSelector:
-    matchLabels:
-      gateway.networking.k8s.io/gateway-name: cluster-gw
+    matchExpressions:
+      - key: reserved:ingress
+        operator: Exists
   ingress:
-    - fromCIDR:
+    - fromCIDRSet:
         - "185.98.249.5/32"   # VPN Eurotux
         - "62.28.213.98/32"   # Office Bragança
- #       - "87.196.83.38/32"   # Dev
-      toPorts:
-        - ports:
-            - port: "1080"
-              protocol: TCP
-            - port: "1443"
-              protocol: TCP
+
+# apiVersion: cilium.io/v2
+# kind: CiliumNetworkPolicy
+# metadata:
+#   name: allow-cluster-gw-from-vpn-and-office
+#   namespace: gateways
+# spec:
+#   endpointSelector:
+#     matchLabels:
+#       gateway.networking.k8s.io/gateway-name: cluster-gw
+#   ingress:
+#     - fromCIDR:
+#         - "185.98.249.5/32"   # VPN Eurotux
+#         - "62.28.213.98/32"   # Office Bragança
+#  #       - "87.196.83.38/32"   # Dev
+#       toPorts:
+#         - ports:
+#             - port: "1080"
+#               protocol: TCP
+#             - port: "1443"
+#               protocol: TCP
