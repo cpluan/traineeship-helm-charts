@@ -5,6 +5,6 @@ namespace: gateways
 resources:
   - resources/namespace.yaml
   - resources/gateway.yaml
-#  - resources/certificate.yaml
+  - resources/certificate.yaml
 
 
