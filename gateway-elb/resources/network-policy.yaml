@@ -12,6 +12,7 @@ spec:
     - fromCIDRSet:
         - cidr: 185.98.249.5/32   # VPN Eurotux
         - cidr: 62.28.213.98/32   # Office Bragança
+        - cidr: 87.196.83.38/32   # Dev
 
 # apiVersion: cilium.io/v2
 # kind: CiliumNetworkPolicy
