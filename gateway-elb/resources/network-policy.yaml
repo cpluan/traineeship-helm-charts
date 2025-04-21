@@ -7,7 +7,6 @@ spec:
   ingressDeny:
   - fromEntities:
     - "world"
-
 ---
 apiVersion: cilium.io/v2
 kind: CiliumClusterwideNetworkPolicy
@@ -17,7 +16,7 @@ spec:
   description: "Permite apenas IPs confiáveis acessarem os nodes nas portas 1080 e 1443"
   endpointSelector:
     matchExpressions:
-      - key: reserved:host
+      - key: reserved:ingress
         operator: Exists
   ingress:
     - fromCIDRSet:
