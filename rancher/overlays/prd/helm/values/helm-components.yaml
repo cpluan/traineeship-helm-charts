@@ -3,7 +3,8 @@ kind: HelmChartInflationGenerator
 metadata:
   name: &appName rancher
 valuesInline:
-  hostname: rancher.my.org
-  # ingress:
-  #   tls: 
-  #     source: rancher
+  hostname: rancher.cluster-hybrid.ddnsfree.com
+  ingress:
+    enabled: false
+
+  tls: external
