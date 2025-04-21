@@ -42,20 +42,20 @@ spec:
     - name: argocd-prd-server 
       port: 30080
 ---
-apiVersion: cilium.io/v2
-kind: CiliumEgressGatewayPolicy
-metadata:
-  name: argocd-egress-via-worker-pub-1
-spec:
-  selectors:
-    - podSelector:
-        matchLabels:
-          app.kubernetes.io/name: argocd-server
-  destinationCIDRs:
-    - 0.0.0.0/0
-  egressGateway:
-    nodeSelector:
-      matchLabels:
-        kubernetes.io/hostname: worker-pub-1
-    egressIP: 10.0.1.100
+# apiVersion: cilium.io/v2
+# kind: CiliumEgressGatewayPolicy
+# metadata:
+#   name: argocd-egress-via-worker-pub-1
+# spec:
+#   selectors:
+#     - podSelector:
+#         matchLabels:
+#           app.kubernetes.io/name: argocd-server
+#   destinationCIDRs:
+#     - 0.0.0.0/0
+#   egressGateway:
+#     nodeSelector:
+#       matchLabels:
+#         kubernetes.io/hostname: worker-pub-1
+#     egressIP: 10.0.1.100
 
