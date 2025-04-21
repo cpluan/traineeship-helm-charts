@@ -1,26 +1,27 @@
-# apiVersion: "cilium.io/v2"
-# kind: CiliumClusterwideNetworkPolicy
-# metadata:
-#   name: "external-lockdown"
-# spec:
-#   description: "Block all the traffic originating from outside of the cluster"
-#   endpointSelector: {}
-#   ingress:
-#   - fromEntities:
-#     - cluster
-# ---
-# apiVersion: "cilium.io/v2"
-# kind: CiliumClusterwideNetworkPolicy
-# metadata:
-#   name: allow-specific-cidrs
-# spec:
-#   description: "Allow all the traffic originating from a specific CIDR"
-#   endpointSelector:
-#     matchExpressions:
-#     - key: reserved:ingress
-#       operator: Exists
-#   ingress:
-#   - fromCIDRSet:
-#     - cidr: 185.98.249.5/32   # VPN Eurotux
-#     - cidr: 87.196.83.38/32
-#     - cidr: 62.28.213.98/32   # Office Bragança
+apiVersion: "cilium.io/v2"
+kind: CiliumClusterwideNetworkPolicy
+metadata:
+  name: "external-lockdown"
+spec:
+  description: "Block all the traffic originating from outside of the cluster"
+  endpointSelector: {}
+  ingress:
+  - fromEntities:
+    - cluster
+---
+apiVersion: "cilium.io/v2"
+kind: CiliumClusterwideNetworkPolicy
+metadata:
+  name: allow-specific-cidrs
+spec:
+  description: "Allow all the traffic originating from a specific CIDR"
+  endpointSelector:
+    matchExpressions:
+    - key: reserved:ingress
+      operator: Exists
+  ingress:
+  - fromCIDRSet:
+    - cidr: 185.98.249.5/32   # VPN Eurotux
+    - cidr: 87.196.83.38/32
+    - cidr: 62.28.213.98/32   # Office Bragança
+    - cidr: 10.0.0.0/16       # VPC AWS
