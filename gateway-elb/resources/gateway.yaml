@@ -57,7 +57,7 @@ metadata:
     service.beta.kubernetes.io/aws-load-balancer-eip-allocations: "eipalloc-07a6565748b79cb76,eipalloc-0bb6ac05dbb5f851d"
     service.beta.kubernetes.io/aws-load-balancer-backend-protocol: tcp
     ervice.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: 'true'
-    service.beta.kubernetes.io/aws-load-balancer-subnets: "subnet-0b2f2fd871baef0b5,subnet-0690241504ec2375f"
+    service.beta.kubernetes.io/aws-load-balancer-subnets: "subnet-031d2aefa7a958cc4,subnet-0690241504ec2375f"
 spec:
   type: LoadBalancer
   externalTrafficPolicy: Local
