@@ -54,7 +54,7 @@ metadata:
     service.beta.kubernetes.io/aws-load-balancer-scheme: "internet-facing"
     service.beta.kubernetes.io/aws-load-balancer-healthcheck-port: "30033"
     service.beta.kubernetes.io/aws-load-balancer-healthcheck-path: /healthz
-    service.beta.kubernetes.io/aws-load-balancer-eip-allocations: "eipalloc-07a6565748b79cb76,eipalloc-0bb6ac05dbb5f851d"
+    # service.beta.kubernetes.io/aws-load-balancer-eip-allocations: "eipalloc-07a6565748b79cb76,eipalloc-0bb6ac05dbb5f851d"
 spec:
   type: LoadBalancer
   externalTrafficPolicy: Local
