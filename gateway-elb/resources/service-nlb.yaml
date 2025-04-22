@@ -1,4 +1,3 @@
-{{- $awsConfig := (lookup "v1" "ConfigMap" "kube-system" "aws-data-config").data }}
 apiVersion: v1
 kind: Service
 metadata:
