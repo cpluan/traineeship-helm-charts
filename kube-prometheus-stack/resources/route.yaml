@@ -17,6 +17,7 @@ spec:
         value: /
     backendRefs:
     - name: prometheus-stack-grafana
+      namespace: monitoring
       port: 80
 
 
