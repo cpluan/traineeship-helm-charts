@@ -8,6 +8,5 @@ resources:
   - resources/network-policy.yaml
   - resources/nlb-gw-service.yaml
   - resources/rbac.yaml
-  - resources/job-init.yaml
 
 
