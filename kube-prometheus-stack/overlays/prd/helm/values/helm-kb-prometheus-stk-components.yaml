@@ -23,15 +23,22 @@ valuesInline:
   # Configurações do Grafana
   grafana:
     enabled: true
-    service:
-      type: ClusterIP
+    env:
+      GF_SERVER_ROOT_URL: &gfRootUrl "https://prometheus.cluster-hybrid.ddnsfree.com"
     grafana.ini:
       security:
+        cookie_samesite: "none"
+        cookie_secure: true
         allow_embedding: true
+      server:
+        root_url: *gfRootUrl
       auth.anonymous:
-        enabled: true
-        org_name: "Main Org."
-        org_role: "Editor"
+        enabled: "true"
+        hide_version: "true"
+        org_role: "Viewer"
+    service:
+      type: ClusterIP
+ 
 
   # Configurações do Node Exporter
   nodeExporter:
