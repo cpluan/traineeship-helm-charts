@@ -1,14 +1,14 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  name: hublle-http-route
+  name: hubble-http-route
   namespace: kube-system
 spec:
   parentRefs:
   - name: cluster-gw
     namespace: gateways
   hostnames:
-    - hublle.cluster-hybrid.ddnsfree.com
+    - hubble.cluster-hybrid.ddnsfree.com
   rules:
   - matches:
     - path:
