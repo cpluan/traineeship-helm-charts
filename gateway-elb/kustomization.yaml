@@ -9,5 +9,6 @@ resources:
   - resources/nlb-gw-service.yaml
   - resources/nlb-gw-job.yaml
   - resources/rbac.yaml
+  - apps/hubble-route.yaml
 
 
