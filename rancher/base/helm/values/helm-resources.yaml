@@ -7,10 +7,10 @@ valuesInline:
   resources:
     requests:
       cpu: 50m
-      memory: 1Gi
+      memory: 2Gi
     limits:
       cpu: 150m
-      memory: 1Gi
+      memory: 2Gi
   
   controller:
     resources:
