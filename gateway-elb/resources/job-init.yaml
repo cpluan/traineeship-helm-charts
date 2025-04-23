@@ -17,8 +17,8 @@ spec:
             - -c
             - |
               echo "Lendo valores do ConfigMap..."
-              EIPS=$(kubectl get configmap aws-data-config -n gateways -o jsonpath='{.data.nlb_eip_ids}')
-              SUBNETS=$(kubectl get configmap aws-data-config -n gateways -o jsonpath='{.data.public_subnets_ids}')
+              EIPS=$(kubectl get configmap aws-data-config -n kube-system -o jsonpath='{.data.nlb_eip_ids}')
+              SUBNETS=$(kubectl get configmap aws-data-config -n kube-system -o jsonpath='{.data.public_subnets_ids}')
 
               echo "Atualizando Service com EIPs: $EIPS e Subnets: $SUBNETS..."
               kubectl patch svc cluster-gw-lb -n gateways --type='merge' -p "{
