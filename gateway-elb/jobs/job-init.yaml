@@ -3,8 +3,6 @@ kind: Job
 metadata:
   name: patch-nlb-service
   namespace: gateways
-  annotations:
-    argocd.argoproj.io/hook: PreSync
 spec:
   backoffLimit: 3
   template:
