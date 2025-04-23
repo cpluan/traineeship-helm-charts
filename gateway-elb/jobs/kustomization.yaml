@@ -3,7 +3,7 @@ kind: Kustomization
 namespace: gateways
 
 resources:
-  - service-nlb.yaml
+  - job-init.yaml
 
 
 
