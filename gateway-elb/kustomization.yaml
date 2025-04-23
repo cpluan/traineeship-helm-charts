@@ -7,6 +7,8 @@ resources:
   - resources/gateway.yaml
   - resources/certificate.yaml
   - resources/network-policy.yaml
-# - resources/service-nlb.yaml
+  - resources/service-nlb.yaml
+  - resources/rbac.yaml
+  - resources/job-init.yaml
 
 
