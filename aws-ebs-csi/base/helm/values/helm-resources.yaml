@@ -8,25 +8,74 @@ version: 2.41.0
 releaseName: aws-ebs-csi-driver
 namespace: kube-system
 valuesInline:
-  node:
-    resources:
-      requests: &nodeRequests
-        cpu: 200m
-        memory: 256Mi
-      limits:
-        <<: *nodeRequests
-        cpu: 500m
-        memory: 256Mi
+  # node:
+  #   resources:
+  #     requests: &nodeRequests
+  #       cpu: 50m
+  #       memory: 256Mi
+  #     limits:
+  #       <<: *nodeRequests
+  #       cpu: 150m
+  #       memory: 256Mi
 
-  controller:
-    resources:
-      requests: &controllerRequests
-        cpu: 200m
-        memory: 256Mi
-      limits:
-        <<: *controllerRequests
-        cpu: 500m
-        memory: 256Mi
+  # controller:
+  #   resources:
+  #     requests: &controllerRequests
+  #       cpu: 200m
+  #       memory: 256Mi
+  #     limits:
+  #       <<: *controllerRequests
+  #       cpu: 500m
+  #       memory: 256Mi
 
+  sidecars:
+    provisioner:
+      resources:
+        limits:
+          cpu: 200m
+          memory: 50Mi
+        requests:
+          cpu: 50m
+          memory: 50Mi
+    attacher:
+      resources:
+        limits:
+          cpu: 200m
+          memory: 50Mi
+        requests:
+          cpu: 50m
+          memory: 50Mi
+    snapshotter:
+      resources:
+        limits:
+          cpu: 200m
+          memory: 50Mi
+        requests:
+          cpu: 50m
+          memory: 50Mi
+    livenessProbe:
+      resources:
+        limits:
+          cpu: 100m
+          memory: 50Mi
+        requests:
+          cpu: 25m
+          memory: 50Mi
+    resizer:
+      resources:
+        limits:
+          cpu: 200m
+          memory: 50Mi
+        requests:
+          cpu: 50m
+          memory: 50Mi
+    nodeDriverRegistrar:
+      resources:
+        limits:
+          cpu: 200m
+          memory: 50Mi
+        requests:
+          cpu: 50m
+          memory: 50Mi
 
   storageClasses: []
