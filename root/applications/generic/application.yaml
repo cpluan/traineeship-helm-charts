@@ -4,12 +4,12 @@ metadata:
   name: generic-application
   namespace: argocd
   annotations:
-      argocd.argoproj.io/sync-wave: "4"
+    argocd.argoproj.io/sync-wave: "4"
 spec:
   project: default
   source:
-    repoURL: 'https://github.com/cpluan/traineeship-helm-charts.git'
-    targetRevision: root-applications 
+    repoURL: "https://github.com/cpluan/traineeship-helm-charts.git"
+    targetRevision: cilium
     path: generic/
   destination:
     server: https://kubernetes.default.svc

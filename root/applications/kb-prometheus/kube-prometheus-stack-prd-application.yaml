@@ -4,12 +4,12 @@ metadata:
   name: prometheus-stack-application
   namespace: argocd
   annotations:
-      argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/sync-wave: "1"
 spec:
   project: default
   source:
-    repoURL: 'https://github.com/cpluan/traineeship-helm-charts.git'
-    targetRevision: root-applications
+    repoURL: "https://github.com/cpluan/traineeship-helm-charts.git"
+    targetRevision: cilium
     path: kube-prometheus-stack/
   destination:
     server: https://kubernetes.default.svc

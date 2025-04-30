@@ -4,12 +4,12 @@ metadata:
   name: rancher-prd-chart
   namespace: argocd
   annotations:
-      argocd.argoproj.io/sync-wave: "6a"
+    argocd.argoproj.io/sync-wave: "6a"
 spec:
   project: default
   source:
-    repoURL: 'https://github.com/cpluan/traineeship-helm-charts.git'
-    targetRevision: root-applications
+    repoURL: "https://github.com/cpluan/traineeship-helm-charts.git"
+    targetRevision: cilium
     path: rancher/overlays/prd
   destination:
     server: https://kubernetes.default.svc

@@ -6,9 +6,9 @@ resources:
   - resources/gateway.yaml
   - resources/certificate.yaml
   - resources/network-policy.yaml
-  - resources/nlb-gw-service.yaml
-  - resources/nlb-gw-job.yaml
+  - apps/nlb-gw-service.yaml
+  - apps/nlb-gw-job.yaml
   - resources/rbac.yaml
-  - apps/hubble-route.yaml
+  - resources/hubble-route.yaml
 
 
