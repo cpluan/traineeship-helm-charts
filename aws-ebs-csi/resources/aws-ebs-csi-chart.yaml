@@ -4,12 +4,12 @@ metadata:
   name: aws-ebs-csi-chart
   namespace: argocd
   annotations:
-      argocd.argoproj.io/sync-wave: "4a"
+    argocd.argoproj.io/sync-wave: "4a"
 spec:
   project: default
   source:
-    repoURL: 'https://github.com/cpluan/traineeship-helm-charts.git'
-    targetRevision: root-applications 
+    repoURL: "https://github.com/cpluan/traineeship-helm-charts.git"
+    targetRevision: calico
     path: aws-ebs-csi/base
   destination:
     server: https://kubernetes.default.svc

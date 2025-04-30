@@ -2,8 +2,6 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - projects/monitoring.yaml      #0
-  - applications/gateway/         #1
   - applications/kb-prometheus/   #2
   - applications/cert-manager/    #3
   - applications/aws-ebs-csi/     #4
@@ -12,6 +10,6 @@ resources:
   # - applications/local-path/
   - applications/awx/             #7
   - applications/rancher          #8
-  - applications/gateway-elb/     #9
+  - applications/ingress-elb/     #9
 
 

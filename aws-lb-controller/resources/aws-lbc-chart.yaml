@@ -6,8 +6,8 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 'https://github.com/cpluan/traineeship-helm-charts.git'
-    targetRevision: root-applications
+    repoURL: "https://github.com/cpluan/traineeship-helm-charts.git"
+    targetRevision: calico
     path: aws-lb-controller/base
   destination:
     server: https://kubernetes.default.svc

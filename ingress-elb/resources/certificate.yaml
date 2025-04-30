@@ -1,0 +1,14 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: cluster-hybrid.ddnsfree.com
+  namespace: nlb-infra
+spec:
+  issuerRef:
+    name: dynu
+    kind: ClusterIssuer
+  secretName: cluster-hybrid.ddnsfree.com-tls
+  commonName: cluster-hybrid.ddnsfree.com
+  dnsNames:
+    - cluster-hybrid.ddnsfree.com
+    - '*.cluster-hybrid.ddnsfree.com'

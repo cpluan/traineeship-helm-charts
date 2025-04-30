@@ -1,19 +1,17 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: rancher-application
+  name: nlb-ingress-job
   namespace: argocd
-  annotations:
-    argocd.argoproj.io/sync-wave: "8"
 spec:
   project: default
   source:
     repoURL: "https://github.com/cpluan/traineeship-helm-charts.git"
     targetRevision: calico
-    path: rancher/
+    path: ingress-elb/jobs/
   destination:
     server: https://kubernetes.default.svc
-    namespace: argocd
+    namespace: default
   syncPolicy:
     automated:
       selfHeal: true

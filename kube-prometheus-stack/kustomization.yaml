@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
  # - resources/prometheus-stack-prd-crds.yaml
   - resources/prometheus-stack-prd-chart.yaml
-  - resources/route.yaml
+  - resources/ingress.yaml
+  - resources/certificate.yaml
 
 

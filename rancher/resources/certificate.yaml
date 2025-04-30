@@ -1,13 +1,13 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: awx-cert
-  namespace: awx
+  name: rancher-cert
+  namespace: cattle-system
 spec:
   secretName: cluster-hybrid.ddnsfree.com-tls
   issuerRef:
     name: dynu
     kind: ClusterIssuer
-  commonName: awx.cluster-hybrid.ddnsfree.com
+  commonName: rancher.cluster-hybrid.ddnsfree.com
   dnsNames:
-    - awx.cluster-hybrid.ddnsfree.com
+    - rancher.cluster-hybrid.ddnsfree.com

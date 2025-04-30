@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: cluster-ingress-lb
+  namespace: nlb-infra
+spec:
+  type: LoadBalancer
+  externalTrafficPolicy: Local
+  ports:
+  - port: 443
+    protocol: TCP
+    targetPort: 1443
+    name: https
+  - port: 80
+    protocol: TCP
+    targetPort: 1080
+    name: http
+  selector:
+    app.kubernetes.io/name: ingress-nginx
+    app.kubernetes.io/component: controller
