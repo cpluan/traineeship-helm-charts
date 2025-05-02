@@ -3,6 +3,9 @@ kind: Ingress
 metadata:
   name: grafana-ingress
   namespace: monitoring
+  annotations:
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
 spec:
   ingressClassName: nginx
   tls:
