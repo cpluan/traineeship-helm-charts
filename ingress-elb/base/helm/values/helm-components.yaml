@@ -15,7 +15,7 @@ valuesInline:
       type: LoadBalancer
       targetPorts:
           http: http
-          https: http
+          https: https
       annotations:
         service.beta.kubernetes.io/aws-load-balancer-eip-allocations: "eipalloc-0d810c00ffbb11329, eipalloc-03150e91a911e02ad"
         service.beta.kubernetes.io/aws-load-balancer-subnets: "subnet-05551d250c615a055, subnet-0c54e3b9c8df25bef"
