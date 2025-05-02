@@ -6,6 +6,7 @@ metadata:
   annotations:
       nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
       nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/use-regex: "false"
 spec:
   ingressClassName: nginx
   tls:
