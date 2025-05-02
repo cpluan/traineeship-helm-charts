@@ -9,15 +9,32 @@ spec:
   ports:
   - port: 443
     protocol: TCP
-    targetPort: 443
+    targetPort: 1443
     name: https
   - port: 80
     protocol: TCP
-    targetPort: 80
+    targetPort: 1080
     name: http
-  selector:
-    app.kubernetes.io/name: ingress-nginx
-    app.kubernetes.io/component: controller
+  # selector:
+  #   app.kubernetes.io/name: ingress-nginx
+  #   app.kubernetes.io/component: controller
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: cluster-gw-lb
+  namespace: ingress-nginx
+subsets:
+  - addresses:
+      - ip: 10.0.1.100  
+      - ip: 10.0.2.100  
+    ports:
+      - port: 1443
+        protocol: TCP
+        name: https
+      - port: 1080
+        protocol: TCP
+        name: http
 ---
 apiVersion: apps/v1
 kind: Deployment
