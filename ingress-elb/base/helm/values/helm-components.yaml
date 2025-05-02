@@ -16,4 +16,7 @@ valuesInline:
       default: false
       controllerValue: "k8s.io/ingress-nginx"
     ingressClass: nginx
+    service:
+      enabled: false
+
     
