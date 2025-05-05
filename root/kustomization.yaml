@@ -2,14 +2,14 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - applications/kb-prometheus/   #2
-  - applications/cert-manager/    #3
+  - applications/kb-prometheus/   #1
+  - applications/cert-manager/    #2
+  - applications/ingress-elb/     #3
   - applications/aws-ebs-csi/     #4
   - applications/aws-lb/          #5
   - applications/argocd/          #6
   # - applications/local-path/
   - applications/awx/             #7
   - applications/rancher          #8
-  - applications/ingress-elb/     #9
 
 
