@@ -3,4 +3,4 @@ kind: Kustomization
 resources:
   - resources/awx-prd-chart.yaml
   - resources/ingress.yaml
-  - resources/certificate.yaml
+  # - resources/certificate.yaml

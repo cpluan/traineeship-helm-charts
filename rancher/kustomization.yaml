@@ -4,5 +4,5 @@ resources:
   - resources/namespace.yaml
   - resources/rancher-prd-chart.yaml
   - resources/ingress.yaml
-  - resources/certificate.yaml
+  # - resources/certificate.yaml
 

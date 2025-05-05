@@ -3,7 +3,7 @@ kind: Kustomization
 
 resources:
   - resources/namespace.yaml
-  # - resources/certificate.yaml
+  - resources/certificate.yaml
   # - resources/network-policy.yaml
   # - apps/nlb-ingress-service.yaml
   - apps/nginx-ingress-app.yaml

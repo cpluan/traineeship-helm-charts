@@ -5,6 +5,6 @@ resources:
  # - resources/prometheus-stack-prd-crds.yaml
   - resources/prometheus-stack-prd-chart.yaml
   - resources/ingress.yaml
-  - resources/certificate.yaml
+  # - resources/certificate.yaml
 
 

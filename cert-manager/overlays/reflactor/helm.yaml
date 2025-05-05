@@ -1,0 +1,23 @@
+apiVersion: builtin
+kind: HelmChartInflationGenerator
+metadata:
+  name: &appName reflector
+name: *appName
+repo: https://emberstack.github.io/helm-charts
+version: 6.1.17
+releaseName: reflector
+namespace: reflector
+valuesInline:
+  configuration:
+    enableSecretReflection: true
+    enableConfigMapReflection: false
+    reflectOnlyMarked: false
+  rbac:
+    create: true
+    namespaced: false
+  serviceAccount:
+    create: true
+  clusterRole:
+    create: true
+  clusterRoleBinding:
+    create: true
