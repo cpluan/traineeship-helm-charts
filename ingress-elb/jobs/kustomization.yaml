@@ -3,7 +3,8 @@ kind: Kustomization
 namespace: nlb-infra
 
 resources:
-  - job-init.yaml
+  # - job-init.yaml
+  - create-nlb-service-job.yaml
 
 
 

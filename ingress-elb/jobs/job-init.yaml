@@ -16,13 +16,7 @@ spec:
             - /bin/sh
             - -c
             - |
-              echo "Aguardando o Service ingress-nginx-controller existir..."
-              until kubectl get svc ingress-nginx-controller -n ingress-nginx > /dev/null 2>&1; do
-                echo "Service ainda não está disponível, aguardando..."
-                sleep 5
-              done
-
-              echo "Service encontrado! Lendo valores do ConfigMap..."
+              echo "Lendo valores do ConfigMap..."
               EIPS=$(kubectl get configmap aws-data-config -n kube-system -o jsonpath='{.data.nlb_eip_ids}')
               SUBNETS=$(kubectl get configmap aws-data-config -n kube-system -o jsonpath='{.data.public_subnets_ids}')
 
@@ -40,3 +34,4 @@ spec:
                   }
                 }
               }"
+
