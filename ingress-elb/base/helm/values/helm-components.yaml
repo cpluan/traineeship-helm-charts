@@ -21,7 +21,7 @@ valuesInline:
         service.beta.kubernetes.io/aws-load-balancer-eip-allocations: "eipalloc-0d810c00ffbb11329, eipalloc-03150e91a911e02ad"
         service.beta.kubernetes.io/aws-load-balancer-subnets: "subnet-02221de8194852c1c, subnet-06e81141d82ea1341"
         service.beta.kubernetes.io/aws-load-balancer-type: "external"
-        service.beta.kubernetes.io/aws-load-balancer-target-type: "ip"
+        service.beta.kubernetes.io/aws-load-balancer-target-type: "instance"
         service.beta.kubernetes.io/aws-load-balancer-scheme: "internet-facing"
         service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"
         service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout: "3600"
