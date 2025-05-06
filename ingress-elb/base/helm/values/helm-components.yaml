@@ -10,16 +10,25 @@ namespace: ingress-nginx
 valuesInline:
   controller:
     replicaCount: 2
-    ingressClassResource:
-      name: nginx
-      enabled: true
-      default: false
-      controllerValue: "k8s.io/ingress-nginx"
-    ingressClass: nginx
+
     service:
       type: LoadBalancer
+      targetPorts:
+          http: http
+          https: https
       annotations:
-        service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
-        service.beta.kubernetes.io/aws-load-balancer-scheme: "internet-facing"
+        service.beta.kubernetes.io/aws-load-balancer-eip-allocations: "eipalloc-0d810c00ffbb11329, eipalloc-03150e91a911e02ad"
+        service.beta.kubernetes.io/aws-load-balancer-subnets: "subnet-041c59ae03ef7c910, subnet-052b430ec5ce4c35e"
+        service.beta.kubernetes.io/aws-load-balancer-type: "external"
         service.beta.kubernetes.io/aws-load-balancer-target-type: "ip"
-        service.beta.kubernetes.io/aws-load-balancer-healthcheck-port: "10254"
+        service.beta.kubernetes.io/aws-load-balancer-scheme: "internet-facing"
+        service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"
+        service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout: "3600"
+
+    config:
+      use-proxy-protocol: "true"
+      real-ip-header: "proxy_protocol"
+      use-forwarded-headers: "true"
+
+
+    
