@@ -32,8 +32,7 @@ valuesInline:
       use-forwarded-headers: "true"
       health-status: "true"
       health-status-uri: "/healthz"
-    containerPort:
-      health: 10254
+
 
 
     
