@@ -16,7 +16,13 @@ spec:
             - /bin/sh
             - -c
             - |
-              echo "Lendo valores do ConfigMap..."
+              echo "Aguardando o Service ingress-nginx-controller existir..."
+              until kubectl get svc ingress-nginx-controller -n ingress-nginx > /dev/null 2>&1; do
+                echo "Service ainda não está disponível, aguardando..."
+                sleep 5
+              done
+
+              echo "Service encontrado! Lendo valores do ConfigMap..."
               EIPS=$(kubectl get configmap aws-data-config -n kube-system -o jsonpath='{.data.nlb_eip_ids}')
               SUBNETS=$(kubectl get configmap aws-data-config -n kube-system -o jsonpath='{.data.public_subnets_ids}')
 
@@ -30,8 +36,15 @@ spec:
                     \"service.beta.kubernetes.io/aws-load-balancer-target-type\": \"ip\",
                     \"service.beta.kubernetes.io/aws-load-balancer-scheme\": \"internet-facing\",
                     \"service.beta.kubernetes.io/aws-load-balancer-proxy-protocol\": \"*\",
-                    \"service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout\": \"3600\"
+                    \"service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout\": \"3600\",
+                    \"service.beta.kubernetes.io/aws-load-balancer-healthcheck-port\": \"30033\",
+                    \"service.beta.kubernetes.io/aws-load-balancer-healthcheck-path\": \"/healthz\"
+                  }
+                },
+                \"spec\": {
+                  \"selector\": {
+                    \"app.kubernetes.io/name\": \"ingress-nginx\",
+                    \"app.kubernetes.io/component\": \"controller\"
                   }
                 }
               }"
-
