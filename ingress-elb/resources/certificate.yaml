@@ -5,7 +5,7 @@ metadata:
   namespace: nlb-infra
 spec:
   issuerRef:
-    name: dynu
+    name: selfsigned-cluster-issuer  #dynu
     kind: ClusterIssuer
   secretName: cluster-hybrid.ddnsfree.com-tls
   commonName: cluster-hybrid.ddnsfree.com
