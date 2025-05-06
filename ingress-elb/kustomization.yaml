@@ -5,10 +5,10 @@ resources:
   - resources/namespace.yaml
   - resources/certificate.yaml
   - resources/network-policy.yaml
-  # - apps/nlb-ingress-service.yaml
+  - apps/nlb-ingress-service.yaml
   - apps/nginx-ingress-app.yaml
-  # - apps/nlb-ingress-job.yaml
-  # - resources/rbac.yaml
+  - apps/nlb-ingress-job.yaml
+  - resources/rbac.yaml
   # - apps/hubble-route.yaml
 
 
