@@ -3,6 +3,8 @@ kind: Application
 metadata:
   name: nlb-ingress-service
   namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "3b"
 spec:
   project: default
   source:
