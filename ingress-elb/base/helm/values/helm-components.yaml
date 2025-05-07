@@ -9,8 +9,6 @@ releaseName: ingress-nginx
 namespace: ingress-nginx
 valuesInline:
   controller:
-    hostNetwork: true
-    dnsPolicy: ClusterFirstWithHostNet
     nodeSelector:
       egress-node: "true"
     
@@ -29,6 +27,8 @@ valuesInline:
     service:
       enabled: false
 
+    # hostNetwork: true
+    # dnsPolicy: ClusterFirstWithHostNet
     # config:
     #   use-proxy-protocol: "true"
     #   real-ip-header: "proxy_protocol"

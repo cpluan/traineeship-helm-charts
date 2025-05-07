@@ -36,12 +36,12 @@ spec:
                   service.beta.kubernetes.io/aws-load-balancer-eip-allocations: "$EIPS"
                   service.beta.kubernetes.io/aws-load-balancer-subnets: "$SUBNETS"
                   service.beta.kubernetes.io/aws-load-balancer-type: "external"
-                  service.beta.kubernetes.io/aws-load-balancer-target-type: "ip"
+                  service.beta.kubernetes.io/aws-load-balancer-target-type: "instance"
                   service.beta.kubernetes.io/aws-load-balancer-scheme: "internet-facing"
-                  service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"
               
               spec:
                 type: LoadBalancer
+                externalTrafficPolicy: Local
                 selector:
                   app.kubernetes.io/name: ingress-nginx
                   app.kubernetes.io/component: controller
