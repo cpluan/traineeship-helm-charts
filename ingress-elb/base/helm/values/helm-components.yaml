@@ -19,6 +19,10 @@ valuesInline:
         operator: "Equal"
         value: "egress"
         effect: "NoSchedule"
+      - key: "node-role.kubernetes.io/egress"
+        operator: "Equal"
+        value: "true"
+        effect: "NoSchedule"
 
     replicaCount: 2
 
