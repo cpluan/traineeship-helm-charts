@@ -27,7 +27,7 @@ valuesInline:
     service:
       enabled: false
 
-    # hostNetwork: true
+    # hostNetwork: true 
     # dnsPolicy: ClusterFirstWithHostNet
     config:
       use-proxy-protocol: "true"
