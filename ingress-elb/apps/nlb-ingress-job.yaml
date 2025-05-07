@@ -3,6 +3,9 @@ kind: Application
 metadata:
   name: nlb-ingress-job
   namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "3b"
+    argocd.argoproj.io/depends-on: nginx-ingress-application
 spec:
   project: default
   source:
