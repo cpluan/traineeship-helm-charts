@@ -13,6 +13,12 @@ valuesInline:
     dnsPolicy: ClusterFirstWithHostNet
     nodeSelector:
       egress-node: "true"
+    
+    tolerations:
+      - key: "node-role.kubernetes.io/worker"
+        operator: "Equal"
+        value: "egress"
+        effect: "NoSchedule"
 
     replicaCount: 2
 
