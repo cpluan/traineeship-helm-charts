@@ -9,6 +9,11 @@ releaseName: ingress-nginx
 namespace: ingress-nginx
 valuesInline:
   controller:
+    hostNetwork: true
+    dnsPolicy: ClusterFirstWithHostNet
+    nodeSelector:
+      egress-node: "true"
+
     replicaCount: 2
 
     service:
