@@ -1,17 +1,16 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: nlb-ingress-service
+  name: nlb-ingress-hosts
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "3b"
-    argocd.argoproj.io/depends-on: nginx-ingress-application
+    argocd.argoproj.io/sync-wave: "3c"
 spec:
   project: default
   source:
     repoURL: "https://github.com/cpluan/traineeship-helm-charts.git"
     targetRevision: cni/cilium-v2
-    path: ingress-elb/service/
+    path: ingress-elb/ingress/
   destination:
     server: https://kubernetes.default.svc
     namespace: default
