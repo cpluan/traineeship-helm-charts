@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cert-manager-chart
+  namespace: argocd
+  annotations:
+    # argocd.argoproj.io/depends-on: argocd/cert-manager-crds
+    argocd.argoproj.io/sync-wave: "1b"
+spec:
+  project: default
+  source:
+    repoURL: "https://github.com/cpluan/traineeship-helm-charts.git"
+    targetRevision: brenchmark/ingress-v1
+    path: cert-manager/base
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: cert-manager
+  syncPolicy:
+    automated:
+      selfHeal: true

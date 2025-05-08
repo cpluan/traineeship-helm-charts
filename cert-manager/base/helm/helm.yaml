@@ -1,0 +1,9 @@
+apiVersion: builtin
+kind: HelmChartInflationGenerator
+metadata:
+  name: &appName cert-manager
+releaseName: cert-manager
+name: *appName
+version: v1.16.2
+repo: https://charts.jetstack.io
+namespace: cert-manager

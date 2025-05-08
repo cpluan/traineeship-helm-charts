@@ -1,0 +1,39 @@
+apiVersion: builtin
+kind: HelmChartInflationGenerator
+metadata:
+  name: &appName cert-manager
+releaseName: cert-manager
+name: *appName
+version: v1.16.2
+repo: https://charts.jetstack.io
+namespace: cert-manager
+
+valuesInline:
+
+  resources:
+    requests: &certManagerRequests
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      <<: *certManagerRequests
+      cpu: 200m
+      memory: 256Mi
+
+  cainjector:
+    resources:
+      requests: *certManagerRequests
+      limits:
+        <<: *certManagerRequests
+        cpu: 200m
+        memory: 256Mi
+
+  webhook:
+    resources:
+      requests: *certManagerRequests
+      limits:
+        <<: *certManagerRequests
+        cpu: 200m
+        memory: 256Mi
+
+
+
