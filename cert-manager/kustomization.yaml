@@ -5,6 +5,8 @@ resources:
   # - resources/cert-manager-ss-crds.yaml
   - resources/cert-manager-chart.yaml
   - resources/cert-manager-resources.yaml
+  - resources/cert-manager-reflector.yaml
+
 
 
 
