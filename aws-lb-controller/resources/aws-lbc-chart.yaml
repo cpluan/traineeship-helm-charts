@@ -7,7 +7,7 @@ spec:
   project: default
   source:
     repoURL: "https://github.com/cpluan/traineeship-helm-charts.git"
-    targetRevision: cni/cilium-v2
+    targetRevision: brenchmark/ingress-v1
     path: aws-lb-controller/base
   destination:
     server: https://kubernetes.default.svc
