@@ -6,7 +6,7 @@ resources:
   - resources/rbac.yaml
   - resources/certificate.yaml
   # - resources/network-policy.yaml
-  - apps/nginx-ingress-app.yaml
+  # - apps/nginx-ingress-app.yaml
   - apps/nlb-ingress-job.yaml
   - apps/nlb-ingress-hosts.yaml
 
