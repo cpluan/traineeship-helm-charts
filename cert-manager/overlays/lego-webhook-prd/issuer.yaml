@@ -21,5 +21,4 @@ spec:
                 secret:
                   name: dynu-secret
                   namespace: 'cert-manager'
-              # envs: 
-              #   DUCKDNS_TOKEN: '431e374c-2cc3-4705-9e4b-82f75857ef7e'
+            

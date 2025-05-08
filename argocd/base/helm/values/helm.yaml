@@ -16,7 +16,8 @@ valuesInline:
     params:
       server.insecure: true
       
-    cm: # ArgoCD ConfigMap contents:
+    # ArgoCD ConfigMap contents:  
+    cm: 
       create: true
 
       # OPTIONS
