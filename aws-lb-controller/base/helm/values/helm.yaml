@@ -9,26 +9,8 @@ valuesInline:
   region: ""
   vpcId: ""
 
-  env:
-    - name: VPC_ID
-      valueFrom:
-        configMapKeyRef:
-          name: aws-data-config
-          key: vpc-id
-    - name: AWS_REGION
-      valueFrom:
-        configMapKeyRef:
-          name: aws-data-config
-          key: aws-region
-
 
   controllerConfig:
     # Aqui você pode usar feature gates se quiser, mantive vazio
     featureGates: {}
 
-
-  # Argumentos adicionais passados ao container principal do controlador
-  extraArgs:
-    - --cluster-name=default
-    - --aws-region=$(AWS_REGION)
-    - --aws-vpc-id=$(VPC_ID)

@@ -3,3 +3,11 @@ kind: Kustomization
 
 generators:
   - helm
+
+patches:
+  - target:
+      version: v1
+      kind: Deployment
+      name: aws-load-balancer-controller
+      namespace: kube-system
+    path: patch-deployment.json
