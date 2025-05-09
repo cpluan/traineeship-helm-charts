@@ -3,7 +3,7 @@ kind: Kustomization
 namespace: cert-manager
 
 resources:
-  - secret.yaml
+  # - secret.yaml
   - issuer.yaml
  
 generators:
