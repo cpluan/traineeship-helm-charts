@@ -2,10 +2,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.1
-  creationTimestamp: null
-  labels:
-    app.kubernetes.io/name: aws-load-balancer-controller
+    controller-gen.kubebuilder.io/version: v0.14.0
   name: ingressclassparams.elbv2.k8s.aws
 spec:
   group: elbv2.k8s.aws
@@ -38,20 +35,37 @@ spec:
         description: IngressClassParams is the Schema for the IngressClassParams API
         properties:
           apiVersion:
-            description: 'APIVersion defines the versioned schema of this representation
-              of an object. Servers should convert recognized schemas to the latest
-              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
             type: string
           kind:
-            description: 'Kind is a string value representing the REST resource this
-              object represents. Servers may infer this from the endpoint the client
-              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
             type: string
           metadata:
             type: object
           spec:
             description: IngressClassParamsSpec defines the desired state of IngressClassParams
             properties:
+              PrefixListsIDs:
+                description: PrefixListsIDs defines the security group prefix lists
+                  for all Ingresses that belong to IngressClass with this IngressClassParams.
+                items:
+                  type: string
+                type: array
+              certificateArn:
+                description: CertificateArn specifies the ARN of the certificates
+                  for all Ingresses that belong to IngressClass with this IngressClassParams.
+                items:
+                  type: string
+                type: array
               group:
                 description: Group defines the IngressGroup for all Ingresses that
                   belong to IngressClass with this IngressClassParams.
@@ -74,7 +88,47 @@ spec:
                 enum:
                 - ipv4
                 - dualstack
+                - dualstack-without-public-ipv4
                 type: string
+              ipamConfiguration:
+                description: IPAMConfiguration defines the IPAM settings for a Load
+                  Balancer.
+                properties:
+                  ipv4IPAMPoolId:
+                    description: IPv4IPAMPoolId defines the IPAM pool ID used for
+                      IPv4 Addresses on the ALB.
+                    type: string
+                type: object
+              listeners:
+                description: Listeners define a list of listeners with their protocol,
+                  port and attributes.
+                items:
+                  properties:
+                    listenerAttributes:
+                      description: The attributes of the listener
+                      items:
+                        description: Attributes defines custom attributes on resources.
+                        properties:
+                          key:
+                            description: The key of the attribute.
+                            type: string
+                          value:
+                            description: The value of the attribute.
+                            type: string
+                        required:
+                        - key
+                        - value
+                        type: object
+                      type: array
+                    port:
+                      description: The port of the listener
+                      format: int32
+                      type: integer
+                    protocol:
+                      description: The protocol of the listener
+                      type: string
+                  type: object
+                type: array
               loadBalancerAttributes:
                 description: LoadBalancerAttributes define the custom attributes to
                   LoadBalancers for all Ingress that that belong to IngressClass with
@@ -93,50 +147,63 @@ spec:
                   - value
                   type: object
                 type: array
+              minimumLoadBalancerCapacity:
+                description: MinimumLoadBalancerCapacity define the capacity reservation
+                  for LoadBalancers for all Ingress that belong to IngressClass with
+                  this IngressClassParams.
+                properties:
+                  capacityUnits:
+                    description: The Capacity Units Value.
+                    format: int32
+                    type: integer
+                required:
+                - capacityUnits
+                type: object
               namespaceSelector:
-                description: NamespaceSelector restrict the namespaces of Ingresses
-                  that are allowed to specify the IngressClass with this IngressClassParams.
+                description: |-
+                  NamespaceSelector restrict the namespaces of Ingresses that are allowed to specify the IngressClass with this IngressClassParams.
                   * if absent or present but empty, it selects all namespaces.
                 properties:
                   matchExpressions:
                     description: matchExpressions is a list of label selector requirements.
                       The requirements are ANDed.
                     items:
-                      description: A label selector requirement is a selector that
-                        contains values, a key, and an operator that relates the key
-                        and values.
+                      description: |-
+                        A label selector requirement is a selector that contains values, a key, and an operator that
+                        relates the key and values.
                       properties:
                         key:
                           description: key is the label key that the selector applies
                             to.
                           type: string
                         operator:
-                          description: operator represents a key's relationship to
-                            a set of values. Valid operators are In, NotIn, Exists
-                            and DoesNotExist.
+                          description: |-
+                            operator represents a key's relationship to a set of values.
+                            Valid operators are In, NotIn, Exists and DoesNotExist.
                           type: string
                         values:
-                          description: values is an array of string values. If the
-                            operator is In or NotIn, the values array must be non-empty.
-                            If the operator is Exists or DoesNotExist, the values
-                            array must be empty. This array is replaced during a strategic
+                          description: |-
+                            values is an array of string values. If the operator is In or NotIn,
+                            the values array must be non-empty. If the operator is Exists or DoesNotExist,
+                            the values array must be empty. This array is replaced during a strategic
                             merge patch.
                           items:
                             type: string
                           type: array
+                          x-kubernetes-list-type: atomic
                       required:
                       - key
                       - operator
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   matchLabels:
                     additionalProperties:
                       type: string
-                    description: matchLabels is a map of {key,value} pairs. A single
-                      {key,value} in the matchLabels map is equivalent to an element
-                      of matchExpressions, whose key field is "key", the operator
-                      is "In", and the values array contains only "value". The requirements
-                      are ANDed.
+                    description: |-
+                      matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+                      map is equivalent to an element of matchExpressions, whose key field is "key", the
+                      operator is "In", and the values array contains only "value". The requirements are ANDed.
                     type: object
                 type: object
                 x-kubernetes-map-type: atomic
@@ -169,10 +236,11 @@ spec:
                       items:
                         type: string
                       type: array
-                    description: Tags specifies subnets in the load balancer's VPC
-                      where each tag specified in the map key contains one of the
-                      values in the corresponding value list. Exactly one of this
-                      or `ids` must be specified.
+                    description: |-
+                      Tags specifies subnets in the load balancer's VPC where each
+                      tag specified in the map key contains one of the values in the corresponding
+                      value list.
+                      Exactly one of this or `ids` must be specified.
                     type: object
                 type: object
               tags:
@@ -192,6 +260,13 @@ spec:
                   - value
                   type: object
                 type: array
+              targetType:
+                description: TargetType defines the target type of target groups for
+                  all Ingresses that belong to IngressClass with this IngressClassParams.
+                enum:
+                - instance
+                - ip
+                type: string
             type: object
         type: object
     served: true
@@ -202,10 +277,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.1
-  creationTimestamp: null
-  labels:
-    app.kubernetes.io/name: aws-load-balancer-controller
+    controller-gen.kubebuilder.io/version: v0.14.0
   name: targetgroupbindings.elbv2.k8s.aws
 spec:
   group: elbv2.k8s.aws
@@ -234,6 +306,11 @@ spec:
       name: ARN
       priority: 1
       type: string
+    - description: The AWS TargetGroup's Name
+      jsonPath: .spec.targetGroupName
+      name: NAME
+      priority: 2
+      type: string
     - jsonPath: .metadata.creationTimestamp
       name: AGE
       type: date
@@ -243,20 +320,38 @@ spec:
         description: TargetGroupBinding is the Schema for the TargetGroupBinding API
         properties:
           apiVersion:
-            description: 'APIVersion defines the versioned schema of this representation
-              of an object. Servers should convert recognized schemas to the latest
-              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
             type: string
           kind:
-            description: 'Kind is a string value representing the REST resource this
-              object represents. Servers may infer this from the endpoint the client
-              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
             type: string
           metadata:
             type: object
           spec:
             description: TargetGroupBindingSpec defines the desired state of TargetGroupBinding
             properties:
+              assumeRoleExternalId:
+                description: IAM Role ARN to assume when calling AWS APIs. Needed
+                  to assume a role in another account and prevent the confused deputy
+                  problem. https://docs.aws.amazon.com/IAM/latest/UserGuide/confused-deputy.html
+                type: string
+              iamRoleArnToAssume:
+                description: IAM Role ARN to assume when calling AWS APIs. Useful
+                  if the target group is in a different AWS account
+                type: string
+              multiClusterTargetGroup:
+                description: MultiClusterTargetGroup Denotes if the TargetGroup is
+                  shared among multiple clusters
+                type: boolean
               networking:
                 description: networking provides the networking setup for ELBV2 LoadBalancer
                   to access targets in TargetGroup.
@@ -267,28 +362,30 @@ spec:
                     items:
                       properties:
                         from:
-                          description: List of peers which should be able to access
-                            the targets in TargetGroup. At least one NetworkingPeer
-                            should be specified.
+                          description: |-
+                            List of peers which should be able to access the targets in TargetGroup.
+                            At least one NetworkingPeer should be specified.
                           items:
                             description: NetworkingPeer defines the source/destination
                               peer for networking rules.
                             properties:
                               ipBlock:
-                                description: IPBlock defines an IPBlock peer. If specified,
-                                  none of the other fields can be set.
+                                description: |-
+                                  IPBlock defines an IPBlock peer.
+                                  If specified, none of the other fields can be set.
                                 properties:
                                   cidr:
-                                    description: CIDR is the network CIDR. Both IPV4
-                                      or IPV6 CIDR are accepted.
+                                    description: |-
+                                      CIDR is the network CIDR.
+                                      Both IPV4 or IPV6 CIDR are accepted.
                                     type: string
                                 required:
                                 - cidr
                                 type: object
                               securityGroup:
-                                description: SecurityGroup defines a SecurityGroup
-                                  peer. If specified, none of the other fields can
-                                  be set.
+                                description: |-
+                                  SecurityGroup defines a SecurityGroup peer.
+                                  If specified, none of the other fields can be set.
                                 properties:
                                   groupID:
                                     description: GroupID is the EC2 SecurityGroupID.
@@ -299,24 +396,24 @@ spec:
                             type: object
                           type: array
                         ports:
-                          description: List of ports which should be made accessible
-                            on the targets in TargetGroup. If ports is empty or unspecified,
-                            it defaults to all ports with TCP.
+                          description: |-
+                            List of ports which should be made accessible on the targets in TargetGroup.
+                            If ports is empty or unspecified, it defaults to all ports with TCP.
                           items:
                             properties:
                               port:
                                 anyOf:
                                 - type: integer
                                 - type: string
-                                description: The port which traffic must match. When
-                                  NodePort endpoints(instance TargetType) is used,
-                                  this must be a numerical port. When Port endpoints(ip
-                                  TargetType) is used, this can be either numerical
-                                  or named port on pods. if port is unspecified, it
-                                  defaults to all ports.
+                                description: |-
+                                  The port which traffic must match.
+                                  When NodePort endpoints(instance TargetType) is used, this must be a numerical port.
+                                  When Port endpoints(ip TargetType) is used, this can be either numerical or named port on pods.
+                                  if port is unspecified, it defaults to all ports.
                                 x-kubernetes-int-or-string: true
                               protocol:
-                                description: The protocol which traffic must match.
+                                description: |-
+                                  The protocol which traffic must match.
                                   If protocol is unspecified, it defaults to TCP.
                                 enum:
                                 - TCP
@@ -351,6 +448,9 @@ spec:
                 description: targetGroupARN is the Amazon Resource Name (ARN) for
                   the TargetGroup.
                 type: string
+              targetGroupName:
+                description: targetGroupName is the Name of the TargetGroup.
+                type: string
               targetType:
                 description: targetType is the TargetType of TargetGroup. If unspecified,
                   it will be automatically inferred.
@@ -360,7 +460,6 @@ spec:
                 type: string
             required:
             - serviceRef
-            - targetGroupARN
             type: object
           status:
             description: TargetGroupBindingStatus defines the observed state of TargetGroupBinding
@@ -393,6 +492,11 @@ spec:
       name: ARN
       priority: 1
       type: string
+    - description: The AWS TargetGroup's Name
+      jsonPath: .spec.targetGroupName
+      name: NAME
+      priority: 2
+      type: string
     - jsonPath: .metadata.creationTimestamp
       name: AGE
       type: date
@@ -402,20 +506,34 @@ spec:
         description: TargetGroupBinding is the Schema for the TargetGroupBinding API
         properties:
           apiVersion:
-            description: 'APIVersion defines the versioned schema of this representation
-              of an object. Servers should convert recognized schemas to the latest
-              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
             type: string
           kind:
-            description: 'Kind is a string value representing the REST resource this
-              object represents. Servers may infer this from the endpoint the client
-              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
             type: string
           metadata:
             type: object
           spec:
             description: TargetGroupBindingSpec defines the desired state of TargetGroupBinding
             properties:
+              assumeRoleExternalId:
+                description: IAM Role ARN to assume when calling AWS APIs. Needed
+                  to assume a role in another account and prevent the confused deputy
+                  problem. https://docs.aws.amazon.com/IAM/latest/UserGuide/confused-deputy.html
+                type: string
+              iamRoleArnToAssume:
+                description: IAM Role ARN to assume when calling AWS APIs. Useful
+                  if the target group is in a different AWS account
+                type: string
               ipAddressType:
                 description: ipAddressType specifies whether the target group is of
                   type IPv4 or IPv6. If unspecified, it will be automatically inferred.
@@ -423,6 +541,10 @@ spec:
                 - ipv4
                 - ipv6
                 type: string
+              multiClusterTargetGroup:
+                description: MultiClusterTargetGroup Denotes if the TargetGroup is
+                  shared among multiple clusters
+                type: boolean
               networking:
                 description: networking defines the networking rules to allow ELBV2
                   LoadBalancer to access targets in TargetGroup.
@@ -435,28 +557,30 @@ spec:
                         of traffic that is allowed to access TargetGroup's targets.
                       properties:
                         from:
-                          description: List of peers which should be able to access
-                            the targets in TargetGroup. At least one NetworkingPeer
-                            should be specified.
+                          description: |-
+                            List of peers which should be able to access the targets in TargetGroup.
+                            At least one NetworkingPeer should be specified.
                           items:
                             description: NetworkingPeer defines the source/destination
                               peer for networking rules.
                             properties:
                               ipBlock:
-                                description: IPBlock defines an IPBlock peer. If specified,
-                                  none of the other fields can be set.
+                                description: |-
+                                  IPBlock defines an IPBlock peer.
+                                  If specified, none of the other fields can be set.
                                 properties:
                                   cidr:
-                                    description: CIDR is the network CIDR. Both IPV4
-                                      or IPV6 CIDR are accepted.
+                                    description: |-
+                                      CIDR is the network CIDR.
+                                      Both IPV4 or IPV6 CIDR are accepted.
                                     type: string
                                 required:
                                 - cidr
                                 type: object
                               securityGroup:
-                                description: SecurityGroup defines a SecurityGroup
-                                  peer. If specified, none of the other fields can
-                                  be set.
+                                description: |-
+                                  SecurityGroup defines a SecurityGroup peer.
+                                  If specified, none of the other fields can be set.
                                 properties:
                                   groupID:
                                     description: GroupID is the EC2 SecurityGroupID.
@@ -467,9 +591,9 @@ spec:
                             type: object
                           type: array
                         ports:
-                          description: List of ports which should be made accessible
-                            on the targets in TargetGroup. If ports is empty or unspecified,
-                            it defaults to all ports with TCP.
+                          description: |-
+                            List of ports which should be made accessible on the targets in TargetGroup.
+                            If ports is empty or unspecified, it defaults to all ports with TCP.
                           items:
                             description: NetworkingPort defines the port and protocol
                               for networking rules.
@@ -478,15 +602,15 @@ spec:
                                 anyOf:
                                 - type: integer
                                 - type: string
-                                description: The port which traffic must match. When
-                                  NodePort endpoints(instance TargetType) is used,
-                                  this must be a numerical port. When Port endpoints(ip
-                                  TargetType) is used, this can be either numerical
-                                  or named port on pods. if port is unspecified, it
-                                  defaults to all ports.
+                                description: |-
+                                  The port which traffic must match.
+                                  When NodePort endpoints(instance TargetType) is used, this must be a numerical port.
+                                  When Port endpoints(ip TargetType) is used, this can be either numerical or named port on pods.
+                                  if port is unspecified, it defaults to all ports.
                                 x-kubernetes-int-or-string: true
                               protocol:
-                                description: The protocol which traffic must match.
+                                description: |-
+                                  The protocol which traffic must match.
                                   If protocol is unspecified, it defaults to TCP.
                                 enum:
                                 - TCP
@@ -508,41 +632,42 @@ spec:
                     description: matchExpressions is a list of label selector requirements.
                       The requirements are ANDed.
                     items:
-                      description: A label selector requirement is a selector that
-                        contains values, a key, and an operator that relates the key
-                        and values.
+                      description: |-
+                        A label selector requirement is a selector that contains values, a key, and an operator that
+                        relates the key and values.
                       properties:
                         key:
                           description: key is the label key that the selector applies
                             to.
                           type: string
                         operator:
-                          description: operator represents a key's relationship to
-                            a set of values. Valid operators are In, NotIn, Exists
-                            and DoesNotExist.
+                          description: |-
+                            operator represents a key's relationship to a set of values.
+                            Valid operators are In, NotIn, Exists and DoesNotExist.
                           type: string
                         values:
-                          description: values is an array of string values. If the
-                            operator is In or NotIn, the values array must be non-empty.
-                            If the operator is Exists or DoesNotExist, the values
-                            array must be empty. This array is replaced during a strategic
+                          description: |-
+                            values is an array of string values. If the operator is In or NotIn,
+                            the values array must be non-empty. If the operator is Exists or DoesNotExist,
+                            the values array must be empty. This array is replaced during a strategic
                             merge patch.
                           items:
                             type: string
                           type: array
+                          x-kubernetes-list-type: atomic
                       required:
                       - key
                       - operator
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   matchLabels:
                     additionalProperties:
                       type: string
-                    description: matchLabels is a map of {key,value} pairs. A single
-                      {key,value} in the matchLabels map is equivalent to an element
-                      of matchExpressions, whose key field is "key", the operator
-                      is "In", and the values array contains only "value". The requirements
-                      are ANDed.
+                    description: |-
+                      matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+                      map is equivalent to an element of matchExpressions, whose key field is "key", the
+                      operator is "In", and the values array contains only "value". The requirements are ANDed.
                     type: object
                 type: object
                 x-kubernetes-map-type: atomic
@@ -566,7 +691,9 @@ spec:
               targetGroupARN:
                 description: targetGroupARN is the Amazon Resource Name (ARN) for
                   the TargetGroup.
-                minLength: 1
+                type: string
+              targetGroupName:
+                description: targetGroupName is the Name of the TargetGroup.
                 type: string
               targetType:
                 description: targetType is the TargetType of TargetGroup. If unspecified,
@@ -575,9 +702,12 @@ spec:
                 - instance
                 - ip
                 type: string
+              vpcID:
+                description: VpcID is the VPC of the TargetGroup. If unspecified,
+                  it will be automatically inferred.
+                type: string
             required:
             - serviceRef
-            - targetGroupARN
             type: object
           status:
             description: TargetGroupBindingStatus defines the observed state of TargetGroupBinding
@@ -594,11 +724,15 @@ spec:
       status: {}
 ---
 apiVersion: v1
+automountServiceAccountToken: true
 kind: ServiceAccount
 metadata:
   labels:
-    app.kubernetes.io/component: controller
+    app.kubernetes.io/instance: aws-load-balancer-controller
+    app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: aws-load-balancer-controller
+    app.kubernetes.io/version: v2.13.0
+    helm.sh/chart: aws-load-balancer-controller-1.13.0
   name: aws-load-balancer-controller
   namespace: kube-system
 ---
@@ -606,7 +740,11 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   labels:
+    app.kubernetes.io/instance: aws-load-balancer-controller
+    app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: aws-load-balancer-controller
+    app.kubernetes.io/version: v2.13.0
+    helm.sh/chart: aws-load-balancer-controller-1.13.0
   name: aws-load-balancer-controller-leader-election-role
   namespace: kube-system
 rules:
@@ -624,8 +762,8 @@ rules:
   - configmaps
   verbs:
   - get
-  - update
   - patch
+  - update
 - apiGroups:
   - coordination.k8s.io
   resources:
@@ -646,90 +784,14 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  creationTimestamp: null
   labels:
+    app.kubernetes.io/instance: aws-load-balancer-controller
+    app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: aws-load-balancer-controller
+    app.kubernetes.io/version: v2.13.0
+    helm.sh/chart: aws-load-balancer-controller-1.13.0
   name: aws-load-balancer-controller-role
 rules:
-- apiGroups:
-  - ""
-  resources:
-  - endpoints
-  verbs:
-  - get
-  - list
-  - watch
-- apiGroups:
-  - ""
-  resources:
-  - events
-  verbs:
-  - create
-  - patch
-- apiGroups:
-  - ""
-  resources:
-  - namespaces
-  verbs:
-  - get
-  - list
-  - watch
-- apiGroups:
-  - ""
-  resources:
-  - nodes
-  verbs:
-  - get
-  - list
-  - watch
-- apiGroups:
-  - ""
-  resources:
-  - pods
-  verbs:
-  - get
-  - list
-  - watch
-- apiGroups:
-  - ""
-  resources:
-  - pods/status
-  verbs:
-  - patch
-  - update
-- apiGroups:
-  - ""
-  resources:
-  - services
-  verbs:
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - ""
-  resources:
-  - services/status
-  verbs:
-  - patch
-  - update
-- apiGroups:
-  - discovery.k8s.io
-  resources:
-  - endpointslices
-  verbs:
-  - get
-  - list
-  - watch
-- apiGroups:
-  - elbv2.k8s.aws
-  resources:
-  - ingressclassparams
-  verbs:
-  - get
-  - list
-  - watch
 - apiGroups:
   - elbv2.k8s.aws
   resources:
@@ -745,27 +807,26 @@ rules:
 - apiGroups:
   - elbv2.k8s.aws
   resources:
-  - targetgroupbindings/status
-  verbs:
-  - patch
-  - update
-- apiGroups:
-  - extensions
-  resources:
-  - ingresses
+  - ingressclassparams
   verbs:
   - get
   - list
-  - patch
-  - update
   - watch
 - apiGroups:
-  - extensions
+  - ""
   resources:
-  - ingresses/status
+  - events
   verbs:
+  - create
   - patch
-  - update
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  verbs:
+  - get
+  - list
+  - watch
 - apiGroups:
   - networking.k8s.io
   resources:
@@ -775,8 +836,11 @@ rules:
   - list
   - watch
 - apiGroups:
+  - ""
+  - extensions
   - networking.k8s.io
   resources:
+  - services
   - ingresses
   verbs:
   - get
@@ -785,10 +849,128 @@ rules:
   - update
   - watch
 - apiGroups:
+  - ""
+  resources:
+  - nodes
+  - namespaces
+  - endpoints
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  verbs:
+  - get
+  - delete
+  - create
+  - update
+- apiGroups:
+  - elbv2.k8s.aws
+  - ""
+  - extensions
   - networking.k8s.io
   resources:
+  - targetgroupbindings/status
+  - pods/status
+  - services/status
   - ingresses/status
   verbs:
+  - update
+  - patch
+- apiGroups:
+  - discovery.k8s.io
+  resources:
+  - endpointslices
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - gateway.k8s.aws
+  resources:
+  - loadbalancerconfigurations
+  - targetgroupconfigurations
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - gateway.k8s.aws
+  resources:
+  - loadbalancerconfigurations/finalizers
+  - targetgroupconfigurations/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - gateway.k8s.aws
+  resources:
+  - loadbalancerconfigurations/status
+  - targetgroupconfigurations/status
+  verbs:
+  - get
+  - patch
+  - watch
+- apiGroups:
+  - gateway.networking.k8s.io
+  resources:
+  - gatewayclasses
+  - gateways
+  verbs:
+  - get
+  - list
+  - watch
+  - patch
+- apiGroups:
+  - gateway.networking.k8s.io
+  resources:
+  - gatewayclasses/finalizers
+  - gateways/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - gateway.networking.k8s.io
+  resources:
+  - gatewayclasses/status
+  - gateways/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - gateway.networking.k8s.io
+  resources:
+  - grpcroutes
+  - httproutes
+  - tcproutes
+  - tlsroutes
+  - udproutes
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - gateway.networking.k8s.io
+  resources:
+  - grpcroutes/finalizers
+  - httproutes/finalizers
+  - tcproutes/finalizers
+  - tlsroutes/finalizers
+  - udproutes/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - gateway.networking.k8s.io
+  resources:
+  - grpcroutes/status
+  - httproutes/status
+  - tcproutes/status
+  - tlsroutes/status
+  - udproutes/status
+  verbs:
+  - get
   - patch
   - update
 ---
@@ -796,7 +978,11 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   labels:
+    app.kubernetes.io/instance: aws-load-balancer-controller
+    app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: aws-load-balancer-controller
+    app.kubernetes.io/version: v2.13.0
+    helm.sh/chart: aws-load-balancer-controller-1.13.0
   name: aws-load-balancer-controller-leader-election-rolebinding
   namespace: kube-system
 roleRef:
@@ -812,7 +998,11 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
   labels:
+    app.kubernetes.io/instance: aws-load-balancer-controller
+    app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: aws-load-balancer-controller
+    app.kubernetes.io/version: v2.13.0
+    helm.sh/chart: aws-load-balancer-controller-1.13.0
   name: aws-load-balancer-controller-rolebinding
 roleRef:
   apiGroup: rbac.authorization.k8s.io
@@ -824,57 +1014,95 @@ subjects:
   namespace: kube-system
 ---
 apiVersion: v1
+data:
+  ca.crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURQekNDQWllZ0F3SUJBZ0lRTkpUZ285c2UrNnlacU0ra2Y5UzE5akFOQmdrcWhraUc5dzBCQVFzRkFEQXEKTVNnd0pnWURWUVFERXg5aGQzTXRiRzloWkMxaVlXeGhibU5sY2kxamIyNTBjbTlzYkdWeUxXTmhNQjRYRFRJMQpNRFV3T1RBNU16UXdNMW9YRFRNMU1EVXdOekE1TXpRd00xb3dLakVvTUNZR0ExVUVBeE1mWVhkekxXeHZZV1F0ClltRnNZVzVqWlhJdFkyOXVkSEp2Ykd4bGNpMWpZVENDQVNJd0RRWUpLb1pJaHZjTkFRRUJCUUFEZ2dFUEFEQ0MKQVFvQ2dnRUJBT2J6a3JjbkFXbm13VW9lMFZvMCs5aXdsYTNpdTZLcjhwRG5aYnVtNmZBWTczV2NiWTVpQUN0SQoyWDJXMVo5QWJWTGg5bkliYnYrekd4MndycXExVjFhOERTNXBLakZpMGZNNWZ3ZHMya3RkK1g1MjYxblZkc1NnCnhSby85TUgya3BPNEpaZWJudEdEZ1BzUzlqdGorSHUvSjhGNWJ2TVNLSHJYdUo5dGFhbFlvb2UrVWQ0dHF4WEoKQmI4dXN0aUUzbWFEODVWSkNMRTRoVFJBaWJoeHZNOHBRbml0eGE0a1FlS3B2bXpCSWdlSjRqdXlxK1k4ZmpEagowTGpZeTVWSUozNU1KNGFzbjVJeEFtR0kyRGxoM0lCdXVwRVFML1dXbHZzN1hOU01NWXc4MmhPeWNKTlFOWEIrCnRKZnRicWZaYjlMQlp2YlBid1ZQQmROQkExVmJSZFVDQXdFQUFhTmhNRjh3RGdZRFZSMFBBUUgvQkFRREFnS2sKTUIwR0ExVWRKUVFXTUJRR0NDc0dBUVVGQndNQkJnZ3JCZ0VGQlFjREFqQVBCZ05WSFJNQkFmOEVCVEFEQVFILwpNQjBHQTFVZERnUVdCQlNpMFlHWGZ3bFh2QUQyZlptdjdqUUpSdStGMGpBTkJna3Foa2lHOXcwQkFRc0ZBQU9DCkFRRUFZRFdWSWh3alNqL1Noai9vZ0ZpcEtuZ2dEd2cyQngzcXVxRGszWkRyT2tSeXkxZHpkK2QzVzRheEszV2YKNXFnVGRPQWNnN0ZrVmE4NTlFNVBRbGZqRjIzMnNrMkV3ME0ydGhZTUpaN0luWmxSNHNlZm8xTHpFU1gxc0hEOQpLZkRpSFJ6NEpHQ3gxZ0ZvQ0tGSy84aURLcTM0aHlVbW55and1QmVhbEo4QUd3OC9NQytOYUlSYU1OTndNcXFUClNUUGV5OUxYVzVOQnp3Tm11elB5M1ptTlpCdmViQTJ2N3ZhTnhyQTRGamVFZ21hazlKaWNwZFY3aWRsckw4MG4KanNEV2dLYUNqSE5XQlZyL3lLZTJ6NHZzNldqSG5scGFRaWZsNW9HRGpHaEVud3JaYnhWRGxNakZ4RndXZ1pOcgoyWEE2L1ExMisrZkRHSnRnNmtiRUdZcUtjQT09Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+  tls.crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUQ4VENDQXRtZ0F3SUJBZ0lSQUl4WjVoRWdNVVlhT1hORHkrYXduYWd3RFFZSktvWklodmNOQVFFTEJRQXcKS2pFb01DWUdBMVVFQXhNZllYZHpMV3h2WVdRdFltRnNZVzVqWlhJdFkyOXVkSEp2Ykd4bGNpMWpZVEFlRncweQpOVEExTURrd09UTTBNRFJhRncwek5UQTFNRGN3T1RNME1EUmFNQ2N4SlRBakJnTlZCQU1USEdGM2N5MXNiMkZrCkxXSmhiR0Z1WTJWeUxXTnZiblJ5YjJ4c1pYSXdnZ0VpTUEwR0NTcUdTSWIzRFFFQkFRVUFBNElCRHdBd2dnRUsKQW9JQkFRQ3VGV3R2cnVnWXM0RmJlaXRjRXJ6ZHBSYlVMQUVScTFxSlpjK2l2bkhTalZMTUNSVzdpUm5Yd25VQgp1MCtPUGtGZEk2Y09RQnlGWlVWUWdmckw3Qm9xZHQzWkdEdXNDTi9HOGlQaUhOb3Z4RkVJS2FsUGdFUkhZOUFpCnJyTFVDdmVUaDFLeVpoV2xLVXJsUElOZjZYUmEvbFNoRHdSNzJSemNsZXUxVlVCYndpU2x4T01yTC9pVFErS04KMXFxRitSKzg0bTVvME9rUzNjcXpBY29tbFpQWlZVMmtWZ2l0V1hxWnVidFptUGkweklkZGxteFgzWU1mK1ErbwpnaUNGd3VDTHJHai9GcFQwZ0tJOWxmK0FNMG1MdjI4ZElwT1hHeDZuYUlZN1QvT2FrQi80WE4xeDJUVlpBSjlsCjI5aTZNNjB3RDNFTS9idkpTQnRwaGFDeDhER25BZ01CQUFHamdnRVRNSUlCRHpBT0JnTlZIUThCQWY4RUJBTUMKQmFBd0hRWURWUjBsQkJZd0ZBWUlLd1lCQlFVSEF3RUdDQ3NHQVFVRkJ3TUNNQXdHQTFVZEV3RUIvd1FDTUFBdwpId1lEVlIwakJCZ3dGb0FVb3RHQmwzOEpWN3dBOW4yWnIrNDBDVWJ2aGRJd2dhNEdBMVVkRVFTQnBqQ0JvNEl0CllYZHpMV3h2WVdRdFltRnNZVzVqWlhJdGQyVmlhRzl2YXkxelpYSjJhV05sTG10MVltVXRjM2x6ZEdWdGdqRmgKZDNNdGJHOWhaQzFpWVd4aGJtTmxjaTEzWldKb2IyOXJMWE5sY25acFkyVXVhM1ZpWlMxemVYTjBaVzB1YzNaagpnajloZDNNdGJHOWhaQzFpWVd4aGJtTmxjaTEzWldKb2IyOXJMWE5sY25acFkyVXVhM1ZpWlMxemVYTjBaVzB1CmMzWmpMbU5zZFhOMFpYSXViRzlqWVd3d0RRWUpLb1pJaHZjTkFRRUxCUUFEZ2dFQkFDU1gwREllL00xb1BwQlIKNDAzaDI4b2RNV0pzUHA3Uk13YnkrUlNsdFBJK1pQZnc4TGs4bVBRQ281WHdhdjZmdnZIRjNEUHEyWW1zOEhGMwozRjdQOGJTeTJja0VhMWFOK2d6S2Y2Y2lUTllRS3VZWFNGMDZZY2JodjRTeXZOUjV5RG5JbmdyV1BicHptbGZaCjZ5NXVCRngyOWNWK1FROGI3dFZVcEI3NG5rMkpNSUUrbzlSS2tsY3dJMy9WMFZMa2dFVEMraCtld0lNM0VzMjAKdkIyeVgxMkhrQ21JMHIyY2JmWlBjdXlVRjE3cG4rbjNtd0trL0RjYmFJZitTL1Mxa2IvNnpYYWpmOXBNSmhHNwpnT3ZZQUppaXZPZC9Xd3k2dWFPZVBQWDU5Njk3M3RQRFA1a1BUZ2M3M25DbDZVNklxWDkzU1JkS1JLWFJhQXZVCjhpbEozclE9Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+  tls.key: LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpNSUlFb2dJQkFBS0NBUUVBcmhWcmI2N29HTE9CVzNvclhCSzgzYVVXMUN3QkVhdGFpV1hQb3I1eDBvMVN6QWtWCnU0a1oxOEoxQWJ0UGpqNUJYU09uRGtBY2hXVkZVSUg2eSt3YUtuYmQyUmc3ckFqZnh2SWo0aHphTDhSUkNDbXAKVDRCRVIyUFFJcTZ5MUFyM2s0ZFNzbVlWcFNsSzVUeURYK2wwV3Y1VW9ROEVlOWtjM0pYcnRWVkFXOElrcGNUagpLeS80azBQaWpkYXFoZmtmdk9KdWFORHBFdDNLc3dIS0pwV1QyVlZOcEZZSXJWbDZtYm03V1pqNHRNeUhYWlpzClY5MkRIL2tQcUlJZ2hjTGdpNnhvL3hhVTlJQ2lQWlgvZ0ROSmk3OXZIU0tUbHhzZXAyaUdPMC96bXBBZitGemQKY2RrMVdRQ2ZaZHZZdWpPdE1BOXhEUDI3eVVnYmFZV2dzZkF4cHdJREFRQUJBb0lCQURTOWVvb2dkR0tmWjQ1ZQpTZXFnSnFZRDBSSEFyeVk2UXJpanBxOUlnVlZueVhEVlE4ZElOeE1kNzdMeG01MmRrTkgxN2pPc0NyZ0RRV2V0CnFWekVqL3pUZkV5OFFiL1NCSEhTaERxSndUUjlob3N4akFEdy9ENmdwN3NLTUZWN2FSeENBRFRhSnE2ZC92bksKUm9iMVJISVk0V3pXRHVheWxVTGpETUVvTGRKZVUraHpMUUQxV2VRYzVqR29YSXR4d0k5Q1RDeHY3OGhZck9rLwoxRlhpaitRWStRVTNJRjJhQXR3QzB3QU1tcEdMdzhiSWY1dHgxQ044MC9PWGdZM1RaUlFaZ3BIRSsxNkJnREVGCnRiUFMxdVhwTFk1bTdCenVPNmVDd1hwN3J2aC94NEdHMnlldVk3UGdzaXIzS2djMGkrNXB6R2h0L1NhdjFvUnoKTUlnbWdla0NnWUVBeFp1WmZBSGlxZC9rWDRiTHJZODZoM1M4b0lWbk42WTFqLzJoakpvL1lpNjZVUXBGWkFpVApFRHFHVDl6QUFudG56dEhuUVNrSGZmSTVWNmRXU0hMMlV0RklzWUczVUtnOENYZXJCWkZUTWYyUDMvWTA2VGFECkR5N2hMQ3NEVE90ajAvcGU1aHU1blI2c0V4N2RlNjVUUDBNZ2VMU3RUWjYzNERHYUozTm1lVTBDZ1lFQTRZWkwKUWNTOXZaRFNQemFxRFdmUkJRTXJYbUJGbWZSa3psYjhjMFFmSkVtU0krbGU4MXlobGZibGpsY2pvZ1BVWXhzOApsNXJkWnBKcjdtamVHMzA0ODBpY0lVYnhFSCtmMWIxWVVRalpSbU5ETFZKZmpBY3BEWTJReWp2ZFNNZFovY056CmRLUWwwVGF0SUNUaTFnSWI0U1JrVFpTd2NNbXVsSGFmNUd4aS9NTUNnWUFIRlMycUtUTWpuWmZFNk1MeUpKa1gKYzlLeStqVVo1SVkwOUFWUFVkUUZ3K0QvdUp1R0cxeVNEMWJ6RTlsNS9VeGFPR0hPanhicXA3endiRm9HWE1DQgpkV2ppbStDakxuU0FibDZkNDNpVTZSNjRDMDRZTWREK3dWSm16OS9kYU81NkVaWkhMeVUzQVh0dmNBTEdSUmhNCnd5NHR4V1FVelNTUUQ1Y1Q1T24rWFFLQmdHc0ZTNWsrUDd4QmlVUXVNS3lENDVDNVhFOUE2RWFTejNPTG0ra24KSHBBZHlaZjVHdkhwdDFSdkFhaDJlWlpjc3VFRS85QUIwYWJuUFFpNkF3eVFkQUlmSnRnenpobkNOcHM3YXptcApOVkpOc0lkRlc4b2JhOFBldGlNQ0haUjM1YUNpcTV0aWVmKzZMcFhlYXphYmNaZDVxWStYUzlONklicWFRRzRwCmNSLzVBb0dBZXdUQUVRdkdBUUFwWjY3amRjTHFSOUtudDhZZGFkYVlLTyttSGd2ZkltSXNsekdvQi9vT1c4WW0KV1Z4M2VHSjZyNUlrbWVTRmZWdjUwWUVSRG4xQXhxN2tOSWNYYXFtMGJHbWdHOVJ2ZzNEYUdGai9aOVo5S0hTWgpLVTFFN2RpVFRpbzJhWk1jdkZkdWtOZlRMZ1VMOTBwcDI2NTIyWFBRVG5xL3pqMGZUTGc9Ci0tLS0tRU5EIFJTQSBQUklWQVRFIEtFWS0tLS0tCg==
+kind: Secret
+metadata:
+  labels:
+    app.kubernetes.io/instance: aws-load-balancer-controller
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: aws-load-balancer-controller
+    app.kubernetes.io/version: v2.13.0
+    helm.sh/chart: aws-load-balancer-controller-1.13.0
+  name: aws-load-balancer-tls
+  namespace: kube-system
+type: kubernetes.io/tls
+---
+apiVersion: v1
 kind: Service
 metadata:
   labels:
+    app.kubernetes.io/component: webhook
+    app.kubernetes.io/instance: aws-load-balancer-controller
+    app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: aws-load-balancer-controller
+    app.kubernetes.io/version: v2.13.0
+    helm.sh/chart: aws-load-balancer-controller-1.13.0
+    prometheus.io/service-monitor: "false"
   name: aws-load-balancer-webhook-service
   namespace: kube-system
 spec:
   ports:
-  - port: 443
-    targetPort: 9443
+  - name: webhook-server
+    port: 443
+    targetPort: webhook-server
   selector:
-    app.kubernetes.io/component: controller
+    app.kubernetes.io/instance: aws-load-balancer-controller
     app.kubernetes.io/name: aws-load-balancer-controller
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app.kubernetes.io/component: controller
+    app.kubernetes.io/instance: aws-load-balancer-controller
+    app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: aws-load-balancer-controller
+    app.kubernetes.io/version: v2.13.0
+    helm.sh/chart: aws-load-balancer-controller-1.13.0
   name: aws-load-balancer-controller
   namespace: kube-system
 spec:
-  replicas: 1
+  replicas: 2
+  revisionHistoryLimit: 10
   selector:
     matchLabels:
-      app.kubernetes.io/component: controller
+      app.kubernetes.io/instance: aws-load-balancer-controller
       app.kubernetes.io/name: aws-load-balancer-controller
   template:
     metadata:
+      annotations:
+        prometheus.io/port: "8080"
+        prometheus.io/scrape: "true"
       labels:
-        app.kubernetes.io/component: controller
+        app.kubernetes.io/instance: aws-load-balancer-controller
         app.kubernetes.io/name: aws-load-balancer-controller
     spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app.kubernetes.io/name
+                  operator: In
+                  values:
+                  - aws-load-balancer-controller
+              topologyKey: kubernetes.io/hostname
+            weight: 100
       containers:
       - args:
         - --cluster-name=default
-        - --aws-region=$(AWS_REGION)
-        - --aws-vpc-id=$(VPC_ID)
+        - --ingress-class=alb
         env:
-        - name: VPC_ID
-          valueFrom:
-            configMapKeyRef:
-              key: vpc-id
-              name: aws-data-config
-        - name: AWS_REGION
-          valueFrom:
-            configMapKeyRef:
-              key: aws-region
-              name: aws-data-config
-        image: public.ecr.aws/eks/aws-load-balancer-controller:v2.6.1
+        - name: 0
+          value: map[name:VPC_ID valueFrom:map[configMapKeyRef:map[key:vpc-id name:aws-data-config]]]
+        - name: 1
+          value: map[name:AWS_REGION valueFrom:map[configMapKeyRef:map[key:aws-region
+            name:aws-data-config]]]
+        image: public.ecr.aws/eks/aws-load-balancer-controller:v2.13.0
+        imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 2
           httpGet:
@@ -883,18 +1111,24 @@ spec:
             scheme: HTTP
           initialDelaySeconds: 30
           timeoutSeconds: 10
-        name: controller
+        name: aws-load-balancer-controller
         ports:
         - containerPort: 9443
           name: webhook-server
           protocol: TCP
-        resources:
-          limits:
-            cpu: 200m
-            memory: 500Mi
-          requests:
-            cpu: 100m
-            memory: 200Mi
+        - containerPort: 8080
+          name: metrics-server
+          protocol: TCP
+        readinessProbe:
+          failureThreshold: 2
+          httpGet:
+            path: /readyz
+            port: 61779
+            scheme: HTTP
+          initialDelaySeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 10
+        resources: {}
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: true
@@ -905,83 +1139,59 @@ spec:
           readOnly: true
       priorityClassName: system-cluster-critical
       securityContext:
-        fsGroup: 1337
+        fsGroup: 65534
       serviceAccountName: aws-load-balancer-controller
       terminationGracePeriodSeconds: 10
       volumes:
       - name: cert
         secret:
           defaultMode: 420
-          secretName: aws-load-balancer-webhook-tls
+          secretName: aws-load-balancer-tls
 ---
-apiVersion: cert-manager.io/v1
-kind: Certificate
+apiVersion: elbv2.k8s.aws/v1beta1
+kind: IngressClassParams
 metadata:
   labels:
+    app.kubernetes.io/instance: aws-load-balancer-controller
+    app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: aws-load-balancer-controller
-  name: aws-load-balancer-serving-cert
-  namespace: kube-system
-spec:
-  dnsNames:
-  - aws-load-balancer-webhook-service.kube-system.svc
-  - aws-load-balancer-webhook-service.kube-system.svc.cluster.local
-  issuerRef:
-    kind: Issuer
-    name: aws-load-balancer-selfsigned-issuer
-  secretName: aws-load-balancer-webhook-tls
+    app.kubernetes.io/version: v2.13.0
+    helm.sh/chart: aws-load-balancer-controller-1.13.0
+  name: alb
 ---
-apiVersion: cert-manager.io/v1
-kind: Issuer
+apiVersion: networking.k8s.io/v1
+kind: IngressClass
 metadata:
   labels:
+    app.kubernetes.io/instance: aws-load-balancer-controller
+    app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: aws-load-balancer-controller
-  name: aws-load-balancer-selfsigned-issuer
-  namespace: kube-system
+    app.kubernetes.io/version: v2.13.0
+    helm.sh/chart: aws-load-balancer-controller-1.13.0
+  name: alb
 spec:
-  selfSigned: {}
+  controller: ingress.k8s.aws/alb
 ---
 apiVersion: admissionregistration.k8s.io/v1
 kind: MutatingWebhookConfiguration
 metadata:
-  annotations:
-    cert-manager.io/inject-ca-from: kube-system/aws-load-balancer-serving-cert
   labels:
+    app.kubernetes.io/instance: aws-load-balancer-controller
+    app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: aws-load-balancer-controller
+    app.kubernetes.io/version: v2.13.0
+    helm.sh/chart: aws-load-balancer-controller-1.13.0
   name: aws-load-balancer-webhook
 webhooks:
 - admissionReviewVersions:
   - v1beta1
   clientConfig:
-    service:
-      name: aws-load-balancer-webhook-service
-      namespace: kube-system
-      path: /mutate-v1-service
-  failurePolicy: Fail
-  name: mservice.elbv2.k8s.aws
-  objectSelector:
-    matchExpressions:
-    - key: app.kubernetes.io/name
-      operator: NotIn
-      values:
-      - aws-load-balancer-controller
-  rules:
-  - apiGroups:
-    - ""
-    apiVersions:
-    - v1
-    operations:
-    - CREATE
-    resources:
-    - services
-  sideEffects: None
-- admissionReviewVersions:
-  - v1beta1
-  clientConfig:
+    caBundle: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURQekNDQWllZ0F3SUJBZ0lRTkpUZ285c2UrNnlacU0ra2Y5UzE5akFOQmdrcWhraUc5dzBCQVFzRkFEQXEKTVNnd0pnWURWUVFERXg5aGQzTXRiRzloWkMxaVlXeGhibU5sY2kxamIyNTBjbTlzYkdWeUxXTmhNQjRYRFRJMQpNRFV3T1RBNU16UXdNMW9YRFRNMU1EVXdOekE1TXpRd00xb3dLakVvTUNZR0ExVUVBeE1mWVhkekxXeHZZV1F0ClltRnNZVzVqWlhJdFkyOXVkSEp2Ykd4bGNpMWpZVENDQVNJd0RRWUpLb1pJaHZjTkFRRUJCUUFEZ2dFUEFEQ0MKQVFvQ2dnRUJBT2J6a3JjbkFXbm13VW9lMFZvMCs5aXdsYTNpdTZLcjhwRG5aYnVtNmZBWTczV2NiWTVpQUN0SQoyWDJXMVo5QWJWTGg5bkliYnYrekd4MndycXExVjFhOERTNXBLakZpMGZNNWZ3ZHMya3RkK1g1MjYxblZkc1NnCnhSby85TUgya3BPNEpaZWJudEdEZ1BzUzlqdGorSHUvSjhGNWJ2TVNLSHJYdUo5dGFhbFlvb2UrVWQ0dHF4WEoKQmI4dXN0aUUzbWFEODVWSkNMRTRoVFJBaWJoeHZNOHBRbml0eGE0a1FlS3B2bXpCSWdlSjRqdXlxK1k4ZmpEagowTGpZeTVWSUozNU1KNGFzbjVJeEFtR0kyRGxoM0lCdXVwRVFML1dXbHZzN1hOU01NWXc4MmhPeWNKTlFOWEIrCnRKZnRicWZaYjlMQlp2YlBid1ZQQmROQkExVmJSZFVDQXdFQUFhTmhNRjh3RGdZRFZSMFBBUUgvQkFRREFnS2sKTUIwR0ExVWRKUVFXTUJRR0NDc0dBUVVGQndNQkJnZ3JCZ0VGQlFjREFqQVBCZ05WSFJNQkFmOEVCVEFEQVFILwpNQjBHQTFVZERnUVdCQlNpMFlHWGZ3bFh2QUQyZlptdjdqUUpSdStGMGpBTkJna3Foa2lHOXcwQkFRc0ZBQU9DCkFRRUFZRFdWSWh3alNqL1Noai9vZ0ZpcEtuZ2dEd2cyQngzcXVxRGszWkRyT2tSeXkxZHpkK2QzVzRheEszV2YKNXFnVGRPQWNnN0ZrVmE4NTlFNVBRbGZqRjIzMnNrMkV3ME0ydGhZTUpaN0luWmxSNHNlZm8xTHpFU1gxc0hEOQpLZkRpSFJ6NEpHQ3gxZ0ZvQ0tGSy84aURLcTM0aHlVbW55and1QmVhbEo4QUd3OC9NQytOYUlSYU1OTndNcXFUClNUUGV5OUxYVzVOQnp3Tm11elB5M1ptTlpCdmViQTJ2N3ZhTnhyQTRGamVFZ21hazlKaWNwZFY3aWRsckw4MG4KanNEV2dLYUNqSE5XQlZyL3lLZTJ6NHZzNldqSG5scGFRaWZsNW9HRGpHaEVud3JaYnhWRGxNakZ4RndXZ1pOcgoyWEE2L1ExMisrZkRHSnRnNmtiRUdZcUtjQT09Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
     service:
       name: aws-load-balancer-webhook-service
       namespace: kube-system
       path: /mutate-v1-pod
-  failurePolicy: Fail
+  failurePolicy: Ignore
   name: mpod.elbv2.k8s.aws
   namespaceSelector:
     matchExpressions:
@@ -1008,6 +1218,33 @@ webhooks:
 - admissionReviewVersions:
   - v1beta1
   clientConfig:
+    caBundle: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURQekNDQWllZ0F3SUJBZ0lRTkpUZ285c2UrNnlacU0ra2Y5UzE5akFOQmdrcWhraUc5dzBCQVFzRkFEQXEKTVNnd0pnWURWUVFERXg5aGQzTXRiRzloWkMxaVlXeGhibU5sY2kxamIyNTBjbTlzYkdWeUxXTmhNQjRYRFRJMQpNRFV3T1RBNU16UXdNMW9YRFRNMU1EVXdOekE1TXpRd00xb3dLakVvTUNZR0ExVUVBeE1mWVhkekxXeHZZV1F0ClltRnNZVzVqWlhJdFkyOXVkSEp2Ykd4bGNpMWpZVENDQVNJd0RRWUpLb1pJaHZjTkFRRUJCUUFEZ2dFUEFEQ0MKQVFvQ2dnRUJBT2J6a3JjbkFXbm13VW9lMFZvMCs5aXdsYTNpdTZLcjhwRG5aYnVtNmZBWTczV2NiWTVpQUN0SQoyWDJXMVo5QWJWTGg5bkliYnYrekd4MndycXExVjFhOERTNXBLakZpMGZNNWZ3ZHMya3RkK1g1MjYxblZkc1NnCnhSby85TUgya3BPNEpaZWJudEdEZ1BzUzlqdGorSHUvSjhGNWJ2TVNLSHJYdUo5dGFhbFlvb2UrVWQ0dHF4WEoKQmI4dXN0aUUzbWFEODVWSkNMRTRoVFJBaWJoeHZNOHBRbml0eGE0a1FlS3B2bXpCSWdlSjRqdXlxK1k4ZmpEagowTGpZeTVWSUozNU1KNGFzbjVJeEFtR0kyRGxoM0lCdXVwRVFML1dXbHZzN1hOU01NWXc4MmhPeWNKTlFOWEIrCnRKZnRicWZaYjlMQlp2YlBid1ZQQmROQkExVmJSZFVDQXdFQUFhTmhNRjh3RGdZRFZSMFBBUUgvQkFRREFnS2sKTUIwR0ExVWRKUVFXTUJRR0NDc0dBUVVGQndNQkJnZ3JCZ0VGQlFjREFqQVBCZ05WSFJNQkFmOEVCVEFEQVFILwpNQjBHQTFVZERnUVdCQlNpMFlHWGZ3bFh2QUQyZlptdjdqUUpSdStGMGpBTkJna3Foa2lHOXcwQkFRc0ZBQU9DCkFRRUFZRFdWSWh3alNqL1Noai9vZ0ZpcEtuZ2dEd2cyQngzcXVxRGszWkRyT2tSeXkxZHpkK2QzVzRheEszV2YKNXFnVGRPQWNnN0ZrVmE4NTlFNVBRbGZqRjIzMnNrMkV3ME0ydGhZTUpaN0luWmxSNHNlZm8xTHpFU1gxc0hEOQpLZkRpSFJ6NEpHQ3gxZ0ZvQ0tGSy84aURLcTM0aHlVbW55and1QmVhbEo4QUd3OC9NQytOYUlSYU1OTndNcXFUClNUUGV5OUxYVzVOQnp3Tm11elB5M1ptTlpCdmViQTJ2N3ZhTnhyQTRGamVFZ21hazlKaWNwZFY3aWRsckw4MG4KanNEV2dLYUNqSE5XQlZyL3lLZTJ6NHZzNldqSG5scGFRaWZsNW9HRGpHaEVud3JaYnhWRGxNakZ4RndXZ1pOcgoyWEE2L1ExMisrZkRHSnRnNmtiRUdZcUtjQT09Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+    service:
+      name: aws-load-balancer-webhook-service
+      namespace: kube-system
+      path: /mutate-v1-service
+  failurePolicy: Fail
+  name: mservice.elbv2.k8s.aws
+  objectSelector:
+    matchExpressions:
+    - key: app.kubernetes.io/name
+      operator: NotIn
+      values:
+      - aws-load-balancer-controller
+  rules:
+  - apiGroups:
+    - ""
+    apiVersions:
+    - v1
+    operations:
+    - CREATE
+    resources:
+    - services
+  sideEffects: None
+- admissionReviewVersions:
+  - v1beta1
+  clientConfig:
+    caBundle: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURQekNDQWllZ0F3SUJBZ0lRTkpUZ285c2UrNnlacU0ra2Y5UzE5akFOQmdrcWhraUc5dzBCQVFzRkFEQXEKTVNnd0pnWURWUVFERXg5aGQzTXRiRzloWkMxaVlXeGhibU5sY2kxamIyNTBjbTlzYkdWeUxXTmhNQjRYRFRJMQpNRFV3T1RBNU16UXdNMW9YRFRNMU1EVXdOekE1TXpRd00xb3dLakVvTUNZR0ExVUVBeE1mWVhkekxXeHZZV1F0ClltRnNZVzVqWlhJdFkyOXVkSEp2Ykd4bGNpMWpZVENDQVNJd0RRWUpLb1pJaHZjTkFRRUJCUUFEZ2dFUEFEQ0MKQVFvQ2dnRUJBT2J6a3JjbkFXbm13VW9lMFZvMCs5aXdsYTNpdTZLcjhwRG5aYnVtNmZBWTczV2NiWTVpQUN0SQoyWDJXMVo5QWJWTGg5bkliYnYrekd4MndycXExVjFhOERTNXBLakZpMGZNNWZ3ZHMya3RkK1g1MjYxblZkc1NnCnhSby85TUgya3BPNEpaZWJudEdEZ1BzUzlqdGorSHUvSjhGNWJ2TVNLSHJYdUo5dGFhbFlvb2UrVWQ0dHF4WEoKQmI4dXN0aUUzbWFEODVWSkNMRTRoVFJBaWJoeHZNOHBRbml0eGE0a1FlS3B2bXpCSWdlSjRqdXlxK1k4ZmpEagowTGpZeTVWSUozNU1KNGFzbjVJeEFtR0kyRGxoM0lCdXVwRVFML1dXbHZzN1hOU01NWXc4MmhPeWNKTlFOWEIrCnRKZnRicWZaYjlMQlp2YlBid1ZQQmROQkExVmJSZFVDQXdFQUFhTmhNRjh3RGdZRFZSMFBBUUgvQkFRREFnS2sKTUIwR0ExVWRKUVFXTUJRR0NDc0dBUVVGQndNQkJnZ3JCZ0VGQlFjREFqQVBCZ05WSFJNQkFmOEVCVEFEQVFILwpNQjBHQTFVZERnUVdCQlNpMFlHWGZ3bFh2QUQyZlptdjdqUUpSdStGMGpBTkJna3Foa2lHOXcwQkFRc0ZBQU9DCkFRRUFZRFdWSWh3alNqL1Noai9vZ0ZpcEtuZ2dEd2cyQngzcXVxRGszWkRyT2tSeXkxZHpkK2QzVzRheEszV2YKNXFnVGRPQWNnN0ZrVmE4NTlFNVBRbGZqRjIzMnNrMkV3ME0ydGhZTUpaN0luWmxSNHNlZm8xTHpFU1gxc0hEOQpLZkRpSFJ6NEpHQ3gxZ0ZvQ0tGSy84aURLcTM0aHlVbW55and1QmVhbEo4QUd3OC9NQytOYUlSYU1OTndNcXFUClNUUGV5OUxYVzVOQnp3Tm11elB5M1ptTlpCdmViQTJ2N3ZhTnhyQTRGamVFZ21hazlKaWNwZFY3aWRsckw4MG4KanNEV2dLYUNqSE5XQlZyL3lLZTJ6NHZzNldqSG5scGFRaWZsNW9HRGpHaEVud3JaYnhWRGxNakZ4RndXZ1pOcgoyWEE2L1ExMisrZkRHSnRnNmtiRUdZcUtjQT09Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
     service:
       name: aws-load-balancer-webhook-service
       namespace: kube-system
@@ -1029,15 +1266,18 @@ webhooks:
 apiVersion: admissionregistration.k8s.io/v1
 kind: ValidatingWebhookConfiguration
 metadata:
-  annotations:
-    cert-manager.io/inject-ca-from: kube-system/aws-load-balancer-serving-cert
   labels:
+    app.kubernetes.io/instance: aws-load-balancer-controller
+    app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: aws-load-balancer-controller
+    app.kubernetes.io/version: v2.13.0
+    helm.sh/chart: aws-load-balancer-controller-1.13.0
   name: aws-load-balancer-webhook
 webhooks:
 - admissionReviewVersions:
   - v1beta1
   clientConfig:
+    caBundle: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURQekNDQWllZ0F3SUJBZ0lRTkpUZ285c2UrNnlacU0ra2Y5UzE5akFOQmdrcWhraUc5dzBCQVFzRkFEQXEKTVNnd0pnWURWUVFERXg5aGQzTXRiRzloWkMxaVlXeGhibU5sY2kxamIyNTBjbTlzYkdWeUxXTmhNQjRYRFRJMQpNRFV3T1RBNU16UXdNMW9YRFRNMU1EVXdOekE1TXpRd00xb3dLakVvTUNZR0ExVUVBeE1mWVhkekxXeHZZV1F0ClltRnNZVzVqWlhJdFkyOXVkSEp2Ykd4bGNpMWpZVENDQVNJd0RRWUpLb1pJaHZjTkFRRUJCUUFEZ2dFUEFEQ0MKQVFvQ2dnRUJBT2J6a3JjbkFXbm13VW9lMFZvMCs5aXdsYTNpdTZLcjhwRG5aYnVtNmZBWTczV2NiWTVpQUN0SQoyWDJXMVo5QWJWTGg5bkliYnYrekd4MndycXExVjFhOERTNXBLakZpMGZNNWZ3ZHMya3RkK1g1MjYxblZkc1NnCnhSby85TUgya3BPNEpaZWJudEdEZ1BzUzlqdGorSHUvSjhGNWJ2TVNLSHJYdUo5dGFhbFlvb2UrVWQ0dHF4WEoKQmI4dXN0aUUzbWFEODVWSkNMRTRoVFJBaWJoeHZNOHBRbml0eGE0a1FlS3B2bXpCSWdlSjRqdXlxK1k4ZmpEagowTGpZeTVWSUozNU1KNGFzbjVJeEFtR0kyRGxoM0lCdXVwRVFML1dXbHZzN1hOU01NWXc4MmhPeWNKTlFOWEIrCnRKZnRicWZaYjlMQlp2YlBid1ZQQmROQkExVmJSZFVDQXdFQUFhTmhNRjh3RGdZRFZSMFBBUUgvQkFRREFnS2sKTUIwR0ExVWRKUVFXTUJRR0NDc0dBUVVGQndNQkJnZ3JCZ0VGQlFjREFqQVBCZ05WSFJNQkFmOEVCVEFEQVFILwpNQjBHQTFVZERnUVdCQlNpMFlHWGZ3bFh2QUQyZlptdjdqUUpSdStGMGpBTkJna3Foa2lHOXcwQkFRc0ZBQU9DCkFRRUFZRFdWSWh3alNqL1Noai9vZ0ZpcEtuZ2dEd2cyQngzcXVxRGszWkRyT2tSeXkxZHpkK2QzVzRheEszV2YKNXFnVGRPQWNnN0ZrVmE4NTlFNVBRbGZqRjIzMnNrMkV3ME0ydGhZTUpaN0luWmxSNHNlZm8xTHpFU1gxc0hEOQpLZkRpSFJ6NEpHQ3gxZ0ZvQ0tGSy84aURLcTM0aHlVbW55and1QmVhbEo4QUd3OC9NQytOYUlSYU1OTndNcXFUClNUUGV5OUxYVzVOQnp3Tm11elB5M1ptTlpCdmViQTJ2N3ZhTnhyQTRGamVFZ21hazlKaWNwZFY3aWRsckw4MG4KanNEV2dLYUNqSE5XQlZyL3lLZTJ6NHZzNldqSG5scGFRaWZsNW9HRGpHaEVud3JaYnhWRGxNakZ4RndXZ1pOcgoyWEE2L1ExMisrZkRHSnRnNmtiRUdZcUtjQT09Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
     service:
       name: aws-load-balancer-webhook-service
       namespace: kube-system
@@ -1064,6 +1304,7 @@ webhooks:
 - admissionReviewVersions:
   - v1beta1
   clientConfig:
+    caBundle: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURQekNDQWllZ0F3SUJBZ0lRTkpUZ285c2UrNnlacU0ra2Y5UzE5akFOQmdrcWhraUc5dzBCQVFzRkFEQXEKTVNnd0pnWURWUVFERXg5aGQzTXRiRzloWkMxaVlXeGhibU5sY2kxamIyNTBjbTlzYkdWeUxXTmhNQjRYRFRJMQpNRFV3T1RBNU16UXdNMW9YRFRNMU1EVXdOekE1TXpRd00xb3dLakVvTUNZR0ExVUVBeE1mWVhkekxXeHZZV1F0ClltRnNZVzVqWlhJdFkyOXVkSEp2Ykd4bGNpMWpZVENDQVNJd0RRWUpLb1pJaHZjTkFRRUJCUUFEZ2dFUEFEQ0MKQVFvQ2dnRUJBT2J6a3JjbkFXbm13VW9lMFZvMCs5aXdsYTNpdTZLcjhwRG5aYnVtNmZBWTczV2NiWTVpQUN0SQoyWDJXMVo5QWJWTGg5bkliYnYrekd4MndycXExVjFhOERTNXBLakZpMGZNNWZ3ZHMya3RkK1g1MjYxblZkc1NnCnhSby85TUgya3BPNEpaZWJudEdEZ1BzUzlqdGorSHUvSjhGNWJ2TVNLSHJYdUo5dGFhbFlvb2UrVWQ0dHF4WEoKQmI4dXN0aUUzbWFEODVWSkNMRTRoVFJBaWJoeHZNOHBRbml0eGE0a1FlS3B2bXpCSWdlSjRqdXlxK1k4ZmpEagowTGpZeTVWSUozNU1KNGFzbjVJeEFtR0kyRGxoM0lCdXVwRVFML1dXbHZzN1hOU01NWXc4MmhPeWNKTlFOWEIrCnRKZnRicWZaYjlMQlp2YlBid1ZQQmROQkExVmJSZFVDQXdFQUFhTmhNRjh3RGdZRFZSMFBBUUgvQkFRREFnS2sKTUIwR0ExVWRKUVFXTUJRR0NDc0dBUVVGQndNQkJnZ3JCZ0VGQlFjREFqQVBCZ05WSFJNQkFmOEVCVEFEQVFILwpNQjBHQTFVZERnUVdCQlNpMFlHWGZ3bFh2QUQyZlptdjdqUUpSdStGMGpBTkJna3Foa2lHOXcwQkFRc0ZBQU9DCkFRRUFZRFdWSWh3alNqL1Noai9vZ0ZpcEtuZ2dEd2cyQngzcXVxRGszWkRyT2tSeXkxZHpkK2QzVzRheEszV2YKNXFnVGRPQWNnN0ZrVmE4NTlFNVBRbGZqRjIzMnNrMkV3ME0ydGhZTUpaN0luWmxSNHNlZm8xTHpFU1gxc0hEOQpLZkRpSFJ6NEpHQ3gxZ0ZvQ0tGSy84aURLcTM0aHlVbW55and1QmVhbEo4QUd3OC9NQytOYUlSYU1OTndNcXFUClNUUGV5OUxYVzVOQnp3Tm11elB5M1ptTlpCdmViQTJ2N3ZhTnhyQTRGamVFZ21hazlKaWNwZFY3aWRsckw4MG4KanNEV2dLYUNqSE5XQlZyL3lLZTJ6NHZzNldqSG5scGFRaWZsNW9HRGpHaEVud3JaYnhWRGxNakZ4RndXZ1pOcgoyWEE2L1ExMisrZkRHSnRnNmtiRUdZcUtjQT09Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
     service:
       name: aws-load-balancer-webhook-service
       namespace: kube-system
@@ -1084,6 +1325,7 @@ webhooks:
 - admissionReviewVersions:
   - v1beta1
   clientConfig:
+    caBundle: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURQekNDQWllZ0F3SUJBZ0lRTkpUZ285c2UrNnlacU0ra2Y5UzE5akFOQmdrcWhraUc5dzBCQVFzRkFEQXEKTVNnd0pnWURWUVFERXg5aGQzTXRiRzloWkMxaVlXeGhibU5sY2kxamIyNTBjbTlzYkdWeUxXTmhNQjRYRFRJMQpNRFV3T1RBNU16UXdNMW9YRFRNMU1EVXdOekE1TXpRd00xb3dLakVvTUNZR0ExVUVBeE1mWVhkekxXeHZZV1F0ClltRnNZVzVqWlhJdFkyOXVkSEp2Ykd4bGNpMWpZVENDQVNJd0RRWUpLb1pJaHZjTkFRRUJCUUFEZ2dFUEFEQ0MKQVFvQ2dnRUJBT2J6a3JjbkFXbm13VW9lMFZvMCs5aXdsYTNpdTZLcjhwRG5aYnVtNmZBWTczV2NiWTVpQUN0SQoyWDJXMVo5QWJWTGg5bkliYnYrekd4MndycXExVjFhOERTNXBLakZpMGZNNWZ3ZHMya3RkK1g1MjYxblZkc1NnCnhSby85TUgya3BPNEpaZWJudEdEZ1BzUzlqdGorSHUvSjhGNWJ2TVNLSHJYdUo5dGFhbFlvb2UrVWQ0dHF4WEoKQmI4dXN0aUUzbWFEODVWSkNMRTRoVFJBaWJoeHZNOHBRbml0eGE0a1FlS3B2bXpCSWdlSjRqdXlxK1k4ZmpEagowTGpZeTVWSUozNU1KNGFzbjVJeEFtR0kyRGxoM0lCdXVwRVFML1dXbHZzN1hOU01NWXc4MmhPeWNKTlFOWEIrCnRKZnRicWZaYjlMQlp2YlBid1ZQQmROQkExVmJSZFVDQXdFQUFhTmhNRjh3RGdZRFZSMFBBUUgvQkFRREFnS2sKTUIwR0ExVWRKUVFXTUJRR0NDc0dBUVVGQndNQkJnZ3JCZ0VGQlFjREFqQVBCZ05WSFJNQkFmOEVCVEFEQVFILwpNQjBHQTFVZERnUVdCQlNpMFlHWGZ3bFh2QUQyZlptdjdqUUpSdStGMGpBTkJna3Foa2lHOXcwQkFRc0ZBQU9DCkFRRUFZRFdWSWh3alNqL1Noai9vZ0ZpcEtuZ2dEd2cyQngzcXVxRGszWkRyT2tSeXkxZHpkK2QzVzRheEszV2YKNXFnVGRPQWNnN0ZrVmE4NTlFNVBRbGZqRjIzMnNrMkV3ME0ydGhZTUpaN0luWmxSNHNlZm8xTHpFU1gxc0hEOQpLZkRpSFJ6NEpHQ3gxZ0ZvQ0tGSy84aURLcTM0aHlVbW55and1QmVhbEo4QUd3OC9NQytOYUlSYU1OTndNcXFUClNUUGV5OUxYVzVOQnp3Tm11elB5M1ptTlpCdmViQTJ2N3ZhTnhyQTRGamVFZ21hazlKaWNwZFY3aWRsckw4MG4KanNEV2dLYUNqSE5XQlZyL3lLZTJ6NHZzNldqSG5scGFRaWZsNW9HRGpHaEVud3JaYnhWRGxNakZ4RndXZ1pOcgoyWEE2L1ExMisrZkRHSnRnNmtiRUdZcUtjQT09Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
     service:
       name: aws-load-balancer-webhook-service
       namespace: kube-system
