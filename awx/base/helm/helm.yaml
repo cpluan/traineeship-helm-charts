@@ -5,7 +5,7 @@ metadata:
 name: awx-operator
 chartName: awx-operator
 repo: https://ansible-community.github.io/awx-operator-helm/
-version: 2.19.1
+version: 3.1.0
 releaseName: awx-operator
 namespace: awx
-
+includeCRDs: true
