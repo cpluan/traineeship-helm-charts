@@ -21,6 +21,7 @@ valuesInline:
           name: aws-data-config
           key: aws-region
 
+
   controllerConfig:
     # Aqui você pode usar feature gates se quiser, mantive vazio
     featureGates: {}
