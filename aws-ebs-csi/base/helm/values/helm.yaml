@@ -1,5 +1,4 @@
 apiVersion: builtin
 kind: HelmChartInflationGenerator
 metadata:
-  name: awx-operator
-namespace: awx
+  name: aws-ebs-csi-driver
