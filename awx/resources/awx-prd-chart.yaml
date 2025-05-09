@@ -13,7 +13,7 @@ spec:
     path: awx/base/
   destination:
     server: https://kubernetes.default.svc
-    namespace: awx
+    namespace: default
   syncPolicy:
     automated:
       prune: true
