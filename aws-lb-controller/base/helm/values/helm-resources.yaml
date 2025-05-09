@@ -1,6 +1,0 @@
-apiVersion: builtin
-kind: HelmChartInflationGenerator
-metadata:
-  name: aws-load-balancer-controller
-valuesInline:
-
