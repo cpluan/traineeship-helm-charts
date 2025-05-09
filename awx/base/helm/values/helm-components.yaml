@@ -6,6 +6,8 @@ valuesInline:
   AWX:
     enabled: true
     name: awx-demo
+    postgres:
+      enabled: false
     spec:
       service_type: ClusterIP
       ingress_type: ingress
