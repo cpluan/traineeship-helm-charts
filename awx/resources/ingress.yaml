@@ -20,6 +20,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: awx-demo-service
+                name: awx-service
                 port:
                   number: 80
