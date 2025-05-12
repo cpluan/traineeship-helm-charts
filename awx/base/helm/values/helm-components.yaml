@@ -10,8 +10,10 @@ valuesInline:
       enabled: false
     spec:
       service_type: ClusterIP
-      ingress_type: ingress
-      hostname: awx.example.com
+      service_annotations: |
+        environment: testing
+      service_labels: |
+        environment: testing
       postgres_storage_class: ebs-sc
       postgres_data_volume_init: true
       postgres_init_container_commands: |
@@ -21,3 +23,4 @@ valuesInline:
   serviceAccount:
     create: true
     name: awx-operator
+
