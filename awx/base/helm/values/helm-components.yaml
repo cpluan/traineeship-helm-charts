@@ -5,7 +5,7 @@ metadata:
 valuesInline:
   AWX:
     enabled: true
-    name: awx-demo
+    name: awx
     postgres:
       enabled: false
     spec:
