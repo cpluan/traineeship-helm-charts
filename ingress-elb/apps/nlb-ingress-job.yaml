@@ -14,7 +14,7 @@ spec:
     path: ingress-elb/jobs/
   destination:
     server: https://kubernetes.default.svc
-    namespace: default
+    namespace: ingress-nginx
   syncPolicy:
     automated:
       selfHeal: true

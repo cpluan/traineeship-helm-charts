@@ -4,7 +4,8 @@ metadata:
   name: awx-prd-resources
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "6b"
+    argocd.argoproj.io/sync-wave: "7b"
+    argocd.argoproj.io/depends-on: argocd/awx-prd-chart
 spec:
   project: default
   source:

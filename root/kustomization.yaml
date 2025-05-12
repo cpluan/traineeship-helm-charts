@@ -8,7 +8,6 @@ resources:
   - applications/aws-ebs-csi/     #4
   - applications/aws-lb/          #5
   - applications/argocd/          #6
-  # - applications/local-path/
   - applications/awx/             #7
   - applications/rancher          #8
 

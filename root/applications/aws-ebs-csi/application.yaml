@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: local-path-application
+  name: aws-ebs-csi-application
   namespace: argocd
   annotations:
     argocd.argoproj.io/sync-wave: "4"
@@ -10,10 +10,10 @@ spec:
   source:
     repoURL: "https://github.com/cpluan/traineeship-helm-charts.git"
     targetRevision: benchmark/ingress-v1
-    path: local-path/
+    path: aws-ebs-csi/
   destination:
     server: https://kubernetes.default.svc
-    namespace: local-path-storage
+    namespace: kube-system
   syncPolicy:
     automated:
       selfHeal: true

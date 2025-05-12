@@ -13,7 +13,7 @@ spec:
     path: rancher/
   destination:
     server: https://kubernetes.default.svc
-    namespace: argocd
+    namespace: cattle-system
   syncPolicy:
     automated:
       selfHeal: true

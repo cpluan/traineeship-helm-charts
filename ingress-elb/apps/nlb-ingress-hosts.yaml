@@ -5,6 +5,7 @@ metadata:
   namespace: argocd
   annotations:
     argocd.argoproj.io/sync-wave: "3c"
+    argocd.argoproj.io/depends-on: nlb-ingress-job
 spec:
   project: default
   source:
@@ -13,7 +14,7 @@ spec:
     path: ingress-elb/ingress/
   destination:
     server: https://kubernetes.default.svc
-    namespace: default
+    namespace: ingress-nginx
   syncPolicy:
     automated:
       selfHeal: true
