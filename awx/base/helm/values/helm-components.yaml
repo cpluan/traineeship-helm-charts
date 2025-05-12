@@ -17,13 +17,13 @@ valuesInline:
       postgres_init_container_commands: |
         chown 26:0 /var/lib/pgsql/data
         chmod 700 /var/lib/pgsql/data
-  customVolumes:
-    postgres:
-      enabled: true
-      size: 10Gi
-      accessModes:
-        - ReadWriteOnce
-      storageClassName: ebs-sc
+  # customVolumes:
+  #   postgres:
+  #     enabled: true
+  #     size: 10Gi
+  #     accessModes:
+  #       - ReadWriteOnce
+  #     storageClassName: ebs-sc
   serviceAccount:
     create: true
     name: awx-operator
