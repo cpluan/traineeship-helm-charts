@@ -58,7 +58,6 @@ After deployment, wait for the `awx` pod to become ready. Then, access the servi
 ## Notes
 
 - `HelmChartInflationGenerator` automatically pulls and renders the AWX Operator chart using values in `helm/values/`.
-- The AWX instance (`awx-instance.yaml`) defines service type, credentials, and hostname.
 - You can also use `resources/awx-prd-chart.yaml` if managing with ArgoCD/FluxCD declarative Helm releases.
 
 

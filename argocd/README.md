@@ -6,27 +6,27 @@ This repository contains the structure for managing the installation and configu
 
 ```
 .
-├── base                       # Common base for all environments
-│   ├── helm                  # Helm Charts integration
-│   │   ├── helm.yaml         # Reference to the ArgoCD Helm Chart
+├── base                                            # Common base for all environments
+│   ├── helm                                        # Helm Charts integration
+│   │   ├── helm.yaml                               # Reference to the ArgoCD Helm Chart
 │   │   ├── kustomization.yaml
-│   │   └── values            # Helm values split by purpose
+│   │   └── values                                  # Helm values split by purpose
 │   │       ├── helm-argocd-components.yaml
 │   │       ├── helm-resources.yaml
 │   │       └── helm.yaml
-│   ├── kustomization.yaml    # Base Kustomization
-│   └── namespace.yaml        # Namespace for ArgoCD
-├── kustomization.yaml        # Root Kustomization
+│   ├── kustomization.yaml                          # Base Kustomization
+│   └── namespace.yaml                              # Namespace for ArgoCD
+├── kustomization.yaml                              # Root Kustomization
 ├── overlays
-│   └── prd                   # Production environment overlay
+│   └── prd                                         # Production environment overlay
 │       ├── helm
 │       │   ├── kustomization.yaml
 │       │   └── values
 │       │       └── helm-argocd-components.yaml
 │       └── kustomization.yaml
 ├── resources
-│   ├── argocd-prd-chart.yaml # Declarative HelmRelease resource
-│   └── ingress.yaml          # Ingress configuration for ArgoCD
+│   ├── argocd-prd-chart.yaml                       # Declarative HelmRelease resource
+│   └── ingress.yaml                                # Ingress configuration for ArgoCD
 ```
 
 ## Usage

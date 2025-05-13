@@ -7,55 +7,55 @@ This repository defines the deployment of Cert-Manager on Kubernetes using `kust
 ```
 .
 ├── apps
-│   ├── cert-manager-chart.yaml         # Main cert-manager Application manifest
-│   ├── cert-manager-lego.yaml          # Application for LEGO ACME issuer
-│   ├── cert-manager-reflector.yaml     # Application for certificate reflector
-│   └── cert-manager-selfsigned.yaml    # Application for self-signed certificate issuer
+│   ├── cert-manager-chart.yaml             # Main cert-manager Application manifest
+│   ├── cert-manager-lego.yaml              # Application for LEGO ACME issuer
+│   ├── cert-manager-reflector.yaml         # Application for certificate reflector
+│   └── cert-manager-selfsigned.yaml        # Application for self-signed certificate issuer
 ├── base
 │   ├── helm
-│   │   ├── helm.yaml                   # Helm repository and chart reference
-│   │   ├── kustomization.yaml          # Kustomization for Helm chart
+│   │   ├── helm.yaml                       # Helm repository and chart reference
+│   │   ├── kustomization.yaml              # Kustomization for Helm chart
 │   │   └── values
-│   │       ├── helm-resources.yaml     # Custom resources requests/limits
-│   │       └── helm.yaml               # General Helm values for cert-manager
-│   ├── kustomization.yaml              # Combines all base resources
-│   └── namespace.yaml                  # Namespace definition for cert-manager
+│   │       ├── helm-resources.yaml         # Custom resources requests/limits
+│   │       └── helm.yaml                   # General Helm values for cert-manager
+│   ├── kustomization.yaml                  # Combines all base resources
+│   └── namespace.yaml                      # Namespace definition for cert-manager
 ├── overlays
 │   ├── lego-webhook
 │   │   ├── helm
-│   │   │   ├── helm.yaml               # Helm chart reference for the webhook
-│   │   │   ├── kustomization.yaml      # Kustomize file for combining resources
+│   │   │   ├── helm.yaml                   # Helm chart reference for the webhook
+│   │   │   ├── kustomization.yaml          # Kustomize file for combining resources
 │   │   │   └── values
-│   │   │       ├── helm-components.yaml # Component-specific Helm values
-│   │   │       └── helm.yaml           # General values for the webhook
-│   │   ├── issuer.yaml                 # LEGO issuer for ACME (Dev environment)
-│   │   ├── kustomization.yaml          # Overlay Kustomization for lego-webhook
-│   │   └── secret.yaml                 # Secret containing DNS credentials
+│   │   │       ├── helm-components.yaml    # Component-specific Helm values
+│   │   │       └── helm.yaml               # General values for the webhook
+│   │   ├── issuer.yaml                     # LEGO issuer for ACME (Dev environment)
+│   │   ├── kustomization.yaml              # Overlay Kustomization for lego-webhook
+│   │   └── secret.yaml                     # Secret containing DNS credentials
 │   ├── lego-webhook-prd
 │   │   ├── helm
-│   │   │   ├── helm.yaml               # Helm chart reference for the webhook
-│   │   │   ├── kustomization.yaml      # Kustomize file for production webhook
+│   │   │   ├── helm.yaml                   # Helm chart reference for the webhook
+│   │   │   ├── kustomization.yaml          # Kustomize file for production webhook
 │   │   │   └── values
-│   │   │       ├── helm-components.yaml # Production component values
-│   │   │       └── helm.yaml           # Production general Helm values
-│   │   ├── issuer.yaml                 # LEGO issuer for ACME (Production)
-│   │   ├── kustomization.yaml          # Overlay Kustomization for production
-│   │   └── secret.yaml                 # Secret with DNS provider credentials
+│   │   │       ├── helm-components.yaml    # Production component values
+│   │   │       └── helm.yaml               # Production general Helm values
+│   │   ├── issuer.yaml                     # LEGO issuer for ACME (Production)
+│   │   ├── kustomization.yaml              # Overlay Kustomization for production
+│   │   └── secret.yaml                     # Secret with DNS provider credentials
 │   ├── reflector
 │   │   ├── helm
-│   │   │   ├── helm.yaml               # Helm chart reference for reflector
-│   │   │   ├── kustomization.yaml      # Kustomize file for combining reflector components
+│   │   │   ├── helm.yaml                   # Helm chart reference for reflector
+│   │   │   ├── kustomization.yaml          # Kustomize file for combining reflector components
 │   │   │   └── values
-│   │   │       ├── helm-components.yaml # Component values for reflector
-│   │   │       ├── helm-resources.yaml  # Resource settings for reflector
-│   │   │       └── helm.yaml           # General Helm values for reflector
-│   │   ├── kustomization.yaml          # Overlay Kustomization for reflector
-│   │   └── namespace.yaml              # Namespace for the reflector
+│   │   │       ├── helm-components.yaml    # Component values for reflector
+│   │   │       ├── helm-resources.yaml     # Resource settings for reflector
+│   │   │       └── helm.yaml               # General Helm values for reflector
+│   │   ├── kustomization.yaml              # Overlay Kustomization for reflector
+│   │   └── namespace.yaml                  # Namespace for the reflector
 │   └── selfsigned
-│       ├── certificate.yaml            # Self-signed certificate definition
-│       ├── issuer.yaml                 # Self-signed issuer definition
-│       └── kustomization.yaml          # Overlay Kustomization for self-signed setup
-├── kustomization.yaml                  # Root Kustomization file
+│       ├── certificate.yaml                # Self-signed certificate definition
+│       ├── issuer.yaml                     # Self-signed issuer definition
+│       └── kustomization.yaml              # Overlay Kustomization for self-signed setup
+├── kustomization.yaml                      # Root Kustomization file
 └── README.md
 ```
 

@@ -6,16 +6,16 @@ This repository defines the deployment of the EBS CSI (Container Storage Interfa
 
 ```
 .
-├── base                       # Reusable base components
-│   ├── helm                  # Helm chart for the EBS CSI driver
+├── base                                # Reusable base components
+│   ├── helm                            # Helm chart for the EBS CSI driver
 │   │   ├── helm.yaml
 │   │   ├── kustomization.yaml
-│   │   └── values            # Values split for customization
+│   │   └── values                      # Values split for customization
 │   │       ├── helm-components.yaml
 │   │       └── helm-resources.yaml
-│   └── kustomization.yaml    # Combines Helm resources and namespace (if applicable)
-├── kustomization.yaml        # Root kustomization
-├── resources                 # Additional declarative resources
+│   └── kustomization.yaml              # Combines Helm resources
+├── kustomization.yaml                  # Root kustomization
+├── resources                           # Additional declarative resources
 │   ├── aws-ebs-csi-chart.yaml
 │   └── storageclass-ebs.yaml
 ├── README.md

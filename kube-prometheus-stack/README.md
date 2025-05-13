@@ -8,25 +8,25 @@ This repository provides a Kustomize-based deployment structure for the kube-pro
 .
 ├── base
 │   ├── helm/
-│   │   ├── helm.yaml                          # HelmChartInflationGenerator config
-│   │   ├── kustomization.yaml                 # Base kustomization for Helm chart
+│   │   ├── helm.yaml                                   # HelmChartInflationGenerator config
+│   │   ├── kustomization.yaml                          # Base kustomization for Helm chart
 │   │   └── values/
-│   │       ├── helm-kb-prometheus-stk-components.yaml # Component-specific config
-│   │       ├── helm-resources.yaml            # Resource limits and requests
-│   │       └── helm.yaml                      # General Helm values
-│   ├── kustomization.yaml                     # Combines namespace and Helm
-│   └── namespace.yaml                         # Namespace for prometheus stack
+│   │       ├── helm-kb-prometheus-stk-components.yaml  # Component-specific config
+│   │       ├── helm-resources.yaml                     # Resource limits and requests
+│   │       └── helm.yaml                               # General Helm values
+│   ├── kustomization.yaml                              # Combines namespace and Helm
+│   └── namespace.yaml                                  # Namespace for prometheus stack
 ├── overlays/
 │   └── prd/
 │       ├── helm/
-│       │   ├── kustomization.yaml             # Overlay customization
+│       │   ├── kustomization.yaml                      # Overlay customization
 │       │   └── values/
-│       │       └── helm-components.yaml       # Production components config
-│       └── kustomization.yaml                 # Includes ingress and overlayed values
+│       │       └── helm-components.yaml                # Production components config
+│       └── kustomization.yaml                          # Includes ingress and overlayed values
 ├── resources/
-│   ├── ingress.yaml                           # Ingress config to expose services
-│   └── prometheus-stack-prd-chart.yaml        # Declarative HelmRelease (optional)
-├── kustomization.yaml                         # Root kustomization
+│   ├── ingress.yaml                                    # Ingress config to expose services
+│   └── prometheus-stack-prd-chart.yaml                 # Declarative HelmRelease (optional)
+├── kustomization.yaml                                  # Root kustomization
 └── README.md
 ```
 

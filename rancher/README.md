@@ -8,25 +8,25 @@ This repository sets up Rancher using Kustomize with Helm chart integration and 
 .
 ├── base
 │   ├── helm/
-│   │   ├── helm.yaml                  # HelmChartInflationGenerator definition
-│   │   ├── kustomization.yaml         # Base kustomization for Helm chart
+│   │   ├── helm.yaml                       # HelmChartInflationGenerator definition
+│   │   ├── kustomization.yaml              # Base kustomization for Helm chart
 │   │   └── values/
-│   │       ├── helm-components.yaml   # Component-specific settings
-│   │       ├── helm-resources.yaml    # Resource limits and requests
-│   │       └── helm.yaml              # General Helm values
-│   └── kustomization.yaml             # Combines base components
+│   │       ├── helm-components.yaml        # Component-specific settings
+│   │       ├── helm-resources.yaml         # Resource limits and requests
+│   │       └── helm.yaml                   # General Helm values
+│   └── kustomization.yaml                  # Combines base components
 ├── overlays/
 │   └── prd/
 │       ├── helm/
-│       │   ├── kustomization.yaml     # Production-specific Helm customization
+│       │   ├── kustomization.yaml          # Production-specific Helm customization
 │       │   └── values/
 │       │       └── helm-components.yaml
-│       └── kustomization.yaml         # Production overlay including namespace and ingress
+│       └── kustomization.yaml              # Production overlay including namespace and ingress
 ├── resources/
-│   ├── ingress.yaml                   # Ingress configuration for Rancher UI
-│   ├── namespace.yaml                 # Namespace definition for Rancher
-│   └── rancher-prd-chart.yaml         # Optional declarative HelmRelease for production
-├── kustomization.yaml                 # Root kustomization
+│   ├── ingress.yaml                        # Ingress configuration for Rancher UI
+│   ├── namespace.yaml                      # Namespace definition for Rancher
+│   └── rancher-prd-chart.yaml              # Optional declarative HelmRelease for production
+├── kustomization.yaml                      # Root kustomization
 └── README.md
 ```
 
