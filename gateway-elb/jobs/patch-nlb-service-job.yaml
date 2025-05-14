@@ -10,7 +10,7 @@ spec:
   template:
     spec:
       serviceAccountName: patch-service-sa
-      restartPolicy: OnFailure
+      restartPolicy: Never
       ttlSecondsAfterFinished: 60
       containers:
         - name: patch-service
