@@ -4,8 +4,8 @@ metadata:
   name: nlb-service-job
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "3b"
-    argocd.argoproj.io/depends-on: nginx-ingress-application
+    argocd.argoproj.io/sync-wave: "9b"
+    argocd.argoproj.io/depends-on: gateway-elb-application
 spec:
   project: default
   source:

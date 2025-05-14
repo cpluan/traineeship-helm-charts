@@ -4,8 +4,8 @@ metadata:
   name: nlb-routes
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "3c"
-    argocd.argoproj.io/depends-on: nlb-ingress-job
+    argocd.argoproj.io/sync-wave: "9c"
+    argocd.argoproj.io/depends-on: nlb-service-job
 spec:
   project: default
   source:
