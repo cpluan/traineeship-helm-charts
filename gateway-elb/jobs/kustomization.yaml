@@ -3,6 +3,7 @@ kind: Kustomization
 
 resources:
   - create-nlb-service-job.yaml
+#  - patch-nlb-service-job.yaml
 
 
 
