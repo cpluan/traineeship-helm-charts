@@ -3,11 +3,15 @@ kind: Job
 metadata:
   name: patch-nlb-service
   namespace: nlb-infra
+  annotations:
+    argocd.argoproj.io/hook: PostSync 
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
 spec:
   template:
     spec:
       serviceAccountName: patch-service-sa
       restartPolicy: OnFailure
+      ttlSecondsAfterFinished: 60
       containers:
         - name: patch-service
           image: bitnami/kubectl:latest
