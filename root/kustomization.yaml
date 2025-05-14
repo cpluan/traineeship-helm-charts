@@ -4,12 +4,12 @@ kind: Kustomization
 resources:
   - applications/kb-prometheus/   #1
   - applications/cert-manager/    #2
-  - applications/ingress-elb/     #3
+  - applications/gateway-api/     #3
   - applications/aws-ebs-csi/     #4
   - applications/aws-lb/          #5
   - applications/argocd/          #6
-  # - applications/local-path/
   - applications/awx/             #7
   - applications/rancher          #8
+  - applications/gateway-elb/     #9
 
 

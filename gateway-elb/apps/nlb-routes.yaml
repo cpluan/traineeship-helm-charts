@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nlb-routes
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "3c"
+    argocd.argoproj.io/depends-on: nlb-ingress-job
+spec:
+  project: default
+  source:
+    repoURL: "https://github.com/cpluan/traineeship-helm-charts.git"
+    targetRevision: benchmark/ingress-v1
+    path: gateway-elb/routes/
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: nlb-infra
+  syncPolicy:
+    automated:
+      selfHeal: true

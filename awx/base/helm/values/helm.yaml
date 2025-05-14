@@ -1,0 +1,9 @@
+apiVersion: builtin
+kind: HelmChartInflationGenerator
+metadata:
+  name: awx-operator
+valuesInline:
+
+  # Adicional: Defina se deseja CRDs instalados via Helm
+  crds:
+    install: true

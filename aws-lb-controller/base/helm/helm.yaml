@@ -1,0 +1,10 @@
+apiVersion: builtin
+kind: HelmChartInflationGenerator
+metadata:
+  name: &appName aws-load-balancer-controller
+releaseName: aws-load-balancer-controller
+name: *appName
+version: 1.13.0
+repo: https://aws.github.io/eks-charts
+namespace: kube-system
+includeCRDs: true

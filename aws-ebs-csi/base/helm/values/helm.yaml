@@ -1,0 +1,4 @@
+apiVersion: builtin
+kind: HelmChartInflationGenerator
+metadata:
+  name: aws-ebs-csi-driver

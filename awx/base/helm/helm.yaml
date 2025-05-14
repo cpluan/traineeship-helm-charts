@@ -1,0 +1,11 @@
+apiVersion: builtin
+kind: HelmChartInflationGenerator
+metadata:
+  name: awx-operator
+name: awx-operator
+chartName: awx-operator
+repo: https://ansible-community.github.io/awx-operator-helm/
+version: 3.1.0
+releaseName: awx-operator
+namespace: awx
+includeCRDs: true

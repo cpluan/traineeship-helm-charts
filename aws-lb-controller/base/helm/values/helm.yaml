@@ -1,0 +1,16 @@
+apiVersion: builtin
+kind: HelmChartInflationGenerator
+metadata:
+  name: aws-load-balancer-controller
+valuesInline:
+
+  clusterName: default
+
+  region: ""
+  vpcId: ""
+
+
+  controllerConfig:
+    # Aqui você pode usar feature gates se quiser, mantive vazio
+    featureGates: {}
+

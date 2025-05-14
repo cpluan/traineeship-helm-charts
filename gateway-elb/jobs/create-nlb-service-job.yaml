@@ -1,0 +1,57 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: create-nlb-service
+  namespace: nlb-infra
+spec:
+  template:
+    spec:
+      serviceAccountName: patch-service-sa
+      restartPolicy: OnFailure
+      containers:
+        - name: create-service
+          image: bitnami/kubectl:latest
+          command:
+            - /bin/sh
+            - -c
+            - |
+              echo "Aguardando o ConfigMap aws-data-config..."
+              until kubectl get configmap aws-data-config -n kube-system > /dev/null 2>&1; do
+                echo "Aguardando..."
+                sleep 5
+              done
+
+              EIPS=$(kubectl get configmap aws-data-config -n kube-system -o jsonpath='{.data.nlb_eip_ids}')
+              SUBNETS=$(kubectl get configmap aws-data-config -n kube-system -o jsonpath='{.data.public_subnets_ids}')
+
+              echo "Criando Service ingress-nginx-controller com EIPs: $EIPS e Subnets: $SUBNETS"
+              cat <<EOF | kubectl apply -f -
+              apiVersion: v1
+              kind: Service
+              metadata:
+                name: cluster-gw-lb
+                namespace: nlb-infra
+                annotations:
+                  service.beta.kubernetes.io/aws-load-balancer-eip-allocations: "$EIPS"
+                  service.beta.kubernetes.io/aws-load-balancer-subnets: "$SUBNETS"
+                  service.beta.kubernetes.io/aws-load-balancer-type: "external"
+                  service.beta.kubernetes.io/aws-load-balancer-target-type: "ip"
+                  service.beta.kubernetes.io/aws-load-balancer-scheme: "internet-facing"
+                  service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"
+                  service.beta.kubernetes.io/aws-load-balancer-healthcheck-port: "30033"
+                  service.beta.kubernetes.io/aws-load-balancer-healthcheck-path: "/healthz"
+              
+              spec:
+                type: LoadBalancer
+                externalTrafficPolicy: Local
+                ports:
+                - port: 443
+                  protocol: TCP
+                  targetPort: 1443
+                  name: https
+                - port: 80
+                  protocol: TCP
+                  targetPort: 1080
+                  name: http
+                selector: {}  
+              EOF

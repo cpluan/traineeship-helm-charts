@@ -1,0 +1,20 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: cluster-hybrid.ddnsfree.com
+  namespace: nlb-infra
+spec:
+  issuerRef:
+    name: selfsigned-cluster-issuer  #dynu
+    kind: ClusterIssuer
+  secretName: cluster-hybrid.ddnsfree.com-tls
+  commonName: cluster-hybrid.ddnsfree.com
+  dnsNames:
+    - cluster-hybrid.ddnsfree.com
+    - '*.cluster-hybrid.ddnsfree.com'
+  secretTemplate:
+    annotations:
+      reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
+      reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "argocd,awx,cattle-system,monitoring,kube-system"
+      reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true"
+      reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: "argocd,awx,cattle-system,monitoring,kube-system"

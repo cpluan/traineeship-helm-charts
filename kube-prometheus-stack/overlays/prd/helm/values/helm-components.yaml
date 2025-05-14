@@ -1,0 +1,50 @@
+apiVersion: builtin
+kind: HelmChartInflationGenerator
+metadata:
+  name: &appName kube-prometheus-stack
+valuesInline:
+  # Configurações do Prometheus
+  prometheus:
+    enabled: true
+    prometheusSpec:
+      replicas: 2
+      retention: 15d
+    service:
+      type: ClusterIP
+
+  # Configurações do Alertmanager
+  alertmanager:
+    enabled: true
+    alertmanagerSpec:
+      replicas: 2
+    service:
+      type: ClusterIP
+
+  # Configurações do Grafana
+  grafana:
+    enabled: true
+    env:
+      GF_SERVER_ROOT_URL: &gfRootUrl "https://prometheus.cluster-hybrid.ddnsfree.com"
+    grafana.ini:
+      security:
+        cookie_samesite: "none"
+        cookie_secure: true
+        allow_embedding: true
+      server:
+        root_url: *gfRootUrl
+      auth.anonymous:
+        enabled: "true"
+        hide_version: "true"
+        org_role: "Viewer"
+    service:
+      type: ClusterIP
+ 
+
+  # Configurações do Node Exporter
+  nodeExporter:
+    enabled: true
+
+  # Configurações do Kube State Metrics
+  kubeStateMetrics:
+    enabled: true
+

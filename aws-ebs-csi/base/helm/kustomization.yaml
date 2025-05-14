@@ -3,5 +3,6 @@ kind: Kustomization
 resources:
   - helm.yaml
 patches:
-  - path: values/helm-components.yaml
+  - path: values/helm.yaml
   - path: values/helm-resources.yaml
+  - path: values/helm-components.yaml

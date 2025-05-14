@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: awx-prd-resources
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "7b"
+    argocd.argoproj.io/depends-on: argocd/awx-prd-chart
+spec:
+  project: default
+  source:
+    repoURL: "https://github.com/cpluan/traineeship-helm-charts.git"
+    targetRevision: benchmark/ingress-v1
+    path: awx/resources/
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: awx
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
