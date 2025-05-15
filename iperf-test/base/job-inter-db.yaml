@@ -1,0 +1,31 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: iperf-client-inter-db
+spec:
+  template:
+    metadata:
+      labels:
+        app: iperf-client-inter-db
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchLabels:
+                  app: iperf-server
+              topologyKey: "kubernetes.io/hostname"
+      restartPolicy: Never
+      containers:
+        - name: iperf-client
+          image: alpine:3.18
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              apk add --no-cache iperf3 jq curl bc && \
+              iperf3 -c iperf-server -J > /tmp/result.json && \
+              THROUGHPUT=$(jq '.end.sum_received.bits_per_second' /tmp/result.json) && \
+              THROUGHPUT_MB=$(echo "$THROUGHPUT / 1000000" | bc -l) && \
+              echo "iperf3_result,scope=inter throughput_mbps=$THROUGHPUT_MB" > /tmp/iperf3_result.txt && \
+              curl -s -XPOST http://influxdb:8086/write?db=iperf --data-binary @/tmp/iperf3_result.txt && \
+              cat /tmp/iperf3_result.txt
