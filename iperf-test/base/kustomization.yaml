@@ -7,6 +7,6 @@ resources:
   - service.yaml
   - mongo.yaml
   # - job-intra.yaml
-  - job-inter.yaml
+  # - job-inter.yaml
   - job-inter-db.yaml
   - job-intra-db.yaml
