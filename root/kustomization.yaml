@@ -8,6 +8,7 @@ resources:
   - applications/aws-lb/          #5
   - applications/argocd/          #6
   - applications/iperf-test/      #7
+  - applications/rancher/
 
 
 

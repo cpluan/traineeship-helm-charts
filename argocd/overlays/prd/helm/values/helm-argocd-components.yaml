@@ -40,6 +40,11 @@ valuesInline:
       enabled: true
       serviceMonitor:
         enabled: true
+    podAnnotations:
+      app.kubernetes.io/component: redis
+      app.kubernetes.io/instance: argocd-prd
+      app.kubernetes.io/name: argocd-redis
+     
 
   redis-ha:
     enabled: false
