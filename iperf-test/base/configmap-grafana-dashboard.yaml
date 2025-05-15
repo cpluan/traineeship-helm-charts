@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-dashboard
+  labels:
+    grafana_dashboard: "1"
+data:
+  dashboard.json: |
+    {
+      "annotations": {
+        "list": []
+      },
+      "panels": [],
+      "title": "iPerf Dashboard",
+      "uid": "iperf3"
+    }

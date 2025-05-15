@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: iperf-client-intra
+spec:
+  template:
+    metadata:
+      labels:
+        app: iperf-client-intra
+    spec:
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchLabels:
+                  app: iperf-server
+              topologyKey: "kubernetes.io/hostname"
+      restartPolicy: Never
+      containers:
+        - name: iperf-client
+          image: networkstatic/iperf3
+          command: ["iperf3", "-c", "iperf-server", "-t", "10"]
