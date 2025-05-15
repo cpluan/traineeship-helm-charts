@@ -9,5 +9,6 @@ resources:
   - grafana.yaml
   - job-intra.yaml
   - job-inter.yaml
+  - job-inter-db.yaml
   - configmap-grafana-datasource.yaml
   - configmap-grafana-dashboard.yaml
