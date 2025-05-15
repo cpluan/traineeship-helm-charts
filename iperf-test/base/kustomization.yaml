@@ -6,6 +6,7 @@ resources:
   - iperf-server.yaml
   - service.yaml
   - influxdb.yaml
+  - mongo.yaml
   # - job-intra.yaml
   - job-inter.yaml
   - job-inter-db.yaml

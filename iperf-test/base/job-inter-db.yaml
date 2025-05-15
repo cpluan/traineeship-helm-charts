@@ -22,13 +22,7 @@ spec:
           command: ["/bin/sh", "-c"]
           args:
             - |
-              apk add --no-cache iperf3 jq curl bc && \
+              apk add --no-cache iperf3 jq mongodb-tools && \
               iperf3 -c iperf-server -J > /tmp/result.json && \
-              BPS=$(jq '.end.sum_received.bits_per_second' /tmp/result.json) && \
-              RETR=$(jq '.end.sum_sent.retransmits' /tmp/result.json) && \
-              JITTER=$(jq '.end.sum.jitter_ms // 0' /tmp/result.json) && \
-              LOST_PCT=$(jq '.end.sum.lost_percent // 0' /tmp/result.json) && \
-              PACKETS=$(jq '.end.sum.packets // 0' /tmp/result.json) && \
-              echo "iperf3_result,scope=inter bits_per_second=$BPS,retransmits=$RETR,jitter_ms=$JITTER,lost_percent=$LOST_PCT,packets=$PACKETS" > /tmp/iperf3_result.txt && \
-              curl -s -XPOST http://influxdb:8086/write?db=iperf --data-binary @/tmp/iperf3_result.txt && \
-              cat /tmp/iperf3_result.txt
+              mongoimport --uri mongodb://mongo:27017/iperf --collection results --file /tmp/result.json --jsonArray && \
+              echo "[OK] JSON enviado para MongoDB"
