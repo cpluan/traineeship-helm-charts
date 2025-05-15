@@ -9,7 +9,7 @@ valuesInline:
       cpu: 50m
       memory: 2Gi
     limits:
-      cpu: 150m
+      cpu: 300m
       memory: 2Gi
   
   controller:
