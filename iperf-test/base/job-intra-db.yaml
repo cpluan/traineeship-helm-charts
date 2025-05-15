@@ -22,10 +22,8 @@ spec:
           command: ["/bin/sh", "-c"]
           args:
             - |
-              apk add --no-cache iperf3 jq curl bc && \
+              apk add --no-cache iperf3 jq mongodb-tools && \
               iperf3 -c iperf-server -J > /tmp/result.json && \
-              THROUGHPUT=$(jq '.end.sum_received.bits_per_second' /tmp/result.json) && \
-              THROUGHPUT_MB=$(echo "$THROUGHPUT / 1000000" | bc -l) && \
-              echo "iperf3_result,scope=intra throughput_mbps=$THROUGHPUT_MB" > /tmp/iperf3_result.txt && \
-              curl -s -XPOST http://influxdb:8086/write?db=iperf --data-binary @/tmp/iperf3_result.txt && \
-              cat /tmp/iperf3_result.txt
+              mongoimport --uri mongodb://mongo:27017/iperf --collection intra --file /tmp/result.json && \
+              echo "[OK] JSON enviado para MongoDB"
+
