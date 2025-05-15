@@ -19,4 +19,4 @@ spec:
       containers:
         - name: iperf-client
           image: networkstatic/iperf3
-          command: ["iperf3", "-c", "iperf-server", "-t", "10"]
+          command: ["iperf3", "-c", "iperf-server", "-t", "10", "-J"]
