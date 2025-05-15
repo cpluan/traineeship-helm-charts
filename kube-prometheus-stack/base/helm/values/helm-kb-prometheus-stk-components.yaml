@@ -8,14 +8,13 @@ valuesInline:
   prometheus:
     enabled: true
     prometheusSpec:
-      replicas: 2
+      replicas: 1
 
   # Configurações do Alertmanager
   alertmanager:
     enabled: true
     alertmanagerSpec:
-      replicas: 2
-
+      replicas: 1
 
   # Configurações do Grafana
   grafana:
