@@ -6,9 +6,7 @@ resources:
   - iperf-server.yaml
   - service.yaml
   - influxdb.yaml
-  - grafana.yaml
-  - job-intra.yaml
-  - job-inter.yaml
+  # - job-intra.yaml
+  # - job-inter.yaml
   - job-inter-db.yaml
-  - configmap-grafana-datasource.yaml
-  - configmap-grafana-dashboard.yaml
+  - job-intra-db.yaml
