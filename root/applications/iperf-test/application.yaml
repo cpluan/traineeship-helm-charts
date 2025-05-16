@@ -10,7 +10,7 @@ spec:
   source:
     repoURL: "https://github.com/cpluan/traineeship-helm-charts.git"
     targetRevision: benchmark/ingress-v1
-    path: iperf-test/base/
+    path: iperf-test/
   destination:
     server: https://kubernetes.default.svc
     namespace: iperf-test
