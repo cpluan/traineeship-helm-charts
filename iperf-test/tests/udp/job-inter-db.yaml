@@ -27,6 +27,6 @@ spec:
               dnf update &&\
               dnf install awscli -y && \
               yum install -y iperf3 jq unzip && \
-              iperf3 -c iperf-server -t 900 -J > /tmp/result.json && \
+              iperf3 -c iperf-server --udp -b 500M -t 900 -J > /tmp/result.json && \
               aws s3 cp /tmp/result.json s3://ec2-rke2-benchmark-data/iperf/inter/result-$(date +%s).json && \
               echo "[OK] JSON enviado para o S3"
