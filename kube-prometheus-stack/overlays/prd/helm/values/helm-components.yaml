@@ -7,7 +7,7 @@ valuesInline:
   prometheus:
     enabled: true
     prometheusSpec:
-      replicas: 2
+      replicas: 1
       retention: 15d
     service:
       type: ClusterIP
@@ -16,7 +16,7 @@ valuesInline:
   alertmanager:
     enabled: true
     alertmanagerSpec:
-      replicas: 2
+      replicas: 1
     service:
       type: ClusterIP
 
