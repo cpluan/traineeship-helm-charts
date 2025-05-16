@@ -5,7 +5,7 @@ namespace: iperf-test
 resources:
   - iperf-server.yaml
   - service.yaml
-  - mongo.yaml
+  # - mongo.yaml
   # - job-intra.yaml
   # - job-inter.yaml
   - job-inter-db.yaml
