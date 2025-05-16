@@ -1,12 +1,12 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: iperf-client-inter-db
+  name: iperf-client-inter-db-udp
 spec:
   template:
     metadata:
       labels:
-        app: iperf-client-inter-db
+        app: iperf-client-inter-db-udp
     spec:
       affinity:
         podAntiAffinity:

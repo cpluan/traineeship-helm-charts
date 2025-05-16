@@ -1,12 +1,12 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: iperf-client-intra-db
+  name: iperf-client-intra-db-tcp
 spec:
   template:
     metadata:
       labels:
-        app: iperf-client-intra-db
+        app: iperf-client-intra-db-tcp
     spec:
       affinity:
         podAffinity:
