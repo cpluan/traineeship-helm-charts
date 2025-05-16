@@ -18,7 +18,7 @@ spec:
       restartPolicy: Never
       containers:
         - name: iperf-client
-          image: alpine:3.18
+          image: amazonlinux:2023
           command: ["/bin/sh", "-c"]
           args:
             - |
