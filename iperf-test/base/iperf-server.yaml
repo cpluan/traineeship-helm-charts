@@ -19,5 +19,5 @@ spec:
           ports:
             - containerPort: 5201
               protocol: TCP
-            - containerPort: 5201
+            - containerPort: 5001
               protocol: UDP
