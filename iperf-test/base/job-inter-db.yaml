@@ -22,6 +22,7 @@ spec:
           command: ["/bin/bash", "-c"]
           args:
             - |
+              yum remove -y curl-minimal && \
               yum install -y iperf3 jq unzip curl && \
               curl "https://awscli.amazonaws.com/awscli-exe-linux-aarch64.zip" -o "awscliv2.zip" && \
               unzip awscliv2.zip && ./aws/install && \
