@@ -5,3 +5,6 @@ namespace: iperf-test
 resources:
   - job-inter-db.yaml
   - job-intra-db.yaml
+  - iperf-server.yaml
+  - service.yaml
+

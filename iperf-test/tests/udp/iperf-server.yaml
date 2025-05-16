@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: iperf-server-udp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: iperf-server-udp
+  template:
+    metadata:
+      labels:
+        app: iperf-server-udp
+    spec:
+      containers:
+        - name: iperf-server-udp
+          image: networkstatic/iperf3
+          command: ["iperf3", "-s -u"]
+          ports:
+            - containerPort: 5201
