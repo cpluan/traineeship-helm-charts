@@ -22,8 +22,8 @@ spec:
           command: ["/bin/bash", "-c"]
           args:
             - |
-              dnf update \
-              dnf install awscli \
-              TIMESTAMP=$(date +%s) && \
-              aws s3 cp /tmp/result.json s3://ec2-rke2-benchmark-data/iperf/result-${TIMESTAMP}.json && \
+              dnf update &&\
+              dnf install awscli -y && \
+              yum install -y iperf3 jq unzip && \
+              aws s3 cp /tmp/result.json s3://ec2-rke2-benchmark-data/iperf/result-$(date +%s).json && \
               echo "[OK] JSON enviado para o S3"
