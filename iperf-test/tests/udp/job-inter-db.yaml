@@ -22,8 +22,8 @@ spec:
           command: ["/bin/bash", "-c"]
           args:
             - |
-              echo "Aguardando 30 minutos antes de iniciar o iperf..." && \
-              sleep 4200 && \
+              echo "Aguardando 70 minutos antes de iniciar o iperf..." && \
+              sleep 12 && \
               dnf update &&\
               dnf install awscli -y && \
               yum install -y iperf3 jq unzip && \

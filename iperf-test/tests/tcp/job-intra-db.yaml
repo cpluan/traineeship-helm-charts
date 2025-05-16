@@ -22,7 +22,7 @@ spec:
           command: ["/bin/sh", "-c"]
           args:
             - |
-              echo "Aguardando 30 minutos antes de iniciar o iperf..." && \
+              echo "Aguardando 50 minutos antes de iniciar o iperf..." && \
               sleep 3000 && \
               dnf update &&\
               dnf install awscli -y && \
