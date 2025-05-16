@@ -9,26 +9,20 @@ valuesInline:
   # Core ArgoCD components
   controller:
     replicas: 1
-    metrics:
-      enabled: true
-      serviceMonitor:
-        enabled: true
+    metrics: &metrics_argo
+      enabled: false
+      # serviceMonitor:
+      #   enabled: true
 
   server:
     replicas: 2
-    metrics:
-      enabled: true
-      serviceMonitor:
-        enabled: true
-
+    metrics: *metrics_argo
+  
   repoServer:
     enabled: true
     replicas: 2
-    metrics:
-      enabled: true
-      serviceMonitor:
-        enabled: true
-
+    metrics: *metrics_argo
+      
   notifications:
     enabled: true
 
@@ -36,10 +30,7 @@ valuesInline:
   redis:
     enabled: true
     persistent: false
-    metrics:
-      enabled: true
-      serviceMonitor:
-        enabled: true
+    metrics: *metrics_argo
     podAnnotations:
       app.kubernetes.io/component: redis
       app.kubernetes.io/instance: argocd-prd
@@ -55,18 +46,13 @@ valuesInline:
   # ArgoCD uses dex as a component, to perform authentication
   dex:
     enabled: true
-    metrics:
-      enabled: true
-      serviceMonitor:
-        enabled: true
+    metrics: *metrics_argo
+      
 
 
   applicationSet:
     # https://argo-cd.readthedocs.io/en/stable/operator-manual/applicationset/
     enabled: true
-    metrics:
-      enabled: true
-      serviceMonitor:
-        enabled: true
-
+    metrics: *metrics_argo
+      
 

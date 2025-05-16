@@ -3,5 +3,5 @@ kind: Kustomization
 namespace: iperf-test
 
 resources:
-  - iperf-server.yaml
-  - service.yaml
+  - job-inter-db.yaml
+  - job-intra-db.yaml

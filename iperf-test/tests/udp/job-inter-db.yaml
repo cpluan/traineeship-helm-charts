@@ -1,0 +1,32 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: iperf-client-inter-db
+spec:
+  template:
+    metadata:
+      labels:
+        app: iperf-client-inter-db
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchLabels:
+                  app: iperf-server
+              topologyKey: "kubernetes.io/hostname"
+      restartPolicy: Never
+      containers:
+        - name: iperf-client
+          image: amazonlinux:2023
+          command: ["/bin/bash", "-c"]
+          args:
+            - |
+              echo "Aguardando 30 minutos antes de iniciar o iperf..." && \
+              sleep 4200 && \
+              dnf update &&\
+              dnf install awscli -y && \
+              yum install -y iperf3 jq unzip && \
+              iperf3 -c iperf-server -u -t 900 -J > /tmp/result.json && \
+              aws s3 cp /tmp/result.json s3://ec2-rke2-benchmark-data/iperf/inter/result-$(date +%s).json && \
+              echo "[OK] JSON enviado para o S3"

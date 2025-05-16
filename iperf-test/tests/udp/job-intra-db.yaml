@@ -22,10 +22,12 @@ spec:
           command: ["/bin/sh", "-c"]
           args:
             - |
+              echo "Aguardando 30 minutos antes de iniciar o iperf..." && \
+              sleep 5400 && \
               dnf update &&\
               dnf install awscli -y && \
               yum install -y iperf3 jq unzip && \
-              iperf3 -c iperf-server -J > /tmp/result.json && \
+              iperf3 -c iperf-server -u -t 900 -J > /tmp/result.json && \
               aws s3 cp /tmp/result.json s3://ec2-rke2-benchmark-data/iperf/intra/result-$(date +%s).json && \
               echo "[OK] JSON enviado para o S3"
 
