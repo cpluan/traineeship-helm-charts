@@ -19,52 +19,53 @@ spec:
               set -e
               set -x
 
-              # Atualizar pacotes e instalar dependências
               dnf update -y
               dnf install -y --allowerasing curl-full libcurl-full
               dnf install -y awscli jq iperf3
 
-              # Definir URL do Prometheus
-              PROM_URL="http://prometheus-stack-kube-prom-prometheus.monitoring.svc:9090/api/v1/query"
+              PROM_URL="http://prometheus-stack-kube-prom-prometheus.monitoring.svc:9090/api/v1/query_range"
 
-              # Consultas PromQL
-              CPU_QUERY='100 * (1 - avg(rate(node_cpu_seconds_total{mode="idle"}[5m])) by (instance))'
+              CPU_QUERY='100 * (1 - avg(rate(node_cpu_seconds_total{mode="idle"}[1m])) by (instance))'
               MEM_QUERY='100 * (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes))'
               DISK_QUERY='100 - ((node_filesystem_avail_bytes{mountpoint="/", fstype!="rootfs"} * 100) / node_filesystem_size_bytes{mountpoint="/", fstype!="rootfs"})'
 
-              # Função para executar consulta
-              query_prometheus() {
+              # Armazenar timestamp de início
+              START_TS=$(date +%s)
+
+              iperf3 -c iperf-server -t 900 -J > /tmp/result.json
+
+              # Timestamp final
+              END_TS=$(date +%s)
+              STEP="3"  # coleta a cada 15s
+
+              query_range() {
                 local query=$1
-                curl -sG --data-urlencode "query=$query" "$PROM_URL"
+                local start=$2
+                local end=$3
+                curl -sG "$PROM_URL" \
+                  --data-urlencode "query=$query" \
+                  --data-urlencode "start=$start" \
+                  --data-urlencode "end=$end" \
+                  --data-urlencode "step=$STEP" | jq '.data'
               }
 
-              # Executar consultas
-              echo "Query CPU:"
-              cpu_data=$(query_prometheus "$CPU_QUERY") || echo "[ERRO] CPU query falhou"
+              echo "Coletando métricas entre $START_TS e $END_TS..."
 
-              echo "Query MEM:"
-              mem_data=$(query_prometheus "$MEM_QUERY") || echo "[ERRO] MEM query falhou"
+              cpu_data=$(query_range "$CPU_QUERY" "$START_TS" "$END_TS")
+              mem_data=$(query_range "$MEM_QUERY" "$START_TS" "$END_TS")
+              disk_data=$(query_range "$DISK_QUERY" "$START_TS" "$END_TS")
 
-              echo "Query DISK:"
-              disk_data=$(query_prometheus "$DISK_QUERY") || echo "[ERRO] DISK query falhou"
-
-
-
-              # Combinar resultados em um único JSON
               echo '{
-                "timestamp": '$(date +%s)',
+                "start": '"$START_TS"',
+                "end": '"$END_TS"',
                 "cpu": '"$cpu_data"',
                 "memory": '"$mem_data"',
                 "disk": '"$disk_data"'
               }' > /tmp/metrics.json
 
-              # Enviar métricas para o S3
-              aws s3 cp /tmp/metrics.json s3://ec2-rke2-benchmark-data/metrics/iperf-metrics-$(date +%s).json
+              # Enviar arquivos para o S3
+              TS=$(date +%s)
+              aws s3 cp /tmp/result.json s3://ec2-rke2-benchmark-data/iperf/inter/result-$TS.json
+              aws s3 cp /tmp/metrics.json s3://ec2-rke2-benchmark-data/metrics/iperf-metrics-$TS.json
 
-              # Executar iperf3 e salvar resultados
-              iperf3 -c iperf-server -t 900 -J > /tmp/result.json
-
-              # Enviar resultados do iperf3 para o S3
-              aws s3 cp /tmp/result.json s3://ec2-rke2-benchmark-data/iperf/inter/result-$(date +%s).json
-
-              echo "[OK] JSONs enviados para o S3"
+              echo "[OK] Teste finalizado e arquivos enviados"
