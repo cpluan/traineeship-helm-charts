@@ -2,10 +2,6 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - resources/namespace.yaml
-  - resources/rancher-prd-chart.yaml
-  - resources/ingress.yaml
-  - resources/globalrole.yaml
-  - resources/user.yaml
-  - resources/globalrolebinding.yaml
+  - apps/rancher-prd-chart.yaml
+  - apps/rancher-prd-resources.yaml
 
