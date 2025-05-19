@@ -42,6 +42,8 @@ valuesInline:
         enabled: "true"
         hide_version: "true"
         org_role: "Viewer"
+    nodeSelector: *controlplane-selector
+    tolerations: *controlplane-tolerations
     service:
       type: ClusterIP
  
