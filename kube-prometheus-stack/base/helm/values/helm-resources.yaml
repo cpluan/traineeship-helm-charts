@@ -20,11 +20,11 @@ valuesInline:
     alertmanagerSpec:
       resources:
         requests:
-          cpu: 50m
-          memory: 200Mi
+          cpu: 5m
+          memory: 50Mi
         limits:
-          cpu: 150m
-          memory: 200Mi
+          cpu: 10m
+          memory: 50Mi
 
 
   # Grafana
