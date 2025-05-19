@@ -20,7 +20,8 @@ spec:
 
               # Atualizar pacotes e instalar dependências
               dnf update -y
-              dnf install -y awscli jq curl iperf3
+              dnf install -y --allowerasing curl-full libcurl-full
+              dnf install -y awscli jq iperf3
 
               # Definir URL do Prometheus
               PROM_URL="http://prometheus:9090/api/v1/query"
