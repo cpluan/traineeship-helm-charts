@@ -2,6 +2,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: iperf-client-test
+spec:
   template:
     metadata:
       labels:
@@ -17,10 +18,11 @@ metadata:
               #!/bin/bash
               set -e
 
-              dnf update 
-              dnf install awscli -y
-              yum install -y iperf3
+              # Atualizar pacotes e instalar dependências
+              dnf update -y
+              dnf install -y awscli jq curl iperf3
 
+              # Definir URL do Prometheus
               PROM_URL="http://prometheus:9090/api/v1/query"
 
               # Consultas PromQL
@@ -33,11 +35,13 @@ metadata:
                 local query=$1
                 curl -sG --data-urlencode "query=$query" "$PROM_URL"
               }
+
               # Executar consultas
               cpu_data=$(query_prometheus "$CPU_QUERY")
               mem_data=$(query_prometheus "$MEM_QUERY")
               disk_data=$(query_prometheus "$DISK_QUERY")
 
+              # Combinar resultados em um único JSON
               echo '{
                 "timestamp": '$(date +%s)',
                 "cpu": '"$cpu_data"',
@@ -45,9 +49,13 @@ metadata:
                 "disk": '"$disk_data"'
               }' > /tmp/metrics.json
 
-              ws s3 cp /tmp/metrics.json s3://seu-bucket/metrics-$(date +%s).json
+              # Enviar métricas para o S3
+              aws s3 cp /tmp/metrics.json s3://seu-bucket/metrics-$(date +%s).json
 
-
+              # Executar iperf3 e salvar resultados
               iperf3 -c iperf-server -t 900 -J > /tmp/result.json
+
+              # Enviar resultados do iperf3 para o S3
               aws s3 cp /tmp/result.json s3://ec2-rke2-benchmark-data/iperf/inter/result-$(date +%s).json
-              echo "[OK] JSON enviado para o S3"
+
+              echo "[OK] JSONs enviados para o S3"
