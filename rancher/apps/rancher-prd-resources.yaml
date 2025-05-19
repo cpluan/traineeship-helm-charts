@@ -5,6 +5,8 @@ metadata:
   namespace: argocd
   annotations:
     argocd.argoproj.io/sync-wave: "8b"
+    argocd.argoproj.io/depends-on: rancher-prd-chart
+
 spec:
   project: default
   source:
