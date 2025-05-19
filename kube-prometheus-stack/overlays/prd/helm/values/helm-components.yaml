@@ -14,7 +14,7 @@ valuesInline:
     - key: "node-role.kubernetes.io/etcd"
       operator: "Equal"
       value: "true"
-      effect: "NoSchedule"
+      effect: "NoExecute"
 
   # Configurações do Prometheus
   prometheus:
