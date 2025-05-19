@@ -22,12 +22,64 @@ spec:
           command: ["/bin/sh", "-c"]
           args:
             - |
-              echo "Aguardando 90 minutos antes de iniciar o iperf..." && \
-              sleep 5400 && \
-              dnf update &&\
-              dnf install awscli -y && \
-              yum install -y iperf3 && \
-              iperf3 -c iperf-server -u -t 900 -J > /tmp/result.json && \
-              aws s3 cp /tmp/result.json s3://ec2-rke2-benchmark-data/iperf/intra/result-$(date +%s).json && \
-              echo "[OK] JSON enviado para o S3"
+              set -e
 
+              echo "Aguardando 90 minutos antes de iniciar o iperf..."
+              sleep 5400 
+
+              dnf install -y --allowerasing curl-full libcurl-full
+              dnf install -y awscli jq iperf3
+
+              PROM_URL="http://prometheus-stack-kube-prom-prometheus.monitoring.svc:9090/api/v1/query_range"
+
+              CPU_QUERY='100 * (1 - avg(rate(node_cpu_seconds_total{mode="idle"}[1m])) by (instance))'
+              MEM_QUERY='100 * (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes))'
+              DISK_QUERY='100 - ((node_filesystem_avail_bytes{mountpoint="/", fstype!="rootfs"} * 100) / node_filesystem_size_bytes{mountpoint="/", fstype!="rootfs"})'
+
+              # Armazenar timestamp de início
+              START_TS=$(date +%s)
+
+              iperf3 -c iperf-server --udp -b 500M -t 900 -J > /tmp/result.json || {
+                echo "[ERRO] iperf3 falhou"; exit 1;
+              }
+
+              # Timestamp final
+              END_TS=$(date +%s)
+              STEP="3"  # coleta a cada 15s
+
+              query_range() {
+                local query=$1
+                local start=$2
+                local end=$3
+                curl -sG "$PROM_URL" \
+                  --data-urlencode "query=$query" \
+                  --data-urlencode "start=$start" \
+                  --data-urlencode "end=$end" \
+                  --data-urlencode "step=$STEP" | jq '.data'
+              }
+
+              echo "Coletando métricas entre $START_TS e $END_TS..."
+
+              cpu_data=$(query_range "$CPU_QUERY" "$START_TS" "$END_TS")
+              mem_data=$(query_range "$MEM_QUERY" "$START_TS" "$END_TS")
+              disk_data=$(query_range "$DISK_QUERY" "$START_TS" "$END_TS")
+                            
+              cat <<EOF > /tmp/metrics.json
+              {
+                "start": $START_TS,
+                "end": $END_TS,
+                "cpu": $cpu_data,
+                "memory": $mem_data,
+                "disk": $disk_data
+              }
+              EOF
+
+              # Enviar arquivos para o S3
+              TS=$(date +%s)
+              aws s3 cp /tmp/result.json s3://ec2-rke2-benchmark-data/iperf/intra/result-$TS.json
+              aws s3 cp /tmp/metrics.json s3://ec2-rke2-benchmark-data/metrics/iperf-metrics-$TS.json
+              aws s3 cp /tmp/result.json s3://ec2-rke2-benchmark-data/tests/iperf/udp/intra/$TS/result-$TS.json
+              aws s3 cp /tmp/metrics.json s3://ec2-rke2-benchmark-data/tests/iperf/udp/intra/$TS/metrics-$TS.json
+
+              echo "[OK] Teste finalizado e arquivos enviados"
+          

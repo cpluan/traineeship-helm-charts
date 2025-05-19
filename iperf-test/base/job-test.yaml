@@ -16,7 +16,6 @@ spec:
           args:
             - |
               set -e
-              set -x
 
               dnf install -y --allowerasing curl-full libcurl-full
               dnf install -y awscli jq iperf3
