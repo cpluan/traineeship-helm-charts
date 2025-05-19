@@ -32,6 +32,8 @@ valuesInline:
     enabled: true
     alertmanagerSpec:
       replicas: 1
+      nodeSelector: *controlplane-selector
+      tolerations: *controlplane-tolerations
     service:
       type: ClusterIP
 
