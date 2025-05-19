@@ -12,7 +12,8 @@ valuesInline:
       operator: "Exists"
       effect: "NoSchedule"
     - key: "node-role.kubernetes.io/etcd"
-      operator: "Exists"
+      operator: "Equal"
+      value: "true"
       effect: "NoSchedule"
 
   # Configurações do Prometheus
