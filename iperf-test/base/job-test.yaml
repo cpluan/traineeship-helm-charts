@@ -15,11 +15,9 @@ spec:
           command: ["/bin/bash", "-c"]
           args:
             - |
-              #!/bin/bash
               set -e
               set -x
 
-              dnf update -y
               dnf install -y --allowerasing curl-full libcurl-full
               dnf install -y awscli jq iperf3
 
@@ -32,7 +30,9 @@ spec:
               # Armazenar timestamp de início
               START_TS=$(date +%s)
 
-              iperf3 -c iperf-server -t 900 -J > /tmp/result.json
+              iperf3 -c iperf-server -t 900 -J > /tmp/result.json || {
+                echo "[ERRO] iperf3 falhou"; exit 1;
+              }
 
               # Timestamp final
               END_TS=$(date +%s)
@@ -54,18 +54,22 @@ spec:
               cpu_data=$(query_range "$CPU_QUERY" "$START_TS" "$END_TS")
               mem_data=$(query_range "$MEM_QUERY" "$START_TS" "$END_TS")
               disk_data=$(query_range "$DISK_QUERY" "$START_TS" "$END_TS")
-
-              echo '{
-                "start": '"$START_TS"',
-                "end": '"$END_TS"',
-                "cpu": '"$cpu_data"',
-                "memory": '"$mem_data"',
-                "disk": '"$disk_data"'
-              }' > /tmp/metrics.json
+                            
+              cat <<EOF > /tmp/metrics.json
+              {
+                "start": $START_TS,
+                "end": $END_TS,
+                "cpu": $cpu_data,
+                "memory": $mem_data,
+                "disk": $disk_data
+              }
+              EOF
 
               # Enviar arquivos para o S3
               TS=$(date +%s)
               aws s3 cp /tmp/result.json s3://ec2-rke2-benchmark-data/iperf/inter/result-$TS.json
               aws s3 cp /tmp/metrics.json s3://ec2-rke2-benchmark-data/metrics/iperf-metrics-$TS.json
+              aws s3 cp /tmp/result.json s3://ec2-rke2-benchmark-data/tests/iperf/inter/$TS/result-$TS.json
+              aws s3 cp /tmp/metrics.json s3://ec2-rke2-benchmark-data/tests/iperf/inter/$TS/metrics-$TS.json
 
               echo "[OK] Teste finalizado e arquivos enviados"
