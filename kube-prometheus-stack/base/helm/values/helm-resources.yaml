@@ -20,10 +20,10 @@ valuesInline:
     alertmanagerSpec:
       resources:
         requests:
-          cpu: 5m
+          cpu: 1m
           memory: 50Mi
         limits:
-          cpu: 10m
+          cpu: 5m
           memory: 50Mi
 
 
