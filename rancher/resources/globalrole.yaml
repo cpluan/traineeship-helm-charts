@@ -2,7 +2,6 @@ apiVersion: management.cattle.io/v3
 description: User can read everything except secrets
 displayName: User - ReadOnly
 kind: GlobalRole
-builtin: true
 metadata:
   name: user-ro
 rules:
