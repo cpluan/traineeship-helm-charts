@@ -1,0 +1,12 @@
+apiVersion: management.cattle.io/v3
+description: Admin
+displayName: Eurotux Admin
+enabled: true
+kind: User
+metadata:
+  name: etx-admin
+password: $2a$10$4kpGtpyCNzkPbcVFwlex6.7sDaJs9xZlo3uBbkjMIfXgSDVTLPVUm
+principalIds:
+  - local://etx-admin
+spec: {}
+username: etx-admin
