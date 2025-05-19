@@ -32,7 +32,7 @@ spec:
         - /metadata
         - /status
     - group: management.cattle.io
-      kind: GlobalRoleBinding
+      kind: ClusterRoleBinding
       jsonPointers:
         - /metadata
         - /status

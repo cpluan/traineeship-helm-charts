@@ -12,7 +12,6 @@ metadata:
   name: gr-jgzjs
   resourceVersion: '152606'
   uid: f370af50-e12e-4098-bdfd-a2199e63f61d
-newUserDefault: false
 rules:
   - apiGroups:
       - '*'
@@ -38,7 +37,6 @@ rules:
       - networking.k8s.io
       - discovery.k8s.io
       - io.k8s.api.discovery
-    resourceNames: []
     resources:
       - '*'
     verbs:
