@@ -8,7 +8,7 @@ spec:
       labels:
         app: iperf-client-test
     spec:
-      restartPolicy: OnFailure
+      restartPolicy: Never
       containers:
         - name: iperf-client
           image: amazonlinux:2023
@@ -26,6 +26,8 @@ spec:
               # Definir URL do Prometheus
               PROM_URL="http://prometheus:9090/api/v1/query"
 
+              echo "here"
+
               # Consultas PromQL
               CPU_QUERY='100 * (1 - avg(rate(node_cpu_seconds_total{mode="idle"}[5m])) by (instance))'
               MEM_QUERY='100 * (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes))'
@@ -37,10 +39,14 @@ spec:
                 curl -sG --data-urlencode "query=$query" "$PROM_URL"
               }
 
+              echo "here2"
+
               # Executar consultas
               cpu_data=$(query_prometheus "$CPU_QUERY")
               mem_data=$(query_prometheus "$MEM_QUERY")
               disk_data=$(query_prometheus "$DISK_QUERY")
+
+              echo "her3"
 
               # Combinar resultados em um único JSON
               echo '{
