@@ -3,6 +3,9 @@ kind: Kustomization
 
 resources:
   - resources/namespace.yaml
-  - resources/ingress.yaml
   - resources/rancher-prd-chart.yaml
+  - resources/ingress.yaml
+  - resources/globalrole.yaml
+  - resources/user.yaml
+  - resources/globalrolebindings.yaml
 

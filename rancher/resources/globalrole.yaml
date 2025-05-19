@@ -1,0 +1,85 @@
+apiVersion: management.cattle.io/v3
+description: User can read everything except secrets
+displayName: User - ReadOnly
+kind: GlobalRole
+metadata:
+  finalizers:
+    - controller.cattle.io/mgmt-auth-gr-controller
+  generateName: gr-
+  generation: 1
+  labels:
+    cattle.io/creator: norman
+  name: gr-jgzjs
+  resourceVersion: '152606'
+  uid: f370af50-e12e-4098-bdfd-a2199e63f61d
+newUserDefault: false
+rules:
+  - apiGroups:
+      - '*'
+    resources:
+      - '*'
+    verbs:
+      - list
+  - apiGroups:
+      - ''
+    resources:
+      - pods
+      - 'pods/logs'
+      - namespaces
+      - services
+      - configmaps
+      - deployments
+      - ingresses
+    verbs:
+      - watch
+      - list
+      - get
+  - apiGroups:
+      - networking.k8s.io
+      - discovery.k8s.io
+      - io.k8s.api.discovery
+    resourceNames: []
+    resources:
+      - '*'
+    verbs:
+      - get
+  - apiGroups:
+    - management.cattle.io
+    resources:
+      - preferences
+    verbs: 
+      - '*'
+  - apiGroups:
+      - management.cattle.io
+    resources:
+      - settings
+      - rancherusernotifications
+      - features
+      - roletemplates
+      - globalroles
+      - globalrolebindings
+      - authconfigs
+      - users
+      - nodedrivers
+      - principals
+      - fleetworkspaces
+      - podsecurityadmissionconfigurationtemplates
+      - podsecuritypolicytemplates
+      - cisbenchmarkversions
+      - cisconfigs
+      - rkeaddons
+      - rkek8sserviceoptions
+      - rkek8ssystemimages
+    verbs: 
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - catalog.cattle.io
+    resources:
+      - clusterrepos
+    verbs:
+      - get
+      - list
+      - watch
+

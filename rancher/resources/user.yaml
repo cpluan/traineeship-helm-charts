@@ -1,0 +1,20 @@
+apiVersion: management.cattle.io/v3
+description: 'User ReadOnly'
+displayName: ec2-user-ro
+enabled: true
+kind: User
+metadata:
+  finalizers:
+    - controller.cattle.io/mgmt-auth-users-controller
+  generateName: u-
+  generation: 5
+  labels:
+    cattle.io/creator: norman
+  name: u-scb27
+  resourceVersion: '152988'
+  uid: 7d63eae1-f6e1-4ccd-a741-766810d39b00
+password: $2a$10$of1FkNh1K3srSUOjST070OXOddzc2hAJIhnCveMaTnNSPVz0yTnjG
+principalIds:
+  - local://u-scb27
+spec: {}
+username: ec2-user-ro
