@@ -30,7 +30,7 @@ spec:
               # Armazenar timestamp de início
               START_TS=$(date +%s)
 
-              iperf3 -c iperf-server -t 900 -J > /tmp/result.json || {
+              iperf3 -c iperf-server -t 60 -J > /tmp/result.json || {
                 echo "[ERRO] iperf3 falhou"; exit 1;
               }
 
