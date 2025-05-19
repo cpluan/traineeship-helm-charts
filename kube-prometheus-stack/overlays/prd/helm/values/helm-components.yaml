@@ -9,6 +9,12 @@ valuesInline:
     prometheusSpec:
       replicas: 1
       retention: 15d
+    nodeSelector: &controlplane-selector
+      node-role.kubernetes.io/control-plane: "true"
+    tolerations: &controlplane-tolerations
+      - key: "node-role.kubernetes.io/control-plane"
+        operator: "Exists"
+        effect: "NoSchedule"
     service:
       type: ClusterIP
 
