@@ -3,18 +3,23 @@ kind: HelmChartInflationGenerator
 metadata:
   name: &appName kube-prometheus-stack
 valuesInline:
+  
+  # Anchor para reaproveitamento
+  controlplaneSelector: &controlplane-selector
+    node-role.kubernetes.io/control-plane: "true"
+  controlplaneTolerations: &controlplane-tolerations
+    - key: "node-role.kubernetes.io/control-plane"
+      operator: "Exists"
+      effect: "NoSchedule"
+
   # Configurações do Prometheus
   prometheus:
     enabled: true
     prometheusSpec:
       replicas: 1
       retention: 15d
-    nodeSelector: &controlplane-selector
-      node-role.kubernetes.io/control-plane: "true"
-    tolerations: &controlplane-tolerations
-      - key: "node-role.kubernetes.io/control-plane"
-        operator: "Exists"
-        effect: "NoSchedule"
+      nodeSelector: *controlplane-selector
+      tolerations: *controlplane-tolerations
     service:
       type: ClusterIP
 
@@ -29,6 +34,8 @@ valuesInline:
   # Configurações do Grafana
   grafana:
     enabled: true
+    nodeSelector: *controlplane-selector
+    tolerations: *controlplane-tolerations
     env:
       GF_SERVER_ROOT_URL: &gfRootUrl "https://prometheus.cluster-hybrid.ddnsfree.com"
     grafana.ini:
@@ -42,8 +49,6 @@ valuesInline:
         enabled: "true"
         hide_version: "true"
         org_role: "Viewer"
-    nodeSelector: *controlplane-selector
-    tolerations: *controlplane-tolerations
     service:
       type: ClusterIP
  
