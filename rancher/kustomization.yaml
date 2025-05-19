@@ -7,5 +7,5 @@ resources:
   - resources/ingress.yaml
   - resources/globalrole.yaml
   - resources/user.yaml
-  - resources/globalrolebindings.yaml
+  - resources/globalrolebinding.yaml
 
