@@ -6,4 +6,5 @@ resources:
   - globalrole.yaml
   - user.yaml
   - rolebinding.yaml
+  - admin.yaml
 
