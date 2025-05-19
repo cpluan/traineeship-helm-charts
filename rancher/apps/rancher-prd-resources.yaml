@@ -18,5 +18,21 @@ spec:
     namespace: cattle-system
   syncPolicy:
     automated:
-      prune: true
-      selfHeal: true
+      prune: false
+      selfHeal: false
+  ignoreDifferences:
+    - group: management.cattle.io
+      kind: User
+      jsonPointers:
+        - /metadata
+        - /status
+    - group: management.cattle.io
+      kind: GlobalRole
+      jsonPointers:
+        - /metadata
+        - /status
+    - group: management.cattle.io
+      kind: GlobalRoleBinding
+      jsonPointers:
+        - /metadata
+        - /status
