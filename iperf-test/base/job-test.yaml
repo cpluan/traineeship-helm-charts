@@ -40,13 +40,15 @@ spec:
 
               # Executar consultas
               echo "Query CPU:"
-              query_prometheus "$CPU_QUERY" || echo "[ERRO] CPU query falhou"
+              cpu_data=$(query_prometheus "$CPU_QUERY") || echo "[ERRO] CPU query falhou"
 
               echo "Query MEM:"
-              query_prometheus "$MEM_QUERY" || echo "[ERRO] MEM query falhou"
+              mem_data=$(query_prometheus "$MEM_QUERY") || echo "[ERRO] MEM query falhou"
 
               echo "Query DISK:"
-              query_prometheus "$DISK_QUERY" || echo "[ERRO] DISK query falhou"
+              disk_data=$(query_prometheus "$DISK_QUERY") || echo "[ERRO] DISK query falhou"
+
+
 
               # Combinar resultados em um único JSON
               echo '{
