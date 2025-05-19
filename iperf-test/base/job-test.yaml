@@ -52,7 +52,7 @@ spec:
               echo "Query DISK:"
               query_prometheus "$DISK_QUERY" || echo "[ERRO] DISK query falhou"
 
-              curl "http://prometheus:9090/api/v1/query?query=up"
+              curl "http://kube-prometheus-stack-prometheus.monitoring.svc.cluster.local:9090/api/v1/query?query=up"
 
 
               echo "her3"
