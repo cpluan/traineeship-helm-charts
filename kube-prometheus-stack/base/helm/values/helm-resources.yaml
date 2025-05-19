@@ -31,11 +31,19 @@ valuesInline:
   grafana:
     resources:
       requests:
-        cpu: 50m
-        memory: 200Mi
+        cpu: 10m
+        memory: 100Mi
       limits:
-        cpu: 150m
-        memory: 200Mi
+        cpu: 50m
+        memory: 100Mi
+    downloadDashboards:
+      resources:
+        requests:
+          cpu: 10m
+          memory: 100Mi
+        limits:
+          cpu: 50m
+          memory: 100Mi
 
 
   # Node Exporter
