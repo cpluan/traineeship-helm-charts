@@ -27,8 +27,6 @@ spec:
               # Definir URL do Prometheus
               PROM_URL="http://prometheus-stack-kube-prom-prometheus.monitoring.svc:9090/api/v1/query"
 
-              echo "here"
-
               # Consultas PromQL
               CPU_QUERY='100 * (1 - avg(rate(node_cpu_seconds_total{mode="idle"}[5m])) by (instance))'
               MEM_QUERY='100 * (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes))'
@@ -40,8 +38,6 @@ spec:
                 curl -sG --data-urlencode "query=$query" "$PROM_URL"
               }
 
-              echo "here2"
-
               # Executar consultas
               echo "Query CPU:"
               query_prometheus "$CPU_QUERY" || echo "[ERRO] CPU query falhou"
@@ -52,11 +48,6 @@ spec:
               echo "Query DISK:"
               query_prometheus "$DISK_QUERY" || echo "[ERRO] DISK query falhou"
 
-              curl "http://prometheus-stack-kube-prom-prometheus.monitoring.svc:9090/api/v1/query?query=up"
-
-
-              echo "her3"
-
               # Combinar resultados em um único JSON
               echo '{
                 "timestamp": '$(date +%s)',
@@ -66,7 +57,7 @@ spec:
               }' > /tmp/metrics.json
 
               # Enviar métricas para o S3
-              aws s3 cp /tmp/metrics.json s3://seu-bucket/metrics-$(date +%s).json
+              aws s3 cp /tmp/metrics.json s3://ec2-rke2-benchmark-data/metrics/iperf-metrics-$(date +%s).json
 
               # Executar iperf3 e salvar resultados
               iperf3 -c iperf-server -t 900 -J > /tmp/result.json
