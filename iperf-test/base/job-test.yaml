@@ -1,0 +1,60 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: iperf-client-test
+  template:
+    metadata:
+      labels:
+        app: iperf-client-test
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchLabels:
+                  app: iperf-server
+              topologyKey: "kubernetes.io/hostname"
+      restartPolicy: Never
+      containers:
+        - name: iperf-client
+          image: amazonlinux:2023
+          command: ["/bin/bash", "-c"]
+          args:
+            - |
+              #!/bin/bash
+              set -e
+
+              dnf update 
+              dnf install awscli -y
+              yum install -y iperf3
+
+              PROM_URL="http://prometheus:9090/api/v1/query"
+
+              # Consultas PromQL
+              CPU_QUERY='100 * (1 - avg(rate(node_cpu_seconds_total{mode="idle"}[5m])) by (instance))'
+              MEM_QUERY='100 * (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes))'
+              DISK_QUERY='100 - ((node_filesystem_avail_bytes{mountpoint="/", fstype!="rootfs"} * 100) / node_filesystem_size_bytes{mountpoint="/", fstype!="rootfs"})'
+
+              # Função para executar consulta
+              query_prometheus() {
+                local query=$1
+                curl -sG --data-urlencode "query=$query" "$PROM_URL"
+              }
+              # Executar consultas
+              cpu_data=$(query_prometheus "$CPU_QUERY")
+              mem_data=$(query_prometheus "$MEM_QUERY")
+              disk_data=$(query_prometheus "$DISK_QUERY")
+
+              echo '{
+                "timestamp": '$(date +%s)',
+                "cpu": '"$cpu_data"',
+                "memory": '"$mem_data"',
+                "disk": '"$disk_data"'
+              }' > /tmp/metrics.json
+
+              ws s3 cp /tmp/metrics.json s3://seu-bucket/metrics-$(date +%s).json
+
+
+              iperf3 -c iperf-server -t 900 -J > /tmp/result.json
+              aws s3 cp /tmp/result.json s3://ec2-rke2-benchmark-data/iperf/inter/result-$(date +%s).json
+              echo "[OK] JSON enviado para o S3"
