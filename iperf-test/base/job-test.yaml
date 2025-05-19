@@ -17,6 +17,7 @@ spec:
             - |
               #!/bin/bash
               set -e
+              set -x
 
               # Atualizar pacotes e instalar dependências
               dnf update -y
@@ -24,7 +25,7 @@ spec:
               dnf install -y awscli jq iperf3
 
               # Definir URL do Prometheus
-              PROM_URL="http://prometheus:9090/api/v1/query"
+              PROM_URL="http://kube-prometheus-stack-prometheus.monitoring.svc.cluster.local:9090/api/v1/query"
 
               echo "here"
 
@@ -42,9 +43,17 @@ spec:
               echo "here2"
 
               # Executar consultas
-              cpu_data=$(query_prometheus "$CPU_QUERY")
-              mem_data=$(query_prometheus "$MEM_QUERY")
-              disk_data=$(query_prometheus "$DISK_QUERY")
+              echo "Query CPU:"
+              query_prometheus "$CPU_QUERY" || echo "[ERRO] CPU query falhou"
+
+              echo "Query MEM:"
+              query_prometheus "$MEM_QUERY" || echo "[ERRO] MEM query falhou"
+
+              echo "Query DISK:"
+              query_prometheus "$DISK_QUERY" || echo "[ERRO] DISK query falhou"
+
+              curl "http://prometheus:9090/api/v1/query?query=up"
+
 
               echo "her3"
 
