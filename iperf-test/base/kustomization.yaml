@@ -5,4 +5,4 @@ namespace: iperf-test
 resources:
   - iperf-server.yaml
   - service.yaml
-  # - job-test.yaml
+  - job-test.yaml
