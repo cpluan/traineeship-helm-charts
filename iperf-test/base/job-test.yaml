@@ -78,18 +78,27 @@ spec:
                   part=$((part + 1))
                 done
 
-                jq -s 'add' "$tmp_dir"/part_*.json
+                out_file="/tmp/metric_$name.json"
+                if compgen -G "$tmp_dir/part_*.json" > /dev/null; then
+                  jq -s 'add' "$tmp_dir"/part_*.json > "$out_file"
+                else
+                  echo "[]" > "$out_file"
+                fi
               }
 
-              echo "[INFO] Coletando métricas entre $START_TS e $END_TS..."
-              cpu_data=$(collect_range_metric "$CPU_QUERY" "$START_TS" "$END_TS" "cpu")
-              mem_data=$(collect_range_metric "$MEM_QUERY" "$START_TS" "$END_TS" "mem")
-              disk_data=$(collect_range_metric "$DISK_QUERY" "$START_TS" "$END_TS" "disk")
+              collect_range_metric "$CPU_QUERY" "$START_TS" "$END_TS" "cpu"
+              cpu_data=$(cat /tmp/metric_cpu.json)
+
+              collect_range_metric "$MEM_QUERY" "$START_TS" "$END_TS" "mem"
+              mem_data=$(cat /tmp/metric_mem.json)
+
+              collect_range_metric "$DISK_QUERY" "$START_TS" "$END_TS" "disk"
+              disk_data=$(cat /tmp/metric_disk.json)
 
               jq -n \
-                --argjson cpu "$cpu_data" \
-                --argjson mem "$mem_data" \
-                --argjson disk "$disk_data" \
+                --argjson cpu "$(echo "${cpu_data:-[]}")" \
+                --argjson mem "$(echo "${mem_data:-[]}")" \
+                --argjson disk "$(echo "${disk_data:-[]}")" \
                 --arg start "$START_TS" \
                 --arg end "$END_TS" \
                 '{
