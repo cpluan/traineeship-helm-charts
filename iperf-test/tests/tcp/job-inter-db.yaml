@@ -45,7 +45,7 @@ spec:
 
               # Timestamp final
               END_TS=$(date +%s)
-              STEP="3"  # coleta a cada 15s
+              STEP="5"  # coleta a cada 15s
 
               query_range() {
                 local query=$1

@@ -29,30 +29,52 @@ spec:
               # Armazenar timestamp de início
               START_TS=$(date +%s)
 
-              iperf3 -c iperf-server -t 60 -J > /tmp/result.json || {
+              iperf3 -c iperf-server -t 900 -J > /tmp/result.json || {
                 echo "[ERRO] iperf3 falhou"; exit 1;
               }
 
               # Timestamp final
               END_TS=$(date +%s)
-              STEP="3"  # coleta a cada 15s
+              STEP="5"  # coleta a cada 15s
 
-              query_range() {
-                local query=$1
-                local start=$2
-                local end=$3
-                curl -sG "$PROM_URL" \
-                  --data-urlencode "query=$query" \
-                  --data-urlencode "start=$start" \
-                  --data-urlencode "end=$end" \
-                  --data-urlencode "step=$STEP" | jq '.data'
+              WINDOW=300  # 5 minutos
+
+              collect_range_metric() {
+                local query="$1"
+                local start_ts="$2"
+                local end_ts="$3"
+                local result="[]"
+
+                while [ "$start_ts" -lt "$end_ts" ]; do
+                  next_ts=$((start_ts + WINDOW))
+                  if [ "$next_ts" -gt "$end_ts" ]; then
+                    next_ts=$end_ts
+                  fi
+
+                  echo "[INFO] Coletando de $start_ts até $next_ts..."
+                  resp=$(curl -sfG "$PROM_URL" \
+                    --data-urlencode "query=$query" \
+                    --data-urlencode "start=$start_ts" \
+                    --data-urlencode "end=$next_ts" \
+                    --data-urlencode "step=$STEP")
+
+                  # Verifica se retornou dados válidos
+                  new_data=$(echo "$resp" | jq '.data.result')
+                  if [ "$(echo "$new_data" | jq length)" -gt 0 ]; then
+                    result=$(echo "$result + $new_data" | jq -s 'add')
+                  fi
+
+                  start_ts=$next_ts
+                done
+
+                echo "$result"
               }
 
               echo "Coletando métricas entre $START_TS e $END_TS..."
 
-              cpu_data=$(query_range "$CPU_QUERY" "$START_TS" "$END_TS")
-              mem_data=$(query_range "$MEM_QUERY" "$START_TS" "$END_TS")
-              disk_data=$(query_range "$DISK_QUERY" "$START_TS" "$END_TS")
+              cpu_data=$(collect_range_metric "$CPU_QUERY" "$START_TS" "$END_TS")
+              mem_data=$(collect_range_metric "$MEM_QUERY" "$START_TS" "$END_TS")
+              disk_data=$(collect_range_metric "$DISK_QUERY" "$START_TS" "$END_TS")
                             
               cat <<EOF > /tmp/metrics.json
               {
