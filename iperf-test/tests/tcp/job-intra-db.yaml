@@ -28,6 +28,7 @@ spec:
 
               echo "[INFO] Aguardando 50 minutos antes de iniciar o iperf..."
               # sleep 3000 
+              sleep 900
 
               echo "[INFO] Instalando dependências..."
               dnf install -y --allowerasing curl-full libcurl-full

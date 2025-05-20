@@ -27,7 +27,8 @@ spec:
               exec > >(tee /tmp/benchmark.log) 2>&1
 
               echo "[INFO] Aguardando 70 minutos antes de iniciar o iperf..."
-              # sleep 4200 
+              # sleep 4200
+              sleep 1800 
 
               echo "[INFO] Instalando dependências..."
               dnf install -y --allowerasing curl-full libcurl-full
