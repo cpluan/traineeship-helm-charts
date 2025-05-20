@@ -12,6 +12,11 @@ spec:
       containers:
         - name: iperf-client
           image: amazonlinux:2023
+          env:
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
           command: ["/bin/bash", "-c"]
           args:
             - |
@@ -35,6 +40,8 @@ spec:
               iperf3 -c iperf-server -t 900 -J > /tmp/result.json || {
                 echo "[ERRO] iperf3 falhou"; exit 1;
               }
+
+              jq --arg node "$NODE_NAME" '. + {node_name: $node}' /tmp/result_raw.json > /tmp/result.json
 
               END_TS=$(date +%s)
               STEP=5
@@ -101,9 +108,11 @@ spec:
                 --argjson disk "$(echo "${disk_data:-[]}")" \
                 --arg start "$START_TS" \
                 --arg end "$END_TS" \
+                --arg node "$NODE_NAME" \
                 '{
                   start: ($start | tonumber),
                   end: ($end | tonumber),
+                  node_name: $node,
                   cpu: $cpu,
                   memory: $mem,
                   disk: $disk
