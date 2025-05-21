@@ -1,10 +1,10 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: rancher-prd-chart
+  name: robusta-prd-chart
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "8a"
+    argocd.argoproj.io/sync-wave: "9a"
 spec:
   project: default
   source:
