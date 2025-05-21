@@ -9,7 +9,7 @@ valuesInline:
 
   runner:
     sendAdditionalTelemetry: false
-    enableRobustaUI: false
+    enableRobustaUI: true
 
   # enableHolmesGPT: false
   # holmes: {}
