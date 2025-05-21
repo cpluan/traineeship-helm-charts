@@ -3,11 +3,7 @@ kind: HelmChartInflationGenerator
 metadata:
   name: robusta
 valuesInline:
-  clusterName: ec2-aws
+  clusterName: ec2-aws-test
 
-  globalConfig:
-    enable_platform: false
-    signing_key: ""
-    sinks: []
 
   

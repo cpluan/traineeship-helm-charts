@@ -8,8 +8,8 @@ valuesInline:
   enabledManagedConfiguration: true
 
   runner:
-    sendAdditionalTelemetry: false
-    enableRobustaUI: false
+    sendAdditionalTelemetry: true
+  #   enableRobustaUI: false
 
   # enableHolmesGPT: false
   # holmes: {}
