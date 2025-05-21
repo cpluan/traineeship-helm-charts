@@ -5,7 +5,7 @@ metadata:
 valuesInline:
   enablePrometheusStack: false
   enablePlatformPlaybooks: true
-  enabledManagedConfiguration: true
+  enabledManagedConfiguration: false
 
   runner:
     sendAdditionalTelemetry: true

@@ -5,8 +5,8 @@ metadata:
 valuesInline:
   
   globalConfig:
-    signing_key: 6e9abe12-0a7b-4bf3-a4d5-7d3c5e7e60cb
-    account_id: bba57a70-49f7-4a14-b045-34d90e9ab135
+    signing_key: ""
+    account_id: ""
   sinksConfig:
     - discord_sink:
         name: personal_discord_sink
