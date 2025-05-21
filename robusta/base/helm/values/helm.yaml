@@ -6,9 +6,7 @@ valuesInline:
   clusterName: ec2-aws
 
   globalConfig:
-    cluster_name: ec2-aws
     enable_platform: false
     signing_key: ""
-    sinks: []
 
   
