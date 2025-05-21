@@ -17,6 +17,11 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: spec.nodeName
+            - name: SERVER_IP
+              value: 10.0.4.80
+            - name: TEST_DURATION
+              value: "900"
+
           command: ["/bin/bash", "-c"]
           args:
             - |
@@ -37,7 +42,7 @@ spec:
               echo "[INFO] Iniciando benchmark..."
               START_TS=$(date +%s)
 
-              iperf3 -c iperf-server -t 900 -J > /tmp/result_raw.json || {
+              iperf3 -c $SERVER_IP -t ${TEST_DURATION:-900} -J > /tmp/result_raw.json || {
                 echo "[ERRO] iperf3 falhou"; exit 1;
               }
 
