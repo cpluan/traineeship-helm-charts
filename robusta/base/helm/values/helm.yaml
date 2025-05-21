@@ -8,5 +8,6 @@ valuesInline:
   globalConfig:
     enable_platform: false
     signing_key: ""
+    sinks: []
 
   

@@ -3,11 +3,13 @@ kind: HelmChartInflationGenerator
 metadata:
   name: robusta
 valuesInline:
-  
   enablePrometheusStack: false
   enablePlatformPlaybooks: true
   enabledManagedConfiguration: true
 
+  runner:
+    sendAdditionalTelemetry: false
+    enableRobustaUI: false
 
   # enableHolmesGPT: false
   # holmes: {}
