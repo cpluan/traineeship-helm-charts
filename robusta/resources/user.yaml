@@ -1,0 +1,12 @@
+apiVersion: management.cattle.io/v3
+description: 'User ReadOnly'
+displayName: ec2-user-ro
+enabled: true
+kind: User
+metadata:
+  name: ec2-user-ro
+password: $2a$10$of1FkNh1K3srSUOjST070OXOddzc2hAJIhnCveMaTnNSPVz0yTnjG
+principalIds:
+  - local://ec2-user-ro
+spec: {}
+username: ec2-user-ro

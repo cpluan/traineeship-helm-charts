@@ -1,0 +1,31 @@
+apiVersion: builtin
+kind: HelmChartInflationGenerator
+metadata:
+  name: robusta
+valuesInline:
+  enablePrometheusStack: false
+  enablePlatformPlaybooks: false
+  enabledManagedConfiguration: false
+
+  runner:
+    sendAdditionalTelemetry: false
+    enableRobustaUI: false
+
+  # enableHolmesGPT: false
+  # holmes: {}
+
+  enableHolmesGPT: true
+  holmes:
+    additionalEnvVars:
+    - name: MODEL
+      value: gpt-4.1-nano
+    - name: OPENAI_API_KEY
+      valueFrom:
+        secretKeyRef:
+          name: holmes-secrets
+          key: openAiKey
+
+
+
+
+

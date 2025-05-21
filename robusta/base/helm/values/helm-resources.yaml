@@ -1,0 +1,12 @@
+apiVersion: builtin
+kind: HelmChartInflationGenerator
+metadata:
+  name: robusta
+valuesInline:
+  
+  sinksConfig:
+    - robusta_log_sink:
+        name: local-log
+
+
+  isSmallCluster: true

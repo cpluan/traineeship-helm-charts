@@ -1,0 +1,24 @@
+clusterName: ec2-aws
+
+globalConfig:
+  cluster_name: ec2-aws
+  enable_platform: false
+  signing_key: ""
+  sinks: []
+
+sinksConfig:
+  - robusta_log_sink:
+      name: local-log
+
+enablePrometheusStack: false
+enablePlatformPlaybooks: false
+enabledManagedConfiguration: false
+
+runner:
+  sendAdditionalTelemetry: false
+  enableRobustaUI: false
+
+enableHolmesGPT: false
+holmes: {}
+
+isSmallCluster: true

@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: robusta-application
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "8"
+spec:
+  project: default
+  source:
+    repoURL: "https://github.com/cpluan/traineeship-helm-charts.git"
+    targetRevision: benchmark/ingress-v1
+    path: robusta/
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: robusta
+  syncPolicy:
+    automated:
+      selfHeal: true

@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: robusta-runner
+  namespace: robusta
+spec:
+  template:
+    spec:
+      containers:
+        - name: runner
+          volumeMounts:
+            - name: custom-playbooks
+              mountPath: /app/src/playbooks/custom
+      volumes:
+        - name: custom-playbooks
+          configMap:
+            name: custom-playbooks

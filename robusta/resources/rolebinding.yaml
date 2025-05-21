@@ -1,0 +1,16 @@
+apiVersion: management.cattle.io/v3
+kind: GlobalRoleBinding
+metadata:
+  name: globalrolebinding-etx-adm
+globalRoleName: admin
+userName: etx-admin
+userPrincipalName: local://etx-admin
+---
+apiVersion: management.cattle.io/v3
+kind: GlobalRoleBinding
+metadata:
+  name: globalrolebinding-user-ro
+globalRoleName: user-ro
+userName: ec2-user-ro
+userPrincipalName: local://ec2-user-ro
+

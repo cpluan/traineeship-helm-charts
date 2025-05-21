@@ -1,0 +1,23 @@
+apiVersion: builtin
+kind: HelmChartInflationGenerator
+metadata:
+  name: robusta
+valuesInline:
+  
+  sinksConfig:
+    - discord_sink:
+        name: personal_discord_sink
+        url: https://discord.com/api/webhooks/1374668767740825721/PmoE1AlOjj_gBRCBRDXnb1gDw_G4fZ5_L5-o5s4rbuOVdOOlU5cKeksnmaVVyGYAT3e6
+
+  isSmallCluster: true
+
+  enableHolmesGPT: true
+  holmes:
+    additionalEnvVars:
+    - name: MODEL
+      value: gpt-4.1-nano
+    - name: OPENAI_API_KEY
+      valueFrom:
+        secretKeyRef:
+          name: holmes-secrets
+          key: openAiKey
