@@ -31,10 +31,10 @@ valuesInline:
   grafana:
     resources:
       requests:
-        cpu: 5m
+        cpu: 15m
         memory: 100Mi
       limits:
-        cpu: 15m
+        cpu: 200m
         memory: 100Mi     
     sidecar:
       resources:
