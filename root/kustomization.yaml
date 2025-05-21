@@ -9,7 +9,6 @@ resources:
   - applications/argocd/          #6
   - applications/iperf-test/      #7
   - applications/rancher/
-  - applications/robusta/
 
 
 
