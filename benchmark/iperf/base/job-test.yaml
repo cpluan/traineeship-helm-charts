@@ -9,16 +9,25 @@ spec:
         app: iperf-client-test
     spec:
       restartPolicy: Never
+      imagePullSecrets:
+          - name: benchmark-pull-secret
       containers:
         - name: iperf-client
           image: 290115371037.dkr.ecr.eu-west-1.amazonaws.com/iperf3-benchmark:20250522-07ec8ea
           env:
+            - name: SERVER_IP
+              value: "iperf-server"
             - name: NODE_NAME
               valueFrom:
                 fieldRef:
                   fieldPath: spec.nodeName
-            - name: SERVER_IP
-              value: 10.0.4.80
+            - name: TEST_TYPE
+              value: "tcp"
+            - name: TEST_SCALE
+              value: "inter"
             - name: TEST_DURATION
-              value: "60"
-          
+              value: "600"
+            - name: S3_BUCKET
+              value: "ec2-rke2-benchmark-data"
+
+         
