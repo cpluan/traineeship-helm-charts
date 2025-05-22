@@ -17,7 +17,7 @@ spec:
           - name: benchmark-pull-secret
       containers:
         - name: iperf-server
-          image: 290115371037.dkr.ecr.eu-west-1.amazonaws.com/iperf3-benchmark:20250522-07ec8ea-155338
+          image: 290115371037.dkr.ecr.eu-west-1.amazonaws.com/iperf3-benchmark:latest
           env:
             - name: SERVER_MODE
               value: "true"
