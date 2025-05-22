@@ -9,6 +9,7 @@ spec:
         app: iperf-client-test
     spec:
       restartPolicy: Never
+      imagePullPolicy: Always
       imagePullSecrets:
           - name: benchmark-pull-secret
       containers:
