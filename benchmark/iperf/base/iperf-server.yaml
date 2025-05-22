@@ -12,10 +12,14 @@ spec:
       labels:
         app: iperf-server
     spec:
+      imagePullSecrets:
+          - name: benchmark-pull-secret
       containers:
         - name: iperf-server
-          image: networkstatic/iperf3
-          command: ["iperf3", "-s"]
+          image: 290115371037.dkr.ecr.eu-west-1.amazonaws.com/iperf3-benchmark:20250522-07ec8ea-123104
+          env:
+            - name: SERVER_MODE
+              value: "true"
           ports:
             - containerPort: 5201
               protocol: TCP
