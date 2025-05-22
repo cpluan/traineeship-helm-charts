@@ -5,4 +5,5 @@ namespace: benchmark
 resources:
   - iperf-server.yaml
   - service.yaml
+  - role.yaml
   - job-test.yaml
