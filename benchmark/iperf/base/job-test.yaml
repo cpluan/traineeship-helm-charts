@@ -13,7 +13,7 @@ spec:
           - name: benchmark-pull-secret
       containers:
         - name: iperf-client
-          image: 290115371037.dkr.ecr.eu-west-1.amazonaws.com/iperf3-benchmark:20250522-07ec8ea
+          image: 290115371037.dkr.ecr.eu-west-1.amazonaws.com/iperf3-benchmark:20250522-07ec8ea-123104
           env:
             - name: SERVER_IP
               value: "iperf-server"
