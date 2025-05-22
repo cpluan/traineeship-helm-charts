@@ -7,7 +7,7 @@ resources:
   - applications/ingress-elb/     #3
   - applications/aws-lb/          #5
   - applications/argocd/          #6
-  - applications/iperf-test/      #7
+  - applications/benchmark/      #7
   - applications/rancher/
 
 
