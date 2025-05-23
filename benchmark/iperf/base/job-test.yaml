@@ -27,7 +27,7 @@ spec:
             - name: TEST_SCALE
               value: "inter"
             - name: TEST_DURATION
-              value: "60"
+              value: "1800"
             - name: S3_BUCKET
               value: "ec2-rke2-benchmark-data"
             - name: DEBUG_MODE
