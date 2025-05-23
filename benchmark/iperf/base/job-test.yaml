@@ -30,5 +30,7 @@ spec:
               value: "60"
             - name: S3_BUCKET
               value: "ec2-rke2-benchmark-data"
+            - name: DEBUG_MODE
+              value: "true"
 
          
