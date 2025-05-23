@@ -121,19 +121,3 @@ valuesInline:
           memory: 256Mi
         limits:
           cpu: 200m
-          memory: 256Mi
-
-  # Regras de alerta personalizadas
-  additionalPrometheusRulesMap:
-    custom.rules:
-      groups:
-        - name: custom.rules
-          rules:
-            - alert: HighPodMemoryUsage
-              expr: sum(container_memory_usage_bytes) / sum(machine_memory_bytes) > 0.9
-              for: 5m
-              labels:
-                severity: warning
-              annotations:
-                summary: "Uso de memória dos pods elevado"
-                description: "O uso de memória dos pods excedeu 90% nos últimos 5 minutos."

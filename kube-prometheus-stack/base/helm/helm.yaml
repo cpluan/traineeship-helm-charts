@@ -4,7 +4,7 @@ metadata:
   name: &appName kube-prometheus-stack
 releaseName: prometheus-stack
 name: *appName
-version: 70.1.1
+version: 72.6.2
 repo: https://prometheus-community.github.io/helm-charts
 namespace: monitoring
 includeCRDs: true

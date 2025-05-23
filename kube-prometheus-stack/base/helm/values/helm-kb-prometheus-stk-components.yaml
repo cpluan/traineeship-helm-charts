@@ -25,6 +25,8 @@ valuesInline:
   nodeExporter:
     enabled: true
 
+
+
   # Configurações do Kube State Metrics
   kubeStateMetrics:
     enabled: true
