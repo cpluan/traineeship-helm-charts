@@ -12,11 +12,11 @@ spec:
       labels:
         app: iperf-server
     spec:
-      imagePullPolicy: Always
       imagePullSecrets:
           - name: benchmark-pull-secret
       containers:
         - name: iperf-server
+          imagePullPolicy: Always
           image: 290115371037.dkr.ecr.eu-west-1.amazonaws.com/iperf3-benchmark:latest
           env:
             - name: SERVER_MODE

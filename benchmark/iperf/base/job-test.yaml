@@ -9,11 +9,11 @@ spec:
         app: iperf-client-test
     spec:
       restartPolicy: Never
-      imagePullPolicy: Always
       imagePullSecrets:
           - name: benchmark-pull-secret
       containers:
         - name: iperf-client
+          imagePullPolicy: Always
           image: 290115371037.dkr.ecr.eu-west-1.amazonaws.com/iperf3-benchmark:latest
           env:
             - name: SERVER_IP
