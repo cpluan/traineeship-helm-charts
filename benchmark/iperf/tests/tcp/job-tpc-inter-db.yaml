@@ -31,6 +31,8 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: spec.nodeName
+            - name: CNI_TYPE
+              value: "cilium"
             - name: TEST_TYPE
               value: "tcp"
             - name: TEST_SCALE

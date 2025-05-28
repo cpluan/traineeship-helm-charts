@@ -51,11 +51,11 @@ valuesInline:
   prometheus-node-exporter:
     resources:
       requests:
-        cpu: 5m
-        memory: 10Mi
+        cpu: 15m
+        memory: 100Mi
       limits:
-        cpu: 10m
-        memory: 10Mi
+        cpu: 100m
+        memory: 100Mi
 
 
   # Kube State Metrics
