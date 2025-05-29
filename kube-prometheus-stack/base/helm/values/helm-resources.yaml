@@ -32,10 +32,10 @@ valuesInline:
     resources:
       requests:
         cpu: 15m
-        memory: 100Mi
+        memory: 200Mi
       limits:
         cpu: 200m
-        memory: 100Mi     
+        memory: 200Mi     
     sidecar:
       resources:
         requests:
