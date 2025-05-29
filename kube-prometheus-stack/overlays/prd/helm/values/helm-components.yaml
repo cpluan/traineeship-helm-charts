@@ -40,8 +40,8 @@ valuesInline:
   # Configurações do Grafana
   grafana:
     enabled: true
-    # nodeSelector: *controlplane-selector
-    # tolerations: *controlplane-tolerations
+    nodeSelector: *controlplane-selector
+    tolerations: *controlplane-tolerations
     env:
       GF_SERVER_ROOT_URL: &gfRootUrl "https://prometheus.cluster-hybrid.ddnsfree.com"
     grafana.ini:
