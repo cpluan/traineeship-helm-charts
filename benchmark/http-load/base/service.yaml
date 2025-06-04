@@ -28,4 +28,4 @@ spec:
         - name: httpbin
           image: mccutchen/go-httpbin:2.18
           ports:
-            - containerPort: 80
+            - containerPort: 8080
