@@ -1,17 +1,17 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: iperf-client-inter-db-udp
+  name: iperf-client-intra-calico-tcp
   namespace: benchmark
 spec:
   ttlSecondsAfterFinished: 60
   template:
     metadata:
       labels:
-        app: iperf-client-inter-db-udp
+        app: iperf-client-intra-calico-tcp
     spec:
       affinity:
-        podAntiAffinity:
+        podAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             - labelSelector:
                 matchLabels:
@@ -32,13 +32,13 @@ spec:
                 fieldRef:
                   fieldPath: spec.nodeName
             - name: CNI_TYPE
-              value: "cilium"
+              value: "calico"
             - name: TEST_TYPE
-              value: "udp"
+              value: "tcp"
             - name: TEST_SCALE
-              value: "inter"
+              value: "intra"
             - name: TEST_DURATION
-              value: "1800"
+              value: "900"
             - name: S3_BUCKET
               value: "ec2-rke2-benchmark-data"
             - name: DEBUG_MODE

@@ -1,17 +1,17 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: iperf-client-intra-db-udp
+  name: iperf-client-inter-cilium-udp
   namespace: benchmark
 spec:
   ttlSecondsAfterFinished: 60
   template:
     metadata:
       labels:
-        app: iperf-client-intra-db-udp
+        app: iperf-client-inter-cilium-udp
     spec:
       affinity:
-        podAffinity:
+        podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             - labelSelector:
                 matchLabels:
@@ -36,9 +36,9 @@ spec:
             - name: TEST_TYPE
               value: "udp"
             - name: TEST_SCALE
-              value: "intra"
+              value: "inter"
             - name: TEST_DURATION
-              value: "1800"
+              value: "900"
             - name: S3_BUCKET
               value: "ec2-rke2-benchmark-data"
             - name: DEBUG_MODE

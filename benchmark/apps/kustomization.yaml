@@ -3,4 +3,5 @@ kind: Kustomization
 
 resources:
   - iperf-application.yaml
+  - httpbin-application.yaml
 

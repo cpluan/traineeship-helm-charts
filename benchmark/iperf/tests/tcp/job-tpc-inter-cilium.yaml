@@ -1,14 +1,14 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: iperf-client-inter-db-tcp
+  name: iperf-client-inter-cilium-tcp
   namespace: benchmark
 spec:
   ttlSecondsAfterFinished: 60
   template:
     metadata:
       labels:
-        app: iperf-client-inter-db-tcp
+        app: iperf-client-inter-cilium-tcp
     spec:
       affinity:
         podAntiAffinity:
@@ -38,7 +38,7 @@ spec:
             - name: TEST_SCALE
               value: "inter"
             - name: TEST_DURATION
-              value: "1800"
+              value: "900"
             - name: S3_BUCKET
               value: "ec2-rke2-benchmark-data"
             - name: DEBUG_MODE

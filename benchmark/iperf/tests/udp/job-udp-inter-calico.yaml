@@ -1,0 +1,45 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: iperf-client-inter-calico-udp
+  namespace: benchmark
+spec:
+  ttlSecondsAfterFinished: 60
+  template:
+    metadata:
+      labels:
+        app: iperf-client-inter-calico-udp
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchLabels:
+                  app: iperf-server
+              topologyKey: "kubernetes.io/hostname"
+      restartPolicy: Never
+      imagePullSecrets:
+          - name: benchmark-pull-secret
+      containers:
+        - name: iperf-client
+          imagePullPolicy: Always
+          image: 290115371037.dkr.ecr.eu-west-1.amazonaws.com/iperf3-benchmark:latest
+          env:
+            - name: SERVER_IP
+              value: "iperf-server"
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+            - name: CNI_TYPE
+              value: "calico"
+            - name: TEST_TYPE
+              value: "udp"
+            - name: TEST_SCALE
+              value: "inter"
+            - name: TEST_DURATION
+              value: "900"
+            - name: S3_BUCKET
+              value: "ec2-rke2-benchmark-data"
+            - name: DEBUG_MODE
+              value: "true"
