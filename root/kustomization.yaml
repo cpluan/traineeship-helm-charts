@@ -8,6 +8,8 @@ resources:
   - applications/aws-lb/          #5
   - applications/argocd/          #6
   - applications/benchmark/      #7
+  - applications/external-secrets/      #9
+
   # - applications/rancher/
 
 

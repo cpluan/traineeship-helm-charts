@@ -1,0 +1,12 @@
+apiVersion: builtin
+kind: HelmChartInflationGenerator
+metadata:
+  name: &appName external-secrets
+name: *appName
+releaseName: external-secrets
+repo: https://charts.external-secrets.io
+version: 0.8.1
+namespace: external-secrets
+includeCRDs: true
+valuesInline:
+  installCRDs: true
