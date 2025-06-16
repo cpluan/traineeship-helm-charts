@@ -3,12 +3,12 @@ kind: Kustomization
 
 resources:
   - applications/kb-prometheus/   #1
+  - applications/external-secrets/  #9
   - applications/cert-manager/    #2
   - applications/ingress-elb/     #3
   - applications/aws-lb/          #5
   - applications/argocd/          #6
   - applications/benchmark/      #7
-  - applications/external-secrets/      #9
 
   # - applications/rancher/
 
