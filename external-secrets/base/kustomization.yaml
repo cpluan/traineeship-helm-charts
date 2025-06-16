@@ -4,3 +4,6 @@ namespace: external-secrets
 
 generators:
   - helm
+
+resources:
+  - namespace.yaml
