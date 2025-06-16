@@ -2,6 +2,6 @@ apiVersion: generators.external-secrets.io/v1alpha1
 kind: ECRAuthorizationToken
 metadata:
   name: ecr-token-generator
-  namespace: external-secrets
+  namespace: benchmark
 spec:
   region: eu-west-1
