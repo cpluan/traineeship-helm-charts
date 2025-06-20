@@ -17,7 +17,6 @@ valuesInline:
         objectStorageConfig:
           # Caminho do arquivo montado pelo ConfigMap
           file: /etc/thanos/objstore.yml
-          # Monta o ConfigMap como volume
 
       additionalVolumeMounts:
         - name: thanos-objstore
@@ -36,8 +35,8 @@ valuesInline:
       # Tempo de retenção local curto
       retention: 24h
       tsdb:
-        minBlockDuration: 10m
-        maxBlockDuration: 10m
+        minBlockDuration: 2m
+        maxBlockDuration: 2m
 
       # Armazenamento local (usado para blocos antes de irem pro S3)
       storageSpec:
