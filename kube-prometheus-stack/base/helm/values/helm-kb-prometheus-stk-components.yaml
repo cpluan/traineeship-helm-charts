@@ -9,6 +9,10 @@ valuesInline:
     enabled: true
     serviceMonitor:
       disableCompaction: true
+    
+    additionalArgs:
+      - --web.enable-lifecycle
+    
     prometheusSpec:
       replicas: 1
       # Habilita Thanos Sidecar
