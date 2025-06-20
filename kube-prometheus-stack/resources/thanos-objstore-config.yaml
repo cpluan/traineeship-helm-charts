@@ -5,7 +5,7 @@ metadata:
   namespace: monitoring
 data:
   objstore.yml: |
-    type: S3
+    type: s3
     config:
       bucket: "ec2-rke2-benchmark-data"
       endpoint: "s3.amazonaws.com"

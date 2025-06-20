@@ -18,6 +18,17 @@ valuesInline:
         objectStorageConfig:
           # Caminho do arquivo montado pelo ConfigMap
           file: /etc/thanos/objstore.yml
+          # Monta o ConfigMap como volume
+          
+      additionalVolumeMounts:
+        - name: thanos-objstore
+          mountPath: /etc/thanos
+          readOnly: true
+
+      additionalVolumes:
+        - name: thanos-objstore
+          configMap:
+            name: thanos-objstore-config
         
       externalLabels:
         cluster: "prod-cluster"
@@ -39,16 +50,7 @@ valuesInline:
               requests:
                 storage: 50Gi
 
-      # Monta o ConfigMap como volume
-      additionalVolumeMounts:
-        - name: thanos-objstore
-          mountPath: /etc/thanos
-          readOnly: true
-
-      additionalVolumes:
-        - name: thanos-objstore
-          configMap:
-            name: thanos-objstore-config
+  
         
 
   # Configurações do Alertmanager
