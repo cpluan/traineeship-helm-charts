@@ -7,27 +7,19 @@ valuesInline:
   # Configurações do Prometheus
   prometheus:
     enabled: true
+    serviceMonitor:
+      disableCompaction: true
     prometheusSpec:
       replicas: 1
       # Habilita Thanos Sidecar
       thanos:
         baseImage: quay.io/thanos/thanos
         version: v0.35.1
-        extraVolumeMounts:
-          - name: thanos-objstore
-            mountPath: /etc/thanos
-            readOnly: true
-
         objectStorageConfig:
-          # Caminho do arquivo montado pelo ConfigMap
-          file: /etc/thanos/objstore.yml
+          existingSecret:
+            name: thanos-objstore-secret
+            key: objstore.yml
 
-
-      additionalVolumes:
-        - name: thanos-objstore
-          configMap:
-            name: thanos-objstore-config
-        
       externalLabels:
         cluster: "prod-cluster"
         replica: "a"
