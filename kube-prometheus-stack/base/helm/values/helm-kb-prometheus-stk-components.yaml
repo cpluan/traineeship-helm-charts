@@ -7,13 +7,12 @@ valuesInline:
   # Configurações do Prometheus
   prometheus:
     enabled: true
-    serviceMonitor:
-      disableCompaction: true
     
     additionalArgs:
       - --web.enable-lifecycle
     
     prometheusSpec:
+      disableCompaction: true
       replicas: 1
       # Habilita Thanos Sidecar
       thanos:
@@ -44,6 +43,21 @@ valuesInline:
               requests:
                 storage: 50Gi
 
+    thanosService:
+      enabled: true # this will enable a service for service discovery
+      annotations: {}
+      labels: {}
+      externalTrafficPolicy: Cluster
+      type: ClusterIP
+      portName: grpc
+      port: 10901
+      targetPort: "grpc"
+      httpPortName: http
+      httpPort: 10902
+      targetHttpPort: "http"
+      clusterIP: ""
+      nodePort: 30901
+      httpNodePort: 30902
   
         
 
