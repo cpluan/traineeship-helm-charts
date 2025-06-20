@@ -8,56 +8,39 @@ valuesInline:
   prometheus:
     enabled: true
     
-    additionalArgs:
-      - --web.enable-lifecycle
-    
     prometheusSpec:
       disableCompaction: true
       replicas: 1
-      # Habilita Thanos Sidecar
-      thanos:
-        baseImage: quay.io/thanos/thanos
-        version: v0.35.1
-        objectStorageConfig:
-          existingSecret:
-            name: thanos-objstore-secret
-            key: objstore.yml
+      # # Habilita Thanos Sidecar
+      # thanos:
+      #   baseImage: quay.io/thanos/thanos
+      #   version: v0.35.1
+      #   objectStorageConfig:
+      #     existingSecret:
+      #       name: thanos-objstore-secret
+      #       key: objstore.yml
 
-      externalLabels:
-        cluster: "prod-cluster"
-        replica: "a"
+      # externalLabels:
+      #   cluster: "prod-cluster"
+      #   replica: "a"
 
-      # Tempo de retenção local curto
-      retention: 24h
-      tsdb:
-        minBlockDuration: 2m
-        maxBlockDuration: 2m
+      # # Tempo de retenção local curto
+      # retention: 24h
+      # tsdb:
+      #   minBlockDuration: 2m
+      #   maxBlockDuration: 2m
 
-      # Armazenamento local (usado para blocos antes de irem pro S3)
-      storageSpec:
-        volumeClaimTemplate:
-          spec:
-            storageClassName: ebs-sc
-            accessModes: ["ReadWriteOnce"]
-            resources:
-              requests:
-                storage: 50Gi
+      # # Armazenamento local (usado para blocos antes de irem pro S3)
+      # storageSpec:
+      #   volumeClaimTemplate:
+      #     spec:
+      #       storageClassName: ebs-sc
+      #       accessModes: ["ReadWriteOnce"]
+      #       resources:
+      #         requests:
+      #           storage: 50Gi
 
-    thanosService:
-      enabled: true # this will enable a service for service discovery
-      annotations: {}
-      labels: {}
-      externalTrafficPolicy: Cluster
-      type: ClusterIP
-      portName: grpc
-      port: 10901
-      targetPort: "grpc"
-      httpPortName: http
-      httpPort: 10902
-      targetHttpPort: "http"
-      clusterIP: ""
-      nodePort: 30901
-      httpNodePort: 30902
+      
   
         
 
