@@ -11,4 +11,5 @@ data:
       endpoint: "s3.amazonaws.com"
       region: "eu-west-1"
       insecure: false
+      aws_sdk_auth: true
     prefix: "cluster-thanos/"
