@@ -5,11 +5,10 @@ metadata:
   namespace: monitoring
 data:
   objstore.yml: |
-    type: s3
+    type: S3
     config:
       bucket: "ec2-rke2-benchmark-data"
       endpoint: "s3.amazonaws.com"
       region: "eu-west-1"
       insecure: false
-      iam: true
-      prefix: "cluster-thanos/"
+    prefix: "cluster-thanos/"
