@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: thanos-prometheus-chart
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "1a"
+spec:
+  project: default
+  source:
+    repoURL: "https://github.com/cpluan/traineeship-helm-charts.git"
+    targetRevision: benchmark/ingress-v1
+    path: kube-prometheus-stack/overlays/thanos
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring
+  syncPolicy:
+    syncOptions:
+      - ServerSideApply=true
+    automated:
+      selfHeal: true
+    retry:
+      limit: 0
+      backoff:
+        duration: 10s
+        factor: 2
+        maxDuration: 3m
