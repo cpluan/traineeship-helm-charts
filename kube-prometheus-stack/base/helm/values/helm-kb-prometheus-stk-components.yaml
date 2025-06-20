@@ -13,7 +13,8 @@ valuesInline:
       thanos:
         baseImage: quay.io/thanos/thanos
         version: v0.35.1
-
+        extraArgs:
+          prometheus.external-labels: cluster="prod-cluster",replica="a"
         objectStorageConfig:
           # Caminho do arquivo montado pelo ConfigMap
           file: /etc/thanos/objstore.yml
