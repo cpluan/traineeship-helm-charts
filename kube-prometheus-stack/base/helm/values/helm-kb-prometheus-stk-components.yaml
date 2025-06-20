@@ -10,39 +10,39 @@ valuesInline:
     prometheusSpec:
       replicas: 1
       # Habilita Thanos Sidecar
-      thanos:
-        baseImage: quay.io/thanos/thanos
-        version: v0.35.1
-        objectStorageConfig:
-          # Caminho do arquivo montado pelo ConfigMap
-          file: /etc/thanos/objstore.yml
+      # thanos:
+      #   baseImage: quay.io/thanos/thanos
+      #   version: v0.35.1
+      #   objectStorageConfig:
+      #     # Caminho do arquivo montado pelo ConfigMap
+      #     file: /etc/thanos/objstore.yml
         
-      externalLabels:
-        cluster: "prod-cluster"
-        replica: "a"
+      # externalLabels:
+      #   cluster: "prod-cluster"
+      #   replica: "a"
 
-      # Tempo de retenção local curto
-      retention: 24h
+      # # Tempo de retenção local curto
+      # retention: 24h
 
-      # Armazenamento local (usado para blocos antes de irem pro S3)
-      storageSpec:
-        volumeClaimTemplate:
-          spec:
-            accessModes: ["ReadWriteOnce"]
-            resources:
-              requests:
-                storage: 50Gi
-                
-      # Monta o ConfigMap como volume
-      additionalVolumeMounts:
-        - name: thanos-objstore
-          mountPath: /etc/thanos
-          readOnly: true
+      # # Armazenamento local (usado para blocos antes de irem pro S3)
+      # storageSpec:
+      #   volumeClaimTemplate:
+      #     spec:
+      #       accessModes: ["ReadWriteOnce"]
+      #       resources:
+      #         requests:
+      #           storage: 50Gi
 
-      additionalVolumes:
-        - name: thanos-objstore
-          configMap:
-            name: thanos-objstore-config
+      # # Monta o ConfigMap como volume
+      # additionalVolumeMounts:
+      #   - name: thanos-objstore
+      #     mountPath: /etc/thanos
+      #     readOnly: true
+
+      # additionalVolumes:
+      #   - name: thanos-objstore
+      #     configMap:
+      #       name: thanos-objstore-config
         
 
   # Configurações do Alertmanager
