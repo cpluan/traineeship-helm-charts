@@ -13,8 +13,7 @@ valuesInline:
       thanos:
         baseImage: quay.io/thanos/thanos
         version: v0.35.1
-        extraArgs:
-          prometheus.external-labels: cluster="prod-cluster",replica="a"
+
         objectStorageConfig:
           # Caminho do arquivo montado pelo ConfigMap
           file: /etc/thanos/objstore.yml
@@ -37,8 +36,8 @@ valuesInline:
       # Tempo de retenção local curto
       retention: 24h
       tsdb:
-        minBlockDuration: 8h
-        maxBlockDuration: 8h
+        minBlockDuration: 10m
+        maxBlockDuration: 10m
 
       # Armazenamento local (usado para blocos antes de irem pro S3)
       storageSpec:
