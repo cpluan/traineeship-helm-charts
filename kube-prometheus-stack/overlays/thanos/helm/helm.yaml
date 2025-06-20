@@ -1,0 +1,21 @@
+apiVersion: builtin
+kind: HelmChartInflationGenerator
+metadata:
+  name: thanos-sidecar
+name: thanos
+repo: https://charts.bitnami.com/bitnami
+version: 15.4.1
+releaseName: thanos-sidecar
+namespace: monitoring
+additionalArgs:
+  - "--enable-helm"
+
+
+# Adicionando API versions para suportar CRDs personalizados do kube-prometheus-stack
+apiVersions:
+  - monitoring.coreos.com/v1
+  - apps/v1
+  - batch/v1
+  - policy/v1
+
+

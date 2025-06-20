@@ -1,0 +1,27 @@
+apiVersion: builtin
+kind: HelmChartInflationGenerator
+metadata:
+  name: thanos-sidecar
+valuesInline:
+  
+  mode: sidecar
+
+  existingObjstoreSecret: thanos-objstore-secret
+
+  prometheus:
+    url: http://prometheus-operated.monitoring.svc.cluster.local:9090
+    grpcServer: dns:///prometheus-operated.monitoring.svc.cluster.local:10901
+
+  sidecar:
+    extraFlags:
+      - --log.level=debug
+      - --tsdb.path=/prometheus
+      - --prometheus.url=http://prometheus-operated.monitoring.svc.cluster.local:9090
+
+  containerSecurityContext:
+    runAsUser: 1000
+    runAsNonRoot: true
+
+  podSecurityContext:
+    fsGroup: 1000
+
