@@ -25,6 +25,12 @@ valuesInline:
             key: objstore.yml
         grpcServerTlsConfig: {}
         listenLocal: false
+      containers:
+      - name: thanos-sidecar
+        ports:
+          - name: grpc
+            containerPort: 10901
+            protocol: TCP
 
 
       # # Habilita Thanos Sidecar
