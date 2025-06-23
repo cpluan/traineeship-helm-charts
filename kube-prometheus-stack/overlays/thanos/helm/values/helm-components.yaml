@@ -16,7 +16,7 @@ valuesInline:
     extraFlags:
       - --log.level=debug
       - --tsdb.path=/prometheus
-      - --prometheus.url=http://prometheus-operated.monitoring.svc.cluster.local:9090
+      - --prometheus.url=http://prometheus-stack-kube-prom-prometheus.monitoring.svc:9090
 
   containerSecurityContext:
     runAsUser: 1000
