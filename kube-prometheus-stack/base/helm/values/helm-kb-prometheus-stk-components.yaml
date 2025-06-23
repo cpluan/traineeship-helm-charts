@@ -19,10 +19,10 @@ valuesInline:
       replicas: 1
       thanos:
         image: quay.io/thanos/thanos:v0.37.0
-        # objectStorageConfig:
-        #   existingSecret:
-        #     name: thanos-objstore-secret
-        #     key: objstore.yml
+        objectStorageConfig:
+          existingSecret:
+            name: thanos-objstore-secret
+            key: objstore.yml
         grpcServerTlsConfig: {}
         listenLocal: false
       # containers:
