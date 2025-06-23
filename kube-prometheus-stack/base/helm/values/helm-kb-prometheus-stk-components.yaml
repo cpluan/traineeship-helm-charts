@@ -7,6 +7,12 @@ valuesInline:
   # Configurações do Prometheus
   prometheus:
     enabled: true
+
+    additionalPorts:
+      - name: grpc
+        port: 10901
+        targetPort: 10901
+        protocol: TCP
     
     prometheusSpec:
       disableCompaction: true
