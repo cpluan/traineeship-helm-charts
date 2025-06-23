@@ -19,10 +19,7 @@ valuesInline:
             key: objstore.yml
         grpcServerTlsConfig: {}
         listenLocal: false
-        extraArgs:
-          - --log.level=debug
-          - --tsdb.path=/prometheus
-          - --prometheus.url=http://localhost:9090
+
 
       # # Habilita Thanos Sidecar
       # thanos:
