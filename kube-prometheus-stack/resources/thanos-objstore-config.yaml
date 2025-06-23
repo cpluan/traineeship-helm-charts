@@ -9,7 +9,6 @@ stringData:
     type: S3
     config:
       bucket: "ec2-rke2-benchmark-data"
-      endpoint: "s3.amazonaws.com"
+      endpoint: "s3.eu-west-1.amazonaws.com"
       region: "eu-west-1"
-      aws_sdk_auth: true
-    prefix: "cluster-thanos/"
+    prefix: "cluster-thanos"
