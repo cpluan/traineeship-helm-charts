@@ -46,11 +46,11 @@ valuesInline:
       #   cluster: "prod-cluster"
       #   replica: "a"
 
-      # # Tempo de retenção local curto
-      # retention: 24h
-      # tsdb:
-      #   minBlockDuration: 2m
-      #   maxBlockDuration: 2m
+      # Tempo de retenção local curto
+      retention: 24h
+      tsdb:
+        minBlockDuration: 2m
+        maxBlockDuration: 2m
 
       # # Armazenamento local (usado para blocos antes de irem pro S3)
       # storageSpec:
