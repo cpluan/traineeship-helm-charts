@@ -12,9 +12,9 @@ valuesInline:
     dnsDiscovery:
       enabled: false
     stores:
-      - prometheus-stack-kube-prom-prometheus.monitoring.svc:10901
+      - prometheus-operated.monitoring.svc.cluster.local:10901
     extraFlags:
-      - --store=prometheus-stack-kube-prom-prometheus.monitoring.svc:10901
+      - --store=prometheus-operated.monitoring.svc.cluster.local:10901
   service:
     type: ClusterIP
     port: 10902
