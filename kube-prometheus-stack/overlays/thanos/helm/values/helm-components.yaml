@@ -17,6 +17,7 @@ valuesInline:
       - --log.level=debug
       - --tsdb.path=/prometheus
       - --prometheus.url=http://prometheus-stack-kube-prom-prometheus.monitoring.svc:9090
+      - --objstore.config-file=/etc/thanos/objstore.yml
 
   containerSecurityContext:
     runAsUser: 1000
