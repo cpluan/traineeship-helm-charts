@@ -9,8 +9,8 @@ valuesInline:
   existingObjstoreSecret: thanos-objstore-secret
 
   prometheus:
-    url: http://prometheus-operated.monitoring.svc.cluster.local:9090
-    grpcServer: dns:///prometheus-operated.monitoring.svc.cluster.local:10901
+    url: http://prometheus-stack-kube-prom-prometheus.monitoring.svc:9090
+    grpcServer: dns:///prometheus-stack-kube-prom-prometheus.monitoring.svc:10901
 
   sidecar:
     extraFlags:
