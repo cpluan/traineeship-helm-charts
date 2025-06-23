@@ -4,32 +4,23 @@ metadata:
   name: thanos-sidecar
 valuesInline:
   
-  mode: sidecar
-
-  objstoreConfig:
-    type: S3
-    config:
-      bucket: "ec2-rke2-benchmark-data"
-      endpoint: "s3.amazonaws.com"
-      region: "eu-west-1"
-      aws_sdk_auth: true
-    prefix: "cluster-thanos/"
-
-  prometheus:
-    url: http://prometheus-stack-kube-prom-prometheus.monitoring.svc:9090
-    grpcServer: dns:///prometheus-stack-kube-prom-prometheus.monitoring.svc:10901
-
-  sidecar:
+  query:
+    enabled: true
+    replicaLabel:
+      - replica
+    logLevel: debug
+    dnsDiscovery:
+      enabled: false
+    stores:
+      - prometheus-stack-kube-prom-prometheus.monitoring.svc:10901
     extraFlags:
       - --log.level=debug
-      - --tsdb.path=/prometheus
-      - --prometheus.url=http://prometheus-stack-kube-prom-prometheus.monitoring.svc:9090
-      - --objstore.config-file=/etc/thanos/objstore.yml
-
+      - --store=prometheus-stack-kube-prom-prometheus.monitoring.svc:10901
+  service:
+    type: ClusterIP
+    port: 10902
   containerSecurityContext:
     runAsUser: 1000
     runAsNonRoot: true
-
   podSecurityContext:
     fsGroup: 1000
-

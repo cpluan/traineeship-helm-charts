@@ -11,6 +11,19 @@ valuesInline:
     prometheusSpec:
       disableCompaction: true
       replicas: 1
+      thanos:
+        image: quay.io/thanos/thanos:v0.35.1
+        objectStorageConfig:
+          existingSecret:
+            name: thanos-objstore-secret
+            key: objstore.yml
+        grpcServerTlsConfig: {}
+        listenLocal: false
+        extraArgs:
+          - --log.level=debug
+          - --tsdb.path=/prometheus
+          - --prometheus.url=http://localhost:9090
+
       # # Habilita Thanos Sidecar
       # thanos:
       #   baseImage: quay.io/thanos/thanos
