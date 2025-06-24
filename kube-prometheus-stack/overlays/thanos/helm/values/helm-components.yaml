@@ -3,7 +3,7 @@ kind: HelmChartInflationGenerator
 metadata:
   name: thanos-sidecar
 valuesInline:
-  existingObjstoreSecret: thanos-objstore-config
+  existingObjstoreSecret: thanos-objstore-secret
   metrics:
     enabled: true
     serviceMonitor:
