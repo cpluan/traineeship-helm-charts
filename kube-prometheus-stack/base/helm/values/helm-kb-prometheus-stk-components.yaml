@@ -33,11 +33,11 @@ valuesInline:
 
       # Tempo de retenção local curto
       
-      # additionalArgs:
-      #   - name: storage.tsdb.max-block-duration
-      #     value: 30s
-      #   - name: storage.tsdb.min-block-duration
-      #     value: 30s
+      additionalArgs:
+        - name: storage.tsdb.max-block-duration
+          value: 30s
+        - name: storage.tsdb.min-block-duration
+          value: 30s
 
       # # Armazenamento local (usado para blocos antes de irem pro S3)
       # storageSpec:
