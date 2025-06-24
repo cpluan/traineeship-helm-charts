@@ -26,27 +26,18 @@ valuesInline:
         listenLocal: false
 
 
-
-      # # Habilita Thanos Sidecar
-      # thanos:
-      #   baseImage: quay.io/thanos/thanos
-      #   version: v0.35.1
-      #   objectStorageConfig:
-      #     existingSecret:
-      #       name: thanos-objstore-secret
-      #       key: objstore.yml
-
       # externalLabels:
       #   cluster: "prod-cluster"
       #   replica: "a"
 
       # Tempo de retenção local curto
       retention: 24h
-      additionalArgs:
-        - name: storage.tsdb.max-block-duration
-          value: 30s
-        - name: storage.tsdb.min-block-duration
-          value: 30s
+      # additionalArgs:
+      #   - name: storage.tsdb.max-block-duration
+      #     value: 30s
+      #   - name: storage.tsdb.min-block-duration
+      #     value: 30s
+
       # # Armazenamento local (usado para blocos antes de irem pro S3)
       # storageSpec:
       #   volumeClaimTemplate:
