@@ -14,7 +14,7 @@ valuesInline:
 
     
     prometheusSpec:
-      retention: 24h
+      retention: '24h'
       disableCompaction: true
       replicas: 1
       thanos:
