@@ -18,7 +18,7 @@ valuesInline:
       disableCompaction: true
       replicas: 1
       thanos:
-        # blockSize: 30s
+        blockDuration: 30s
         image: quay.io/thanos/thanos:v0.37.0
         objectStorageConfig:
           existingSecret:
