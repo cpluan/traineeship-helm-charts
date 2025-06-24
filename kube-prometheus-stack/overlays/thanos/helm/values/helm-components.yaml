@@ -18,14 +18,17 @@ valuesInline:
 
   compactor:
     enabled: true
+    logLevel: debug
     persistence:
       size: 50Gi
       storageClass: ebs-sc
 
   storegateway:
+    logLevel: debug
     enabled: true
     persistence:
       size: 10Gi
+      storageClass: ebs-sc
   
   query:
     enabled: true
