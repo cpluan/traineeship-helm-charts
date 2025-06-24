@@ -18,7 +18,7 @@ valuesInline:
       disableCompaction: true
       replicas: 1
       thanos:
-        blockDuration: 30s
+        # blockDuration: 30s
         blockSize: 30s
         image: quay.io/thanos/thanos:v0.37.0
         objectStorageConfig:
@@ -35,11 +35,11 @@ valuesInline:
 
       # Tempo de retenção local curto
       
-      additionalArgs:
-        - name: 'storage.tsdb.max-block-duration'
-          value: 30s
-        - name: 'storage.tsdb.min-block-duration'
-          value: 30s
+      # additionalArgs:
+      #   - name: 'storage.tsdb.max-block-duration'
+      #     value: 30s
+      #   - name: 'storage.tsdb.min-block-duration'
+      #     value: 30s
 
       # # Armazenamento local (usado para blocos antes de irem pro S3)
       # storageSpec:
