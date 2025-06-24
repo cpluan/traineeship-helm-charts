@@ -21,7 +21,6 @@ valuesInline:
     enabled: true
     prometheusSpec:
       replicas: 1
-      retention: 15d
       nodeSelector: *controlplane-selector
       tolerations: *controlplane-tolerations
     service:
