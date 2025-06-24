@@ -20,6 +20,7 @@ valuesInline:
     enabled: true
     persistence:
       size: 50Gi
+      storageClass: ebs-sc
 
   storegateway:
     enabled: true
