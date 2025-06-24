@@ -3,6 +3,28 @@ kind: HelmChartInflationGenerator
 metadata:
   name: thanos-sidecar
 valuesInline:
+  existingObjstoreSecret: thanos-objstore-config
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+    prometheusRule:
+      enabled: true
+      default:
+        absent_rules: true
+        store_gateway: true
+        compaction: true
+        query: true
+
+  compactor:
+    enabled: true
+    persistence:
+      size: 50Gi
+
+  storegateway:
+    enabled: true
+    persistence:
+      size: 10Gi
   
   query:
     enabled: true

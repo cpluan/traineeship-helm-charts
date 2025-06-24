@@ -7,12 +7,11 @@ valuesInline:
   # Configurações do Prometheus
   prometheus:
     enabled: true
+    thanosService:
+      enabled: true
+    thanosServiceMonitor:
+      enabled: true
 
-    # additionalPorts:
-    #   - name: grpc
-    #     port: 10901
-    #     targetPort: 10901
-    #     protocol: TCP
     
     prometheusSpec:
       disableCompaction: true
@@ -25,12 +24,7 @@ valuesInline:
             key: objstore.yml
         grpcServerTlsConfig: {}
         listenLocal: false
-      # containers:
-      # - name: thanos-sidecar
-      #   ports:
-      #     - name: grpc
-      #       containerPort: 10901
-      #       protocol: TCP
+
 
 
       # # Habilita Thanos Sidecar
