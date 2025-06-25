@@ -4,7 +4,7 @@ metadata:
   name: httpbin-test-application
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "7a"
+    argocd.argoproj.io/sync-wave: "8a"
 spec:
   project: default
   source:

@@ -4,7 +4,7 @@ metadata:
   name: iperf-test-application
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "7b"
+    argocd.argoproj.io/sync-wave: "8b"
 spec:
   project: default
   source:

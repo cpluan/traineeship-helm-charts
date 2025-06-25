@@ -14,9 +14,11 @@ valuesInline:
 
     
     prometheusSpec:
-      retention: '32h'
+      retention: '32h' # Retenção de dados no Prometheus
       disableCompaction: true
       replicas: 1
+
+      # Configurações do Thanos
       thanos:
         blockSize: 30m
         image: quay.io/thanos/thanos:v0.37.0
@@ -25,7 +27,7 @@ valuesInline:
             name: thanos-objstore-secret
             key: objstore.yml
         grpcServerTlsConfig: {}
-        listenLocal: false
+        listenLocal: false  # Habilita o acesso remoto ao Thanos 0.0.0.0
 
 
 
@@ -41,8 +43,6 @@ valuesInline:
 
       
   
-        
-
   # Configurações do Alertmanager
   alertmanager:
     enabled: true

@@ -4,7 +4,7 @@ metadata:
   name: aws-lb-controller-chart
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "5a"
+    argocd.argoproj.io/sync-wave: "6a"
 spec:
   project: default
   source:

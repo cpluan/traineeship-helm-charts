@@ -4,7 +4,7 @@ metadata:
   name: argocd-prd-chart
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "6a"
+    argocd.argoproj.io/sync-wave: "7a"
 spec:
   project: default
   source:
