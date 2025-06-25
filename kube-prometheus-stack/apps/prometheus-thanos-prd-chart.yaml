@@ -1,10 +1,10 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: thanos-prometheus-chart
+  name: prometheus-thanos-prd-chart
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "1a"
+    argocd.argoproj.io/sync-wave: "1b"
 spec:
   project: default
   source:

@@ -1,68 +1,64 @@
-# Rancher - Kustomize Deployment with HelmChartInflationGenerator
+# External Secrets - Kustomize Deployment with HelmChartInflationGenerator
 
-This repository sets up Rancher using Kustomize with Helm chart integration and environment overlays, suitable for production deployments.
+This repository contains a structured setup for deploying [External Secrets Operator](https://external-secrets.io) using `kustomize` with Helm integration, resource overlays, and ArgoCD application manifests.
 
 ## Directory Structure
 
 ```
 .
-├── base
+├── apps/
+│   ├── external-secrets-prd-chart.yaml      # ArgoCD Application to deploy Helm chart
+│   └── external-secrets-prd-resources.yaml  # ArgoCD Application to deploy static resources
+├── base/
 │   ├── helm/
-│   │   ├── helm.yaml                       # HelmChartInflationGenerator definition
-│   │   ├── kustomization.yaml              # Base kustomization for Helm chart
+│   │   ├── helm.yaml                        # HelmChartInflationGenerator definition
+│   │   ├── kustomization.yaml               # Kustomization for Helm chart
 │   │   └── values/
-│   │       ├── helm-components.yaml        # Component-specific settings
-│   │       ├── helm-resources.yaml         # Resource limits and requests
-│   │       └── helm.yaml                   # General Helm values
-│   └── kustomization.yaml                  # Combines base components
-├── overlays/
-│   └── prd/
-│       ├── helm/
-│       │   ├── kustomization.yaml          # Production-specific Helm customization
-│       │   └── values/
-│       │       └── helm-components.yaml
-│       └── kustomization.yaml              # Production overlay including namespace and ingress
+│   │       ├── helm-components.yaml         # Helm values specific to components
+│   │       ├── helm-resources.yaml          # CPU/memory resources
+│   │       └── helm.yaml                    # General Helm values
+│   ├── kustomization.yaml                   # Combines base namespace and helm
+│   └── namespace.yaml                       # Namespace for the operator
 ├── resources/
-│   ├── ingress.yaml                        # Ingress configuration for Rancher UI
-│   ├── namespace.yaml                      # Namespace definition for Rancher
-│   └── rancher-prd-chart.yaml              # Optional declarative HelmRelease for production
-├── kustomization.yaml                      # Root kustomization
+│   ├── ecr-token-generator.yaml             # CronJob or Job to generate ECR tokens
+│   ├── external-pull-secret.yaml            # Docker registry pull secret
+│   ├── kustomization.yaml                   # Combines resource files
+│   └── secret-store.yaml                    # SecretStore CRD used by ESO
+├── kustomization.yaml                       # Root kustomization
 └── README.md
 ```
 
 ## Prerequisites
 
+- Kubernetes cluster (e.g., EKS, GKE, etc.)
 - `kubectl`
 - `kustomize` v5+ with Helm plugin support
-- Kubernetes cluster with Ingress controller and TLS setup (e.g., cert-manager)
-- Helm chart repo: [https://charts.rancher.io](https://charts.rancher.io)
+- Secret backend configured (e.g., AWS Secrets Manager, SSM)
+- External Secrets Operator chart repo: `https://charts.external-secrets.io`
 
 ## Usage
 
-### 1. Apply the base configuration
+### 1. Deploy Helm-based External Secrets Operator
 
 ```bash
 kubectl apply -k base/
 ```
 
-### 2. Apply the production overlay
+### 2. Apply resource definitions (SecretStore, CronJob, etc.)
 
 ```bash
-kubectl apply -k overlays/prd/
+kubectl apply -k resources/
 ```
 
-### 3. Retrieve the initial Rancher admin password
+### 3. Optionally use ArgoCD to manage both Helm chart and resources
 
 ```bash
-kubectl get secret --namespace cattle-system bootstrap-secret -o go-template='{{.data.bootstrapPassword|base64decode}}{{"\n"}}'
+kubectl apply -f apps/external-secrets-prd-chart.yaml
+kubectl apply -f apps/external-secrets-prd-resources.yaml
 ```
-
-### 4. Access the Rancher UI
-
-Access Rancher using the domain configured in the `ingress.yaml` and log in with username `admin` and the password retrieved above.
 
 ## Notes
 
-- Helm values are modularized and layered between base and overlay.
-- The `rancher-prd-chart.yaml` may be used as an alternative declarative installation for ArgoCD or Flux.
-- Ensure DNS and TLS are properly configured before exposing the Rancher UI.
+- The `ecr-token-generator.yaml` may be used to create a periodic Job or CronJob that refreshes a token and writes to a secret consumed by Kubernetes.
+- The `external-pull-secret.yaml` is typically used to authenticate to private registries like AWS ECR.
+- The `secret-store.yaml` defines the connection to your cloud secret provider.
