@@ -3,5 +3,5 @@ kind: Kustomization
 
 resources:
   - prometheus-stack-prd-chart.yaml
-  - prometheus-thanos-prd-chart.yaml
+  # - prometheus-thanos-prd-chart.yaml
 
