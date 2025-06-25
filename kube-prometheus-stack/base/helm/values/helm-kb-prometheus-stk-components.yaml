@@ -14,11 +14,11 @@ valuesInline:
 
     
     prometheusSpec:
-      retention: '24h'
+      retention: '32h'
       disableCompaction: true
       replicas: 1
       thanos:
-        blockSize: 30s
+        blockSize: 30m
         image: quay.io/thanos/thanos:v0.37.0
         objectStorageConfig:
           existingSecret:
@@ -28,7 +28,20 @@ valuesInline:
         listenLocal: false
 
 
+
+      # # Armazenamento local (usado para blocos antes de irem pro S3)
+      storageSpec:
+        volumeClaimTemplate:
+          spec:
+            storageClassName: ebs-sc
+            accessModes: ["ReadWriteOnce"]
+            resources:
+              requests:
+                storage: 50Gi
+
       
+  
+        
 
   # Configurações do Alertmanager
   alertmanager:
