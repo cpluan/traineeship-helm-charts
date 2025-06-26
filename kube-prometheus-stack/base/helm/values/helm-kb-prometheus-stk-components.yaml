@@ -57,6 +57,8 @@ valuesInline:
   # Configurações do Node Exporter
   nodeExporter:
     enabled: true
+  
+  prometheus-node-exporter:
     extraArgs:
       - "--collector.ethtool"
       - --collector.ethtool.device-exclude="^(brq|tap|veth|vxlan|virbr|usb).*$" 
