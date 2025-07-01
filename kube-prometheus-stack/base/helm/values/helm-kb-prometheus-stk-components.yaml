@@ -18,6 +18,13 @@ valuesInline:
       disableCompaction: true
       replicas: 1
 
+
+      additionalScrapeConfigs:
+        - job_name: 'ec2-external-node'
+          static_configs:
+            - targets: ['10.0.4.80:9100']
+
+
       # Configurações do Thanos
       thanos:
         blockSize: 30m
