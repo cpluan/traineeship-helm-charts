@@ -10,7 +10,7 @@ spec:
   project: default
   source:
     repoURL: "https://github.com/cpluan/traineeship-helm-charts.git"
-    targetRevision: benchmark/ingress-v1
+    targetRevision: benchmark/ingress-baremetal
     path: ingress-elb/ingress/
   destination:
     server: https://kubernetes.default.svc

@@ -5,9 +5,9 @@ resources:
   - applications/kb-prometheus/     #1
   - applications/cert-manager/      #2
   - applications/external-secrets/  #3
-  - applications/aws-ebs-csi/       #4
+  # - applications/aws-ebs-csi/       #4
   - applications/ingress-elb/       #5
-  - applications/aws-lb/            #6
+  # - applications/aws-lb/            #6
   - applications/argocd/            #7
   - applications/benchmark/         #8
 
