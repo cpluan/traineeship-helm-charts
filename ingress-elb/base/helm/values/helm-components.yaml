@@ -9,8 +9,6 @@ releaseName: ingress-nginx
 namespace: ingress-nginx
 valuesInline:
   controller:
-    nodeSelector:
-      egress-node: "true"
     
     tolerations:
       - key: "node-role.kubernetes.io/worker"
